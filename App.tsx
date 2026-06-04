@@ -148,11 +148,37 @@ const App: React.FC = () => {
             const storedHistory = localStorage.getItem('quoteHistory');
             if (storedHistory) {
                 const parsedData = JSON.parse(storedHistory);
-                // Apply the migration logic to the loaded data
                 const migratedHistory = migrateQuoteHistory(parsedData);
                 setQuoteHistory(migratedHistory);
             }
-            
+
+            // URL import: ?save=<base64-encoded-QuoteHistoryItem>
+            // Directly saves the quote to history so it appears in the modal immediately.
+            const params = new URLSearchParams(window.location.search);
+            const saveParam = params.get('save');
+            if (saveParam) {
+                try {
+                    const decoded: QuoteHistoryItem = JSON.parse(atob(saveParam));
+                    const migratedState = migrateQuoteState(decoded.state);
+                    const item: QuoteHistoryItem = { ...decoded, state: migratedState };
+                    const existing: QuoteHistoryItem[] = (() => {
+                        try { return migrateQuoteHistory(JSON.parse(localStorage.getItem('quoteHistory') || '[]')); }
+                        catch { return []; }
+                    })();
+                    const idx = existing.findIndex(q => q.id === item.id);
+                    const updated = idx > -1
+                        ? existing.map((q, i) => i === idx ? item : q)
+                        : [item, ...existing];
+                    localStorage.setItem('quoteHistory', JSON.stringify(updated));
+                    setQuoteHistory(updated);
+                    window.history.replaceState({}, '', window.location.pathname);
+                    showNotification(`Árajánlat importálva az előzményekbe: ${decoded.id}`);
+                } catch {
+                    console.warn('Invalid ?save= param, ignoring.');
+                }
+                return;
+            }
+
             // Check for unsaved session
             const storedSession = localStorage.getItem('unsavedQuoteSession');
             if (storedSession) {
@@ -162,7 +188,6 @@ const App: React.FC = () => {
             }
         } catch (e) {
             console.error("Failed to load or migrate data from localStorage", e);
-            // If parsing or migration fails, start with a clean slate to prevent app crash.
             setQuoteHistory([]);
             localStorage.removeItem('unsavedQuoteSession');
         }
