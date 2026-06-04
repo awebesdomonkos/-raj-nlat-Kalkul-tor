@@ -29,72 +29,68 @@ interface ApiResponse {
   error?: string;
 }
 
-async function generateDesignBrief(data: TriggerPayload): Promise<string> {
-  const key = process.env.GEMINI_API_KEY;
-  if (!key) throw new Error('GEMINI_API_KEY nincs beállítva');
+function generateDesignBrief(data: TriggerPayload): string {
+  const pages = data.pages.length > 0 ? data.pages : ['Főoldal', 'Rólunk', 'Kapcsolat'];
+  const extras = data.extras.length > 0 ? data.extras : [];
+
+  const frames = pages
+    .map((p) => `- **${p}:** Hero / tartalom szekciók / CTA`)
+    .join('\n');
+
+  const components = [
+    '- Header (logo + navigáció + mobil hamburger)',
+    '- Hero szekció (headline + alcím + CTA gomb)',
+    ...pages.slice(1).map((p) => `- ${p} szekció`),
+    extras.length > 0 ? `- Extra komponensek: ${extras.join(', ')}` : null,
+    '- Footer (elérhetőség + linkek + copyright)',
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   const notesSection = data.clientNotes?.hasChanges
-    ? `\nÜGYFÉL MEGJEGYZÉSEK:\n${data.clientNotes.designNotes ? `- Dizájn: ${data.clientNotes.designNotes}\n` : ''}${data.clientNotes.itemChanges ? `- Tételek: ${data.clientNotes.itemChanges}\n` : ''}${data.clientNotes.pageChanges ? `- Oldalak: ${data.clientNotes.pageChanges}\n` : ''}${data.clientNotes.generalNotes ? `- Általános: ${data.clientNotes.generalNotes}\n` : ''}`
+    ? `\n## ⚡ Különleges instrukciók\n${[
+        data.clientNotes.designNotes && `- **Dizájn:** ${data.clientNotes.designNotes}`,
+        data.clientNotes.itemChanges && `- **Tételek:** ${data.clientNotes.itemChanges}`,
+        data.clientNotes.pageChanges && `- **Oldalak:** ${data.clientNotes.pageChanges}`,
+        data.clientNotes.generalNotes && `- **Általános:** ${data.clientNotes.generalNotes}`,
+      ]
+        .filter(Boolean)
+        .join('\n')}`
     : '';
 
   const researchSection = data.researchSummary
-    ? `\nKUTATÁS (összefoglaló):\n${data.researchSummary.substring(0, 600)}...`
+    ? `\n## 🔍 Research összefoglaló\n${data.researchSummary.substring(0, 800)}`
     : '';
 
-  const prompt = `Te JARVIS, egy senior webdesigner vagy. Készíts egy tömör, actionable Figma design briefinget ehhez a projekthez.
-
-PROJEKT:
-- Ügyfél: ${data.clientName}
-- Projekt: ${data.subject}
-- Csomag: ${data.packageName} — ${data.totalPrice.toLocaleString('hu-HU')} Ft
-- Referencia site: ${data.websiteUrl || 'nincs megadva'}
-- Oldalak/szekciók: ${data.pages.length > 0 ? data.pages.join(', ') : 'alapcsomag szerinti'}
-- Extra funkciók: ${data.extras.length > 0 ? data.extras.join(', ') : 'nincs'}
-${notesSection}${researchSection}
-
-Adj vissza egy strukturált Figma briefinget a következő szekciókkal (markdown formátumban, magyarul):
+  return `## 📋 Projekt összefoglaló
+- **Ügyfél:** ${data.clientName}
+- **Projekt:** ${data.subject}
+- **Csomag:** ${data.packageName} — ${data.totalPrice.toLocaleString('hu-HU')} Ft
+- **Referencia site:** ${data.websiteUrl || 'nincs megadva'}
+- **Oldalak:** ${pages.join(', ')}
+- **Extrák:** ${extras.length > 0 ? extras.join(', ') : 'nincs'}
 
 ## 🎨 Szín paletta
-(3-4 szín: neve, hex kód, és mire használjuk)
+*(Töltsd ki a referencia site és brand anyagok alapján)*
+- Elsődleges szín: —
+- Másodlagos szín: —
+- Háttér: —
+- Szöveg: —
 
 ## ✏️ Tipográfia
-(Heading font + Body font, Google Fonts-ból)
+*(Töltsd ki a brand stílus alapján, ajánlott: Google Fonts)*
+- Heading font: —
+- Body font: —
 
 ## 💡 Design stílus
-(2-3 mondat: hangulat, stílus, referencia irány)
+Modern, letisztult, professzionális megjelenés.${data.websiteUrl ? ` Referencia: ${data.websiteUrl}` : ''} A research és az ügyfél briefing alapján finomítandó.
 
 ## 📐 Figma frame-ek
-(Oldalanként egy frame — mi legyen benne, milyen szekciók)
+${frames}
 
 ## 🧩 Komponensek listája
-(Header, Hero, Cards, CTA, Footer, stb.)
-
-## ⚡ Különleges instrukciók
-(Ügyfél kérések, figyelendő dolgok)
-
-Legyen konkrét és rövid. Max 450 szó.`;
-
-  const resp = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-    {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { maxOutputTokens: 1200, temperature: 0.7 },
-      }),
-    }
-  );
-
-  if (!resp.ok) {
-    const err = await resp.text();
-    throw new Error(`Gemini API hiba (${resp.status}): ${err.substring(0, 200)}`);
-  }
-
-  const json = (await resp.json()) as {
-    candidates: { content: { parts: { text: string }[] } }[];
-  };
-  return json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+${components}
+${notesSection}${researchSection}`;
 }
 
 async function createFigmaFile(
@@ -177,7 +173,7 @@ export default async function handler(req: Request): Promise<Response> {
   }
 
   try {
-    const designBrief = await generateDesignBrief(data);
+    const designBrief = generateDesignBrief(data);
     const figmaFileUrl = await createFigmaFile(data.clientName, data.subject, designBrief);
 
     const result: ApiResponse = {
