@@ -18,6 +18,7 @@ import EliteExtensions from './components/EliteExtensions';
 import HistoryModal from './components/HistoryModal';
 import { generateQuotePDF, PdfQuoteData } from './pdfGenerator';
 import RestoreNotification from './components/RestoreNotification';
+import SitemapView from './components/SitemapView';
 
 // --- START OF MIGRATION & STATE INITIALIZATION LOGIC ---
 
@@ -1063,6 +1064,23 @@ const App: React.FC = () => {
                         />
                     </aside>
                 </div>
+
+                {selectedPackageId &&
+                  selectedPackageId !== PackageId.MAINTENANCE &&
+                  selectedPackageId !== PackageId.CONTINUOUS_MAINTENANCE && (
+                    <section className="mt-10">
+                      <h2 className="text-2xl font-bold text-slate-100 mb-4">Vizuális Site Map</h2>
+                      <div className="bg-white rounded-xl p-6 shadow-lg">
+                        <SitemapView
+                          selectedPackageId={selectedPackageId}
+                          selectedExtras={selectedExtras}
+                          customInstances={customInstances}
+                          clientName={quoteDetails.clientName}
+                          subject={quoteDetails.subject}
+                        />
+                      </div>
+                    </section>
+                  )}
             </main>
             <HistoryModal
                 isOpen={isHistoryOpen}
