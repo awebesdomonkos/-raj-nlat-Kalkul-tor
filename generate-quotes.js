@@ -9,13 +9,13 @@
 const fs = require('fs');
 const path = require('path');
 
-const JARVIS_ROOT = path.join(__dirname, '..', '..', '..', 'Lakatos_Karoly_Web');
+const PROJECTS_ROOT = '/Users/zaladomonkos/Documents/Cloude /Agents/JARVIS/Projects';
 const OUTPUT = path.join(__dirname, 'public', 'jarvis-quotes.json');
 
 // ── Helper ────────────────────────────────────────────────────────────────────
 
-function readResearch(projectPath) {
-  const researchFile = path.join(projectPath, 'Research.md');
+function readResearch(projectFolder) {
+  const researchFile = path.join(PROJECTS_ROOT, projectFolder, 'Research.md');
   if (!fs.existsSync(researchFile)) return undefined;
   return fs.readFileSync(researchFile, 'utf8');
 }
@@ -71,13 +71,81 @@ const quotes = [
       status: 'vazlat',
       discountPercentage: 0,
     },
-    researchContent: readResearch(JARVIS_ROOT),
+    researchContent: readResearch('Lakatos_Karoly_Web'),
     // Figma workflow fields — set by JARVIS as the project progresses:
     // figmaPhase: 'not_started' | 'brief_ready' | 'figma_in_progress' | 'figma_done' | 'figma_approved'
     // figmaFileUrl: 'https://figma.com/file/...'
     // figmaBriefPath: 'Projects/Lakatos_Karoly_Web/Figma_Brief.md'
     // clientNotes: { hasChanges, designNotes, itemChanges, pageChanges, generalNotes, submittedAt }
     // figmaClientNotes: { ... }  (set after Figma approval)
+  },
+  // ── Happy Couples Cyprus ──────────────────────────────────────────────────
+  {
+    id: '2026-HCC-001',
+    savedAt: Date.now(),
+    clientName: 'Happy Couples Cyprus',
+    subject: 'Kétnyelvű katalógus weboldal – Ciprusi esküvőszervező',
+    status: 'vazlat',
+    state: {
+      selectedPackageId: 'catalog',
+      selectedExtras: {},
+      customPrices: {},
+      customSections: [
+        { id: 'hcc-cs1', name: 'Többnyelvűség (EN)', price: 80000 },
+        { id: 'hcc-cs2', name: 'Videós galéria (Vimeo/YouTube embed)', price: 30000 },
+        { id: 'hcc-cs3', name: 'Online chat integráció (Tidio/Crisp)', price: 25000 },
+        { id: 'hcc-cs4', name: 'SEO optimalizált szövegírás (HU + EN)', price: 40000 },
+      ],
+      customInstances: {
+        rolunk:              [{ id: 'hcc-r1', name: 'Rólunk', description: 'Anikó + csapat bemutatkozása — személyes arc = bizalom', price: 35000 }],
+        kapcsolat:           [{ id: 'hcc-k1', name: 'Kapcsolat', description: 'Automatizált kontakt form + email integráció, social linkek', price: 35000 }],
+        galeria:             [{ id: 'hcc-g1', name: 'Galéria', description: 'Saját esküvői fotók galériája', price: 25000 }],
+        'referenciak-osszestio': [{ id: 'hcc-ref1', name: 'Referenciák összesítő', description: 'Elvégzett esküvők, párok véleményei', price: 25000 }],
+        'szolgaltatas-aloldal': [
+          { id: 'hcc-s1', name: 'Esküvő Cipruson — részletes aloldal', description: '3 csomag, helyszínek, folyamat bemutató', price: 35000 },
+          { id: 'hcc-s2', name: 'Lánykérés — aloldal', description: 'Lánykérés szervezési szolgáltatás bemutatása', price: 35000 },
+          { id: 'hcc-s3', name: 'Lány- és Legénybúcsú — aloldal', description: 'Búcsú szervezési szolgáltatás bemutatása', price: 35000 },
+        ],
+      },
+      quoteDetails: {
+        clientName: 'Happy Couples Cyprus',
+        clientEmail: 'info@happycouplescyprus.com',
+        quoteId: '2026-HCC-001',
+        subject: 'Kétnyelvű katalógus weboldal – Ciprusi esküvőszervező',
+        estimatedTime: '6-7 hét',
+        validityDays: 30,
+        priorityMultiplier: 1,
+        websiteUrl: 'https://happycouplescyprus.com/',
+      },
+      editablePackageContents: {
+        pages: [
+          { text: 'Főoldal', isNew: false },
+          { text: 'Terméklistázó', isNew: false },
+          { text: 'Termék adatlap sablon', isNew: false },
+        ],
+        features: [
+          { text: 'Menü beállítás', isNew: false },
+          { text: 'CMS rendszer konfigurálás', isNew: false },
+          { text: 'Cookie bar beállítása (GDPR)', isNew: false },
+          { text: 'Alap SEO beállítások', isNew: false },
+          { text: 'Prémium Bricks Builder licence (Lifetime)', isNew: false },
+          { text: 'Webbiztonsági plugin beállítása', isNew: false },
+          { text: 'Reszponzív megjelenés (mobile-first)', isNew: false },
+          { text: 'SMTP beállítás', isNew: false },
+          { text: 'Kapcsolati űrlap', isNew: false },
+          { text: 'Google Analytics integrálása', isNew: false },
+          { text: 'Google Search Console – XML Sitemap', isNew: false },
+          { text: 'Nyelvváltó (HU ↔ EN)', isNew: true },
+          { text: 'Social média megosztás (OG tagek)', isNew: true },
+        ],
+      },
+      selectedPlanId: null,
+      selectedEliteExtensions: {},
+      customElitePrices: {},
+      status: 'vazlat',
+      discountPercentage: 0,
+    },
+    researchContent: readResearch('Happy_Couples_Cyprus_Web'),
   },
 ];
 
