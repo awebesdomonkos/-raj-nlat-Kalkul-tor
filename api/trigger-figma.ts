@@ -93,58 +93,9 @@ ${components}
 ${notesSection}${researchSection}`;
 }
 
-async function createFigmaFile(
-  clientName: string,
-  subject: string,
-  brief: string
-): Promise<string | null> {
-  const token = process.env.FIGMA_ACCESS_TOKEN;
-  const projectId = process.env.FIGMA_PROJECT_ID;
-
-  if (!token || !projectId) return null;
-
-  const fileName = `${clientName} — ${subject}`;
-
-  const createResp = await fetch(
-    `https://api.figma.com/v1/projects/${projectId}/files`,
-    {
-      method: 'POST',
-      headers: {
-        'X-Figma-Token': token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: fileName }),
-    }
-  );
-
-  if (!createResp.ok) {
-    console.error('Figma fájl létrehozás sikertelen:', createResp.status, await createResp.text());
-    return null;
-  }
-
-  const fileData = (await createResp.json()) as {
-    key?: string;
-    file?: { key: string };
-  };
-
-  const fileKey = fileData.key ?? fileData.file?.key;
-  if (!fileKey) return null;
-
-  // Add design brief as a comment
-  await fetch(`https://api.figma.com/v1/files/${fileKey}/comments`, {
-    method: 'POST',
-    headers: {
-      'X-Figma-Token': token,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      message: `🤖 JARVIS Design Brief\n\n${brief}`,
-    }),
-  });
-
-  return `https://www.figma.com/design/${fileKey}/${encodeURIComponent(
-    fileName.replace(/\s+/g, '-').replace(/[^\w\-]/g, '')
-  )}`;
+function getFigmaProjectUrl(): string {
+  const projectId = process.env.FIGMA_PROJECT_ID ?? '610035441';
+  return `https://www.figma.com/files/project/${projectId}`;
 }
 
 export default async function handler(req: Request): Promise<Response> {
@@ -174,7 +125,7 @@ export default async function handler(req: Request): Promise<Response> {
 
   try {
     const designBrief = generateDesignBrief(data);
-    const figmaFileUrl = await createFigmaFile(data.clientName, data.subject, designBrief);
+    const figmaFileUrl = getFigmaProjectUrl();
 
     const result: ApiResponse = {
       success: true,
