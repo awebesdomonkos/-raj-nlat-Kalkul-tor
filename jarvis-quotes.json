@@ -1,0 +1,110 @@
+[
+  {
+    "id": "2026-LK-001",
+    "savedAt": 1780531200000,
+    "clientName": "Lakatos Károly",
+    "subject": "Bemutatkozó weboldal – Sittszállítás, Lomtalanítás, Költöztetés",
+    "status": "vazlat",
+    "state": {
+      "selectedPackageId": "intro",
+      "selectedExtras": {},
+      "customPrices": {},
+      "customSections": [],
+      "customInstances": {
+        "rolunk": [
+          {
+            "id": "lk-r1",
+            "name": "Rólunk",
+            "description": "A cég bemutatkozása, értékek, személyes bemutatkozás",
+            "price": 35000
+          }
+        ],
+        "kapcsolat": [
+          {
+            "id": "lk-k1",
+            "name": "Kapcsolat",
+            "description": "Kapcsolati adatok, visszahívás, Google Maps, kapcsolati űrlap",
+            "price": 35000
+          }
+        ],
+        "gyik": [
+          {
+            "id": "lk-g1",
+            "name": "GYIK",
+            "description": "Leggyakoribb kérdések sittszállítással és lomtalanítással kapcsolatban",
+            "price": 25000
+          }
+        ]
+      },
+      "quoteDetails": {
+        "clientName": "Lakatos Károly",
+        "clientEmail": "lakatoskaroly24@gmail.com",
+        "quoteId": "2026-LK-001",
+        "subject": "Bemutatkozó weboldal – Sittszállítás, Lomtalanítás, Költöztetés",
+        "estimatedTime": "3-4 hét",
+        "validityDays": 30,
+        "priorityMultiplier": 1,
+        "websiteUrl": ""
+      },
+      "editablePackageContents": {
+        "pages": [
+          {
+            "text": "Főoldal",
+            "isNew": false
+          }
+        ],
+        "features": [
+          {
+            "text": "Menü beállítás",
+            "isNew": false
+          },
+          {
+            "text": "CMS rendszer konfigurálás",
+            "isNew": false
+          },
+          {
+            "text": "Cookie bar beállítása (GDPR)",
+            "isNew": false
+          },
+          {
+            "text": "Alap SEO beállítások",
+            "isNew": false
+          },
+          {
+            "text": "Prémium Bricks Builder licence (Lifetime)",
+            "isNew": false
+          },
+          {
+            "text": "Webbiztonsági plugin beállítása",
+            "isNew": false
+          },
+          {
+            "text": "Reszponzív megjelenés (mobile-first)",
+            "isNew": false
+          },
+          {
+            "text": "SMTP beállítás",
+            "isNew": false
+          },
+          {
+            "text": "Kapcsolati űrlap",
+            "isNew": false
+          },
+          {
+            "text": "Google Analytics integrálása",
+            "isNew": false
+          },
+          {
+            "text": "Google Search Console – XML Sitemap",
+            "isNew": false
+          }
+        ]
+      },
+      "selectedPlanId": null,
+      "selectedEliteExtensions": {},
+      "customElitePrices": {},
+      "status": "vazlat",
+      "discountPercentage": 0
+    }
+  }
+]

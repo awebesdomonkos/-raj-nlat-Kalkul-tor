@@ -143,6 +143,30 @@ const App: React.FC = () => {
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
     const [quoteHistory, setQuoteHistory] = useState<QuoteHistoryItem[]>([]);
 
+    // On mount: fetch JARVIS-generated quotes from the server-side JSON
+    // and merge them into history (JARVIS pushes new quotes here via git).
+    useEffect(() => {
+        fetch('/jarvis-quotes.json')
+            .then(r => r.ok ? r.json() : [])
+            .then((serverQuotes: any[]) => {
+                if (!serverQuotes.length) return;
+                setQuoteHistory(prev => {
+                    const merged = [...prev];
+                    for (const raw of serverQuotes) {
+                        try {
+                            const migratedState = migrateQuoteState(raw.state);
+                            const item: QuoteHistoryItem = { ...raw, state: migratedState };
+                            const idx = merged.findIndex(q => q.id === item.id);
+                            if (idx === -1) merged.unshift(item);
+                            else if (merged[idx].savedAt < item.savedAt) merged[idx] = item;
+                        } catch { /* skip malformed */ }
+                    }
+                    return merged;
+                });
+            })
+            .catch(() => { /* silently ignore if file not found */ });
+    }, []);
+
     useEffect(() => {
         try {
             const storedHistory = localStorage.getItem('quoteHistory');
