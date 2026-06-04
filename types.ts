@@ -148,4 +148,5 @@ export interface QuoteHistoryItem {
     subject: string; // for display
     status: QuoteStatus;
     state: QuoteState;
+    researchContent?: string; // markdown research document
 }

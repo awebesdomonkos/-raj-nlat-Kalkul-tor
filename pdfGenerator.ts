@@ -787,3 +787,238 @@ export const generateSitemapPDF = (
     const fileName = `Sitemap_${sanitized || 'awebes'}_${formatDate(issueDate).replace(/[\s.]/g, '')}.pdf`;
     pdfMake.createPdf(docDefinition).download(fileName);
 };
+
+// ── Research PDF ────────────────────────────────────────────────────────────────
+
+// Split "some **bold** text" into pdfMake inline array
+function parseBoldInline(text: string): any {
+    const parts = text.split(/(\*\*[^*]+\*\*)/g);
+    if (parts.length === 1) return text;
+    return parts.map(p =>
+        p.startsWith('**') && p.endsWith('**')
+            ? { text: p.slice(2, -2), bold: true }
+            : { text: p }
+    );
+}
+
+function markdownToPdfContent(markdown: string): any[] {
+    const INDIGO = '#4f46e5';
+    const INDIGO_DARK = '#312e81';
+    const SLATE_700 = '#334155';
+    const SLATE_200 = '#e2e8f0';
+    const INDIGO_LIGHT = '#eef2ff';
+
+    const content: any[] = [];
+    const lines = markdown.split('\n');
+    let i = 0;
+
+    while (i < lines.length) {
+        const line = lines[i];
+
+        if (line.startsWith('# ')) {
+            content.push({
+                text: parseBoldInline(line.slice(2)),
+                fontSize: 18, bold: true, color: INDIGO,
+                margin: [0, 0, 0, 6],
+            });
+            i++;
+            continue;
+        }
+
+        if (line.startsWith('## ')) {
+            content.push({
+                text: parseBoldInline(line.slice(3)),
+                fontSize: 13, bold: true, color: INDIGO_DARK,
+                margin: [0, 18, 0, 6],
+                decoration: 'none',
+            });
+            i++;
+            continue;
+        }
+
+        if (line.startsWith('### ')) {
+            content.push({
+                text: parseBoldInline(line.slice(4)),
+                fontSize: 11, bold: true, color: SLATE_700,
+                margin: [0, 12, 0, 4],
+            });
+            i++;
+            continue;
+        }
+
+        if (line.trim() === '---') {
+            content.push({ canvas: [{ type: 'line', x1: 0, y1: 0, x2: 515, y2: 0, lineWidth: 0.5, lineColor: SLATE_200 }], margin: [0, 10, 0, 10] });
+            i++;
+            continue;
+        }
+
+        // Table block
+        if (line.trim().startsWith('|')) {
+            const tableLines: string[] = [];
+            while (i < lines.length && lines[i].trim().startsWith('|')) {
+                tableLines.push(lines[i]);
+                i++;
+            }
+            const dataRows = tableLines.filter(l => !l.match(/^\|[-| ]+\|$/));
+            if (dataRows.length > 0) {
+                const rows = dataRows.map(l =>
+                    l.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim())
+                );
+                const [header, ...body] = rows;
+                const widths = header.map(() => '*');
+                const tableBody: any[][] = [
+                    header.map(cell => ({
+                        text: parseBoldInline(cell),
+                        bold: true, fontSize: 9, color: '#ffffff',
+                        fillColor: INDIGO,
+                        margin: [6, 5, 6, 5],
+                        border: [false, false, false, false],
+                    })),
+                    ...body.map((row, ri) =>
+                        row.map(cell => ({
+                            text: parseBoldInline(cell),
+                            fontSize: 9, color: SLATE_700,
+                            fillColor: ri % 2 === 0 ? '#ffffff' : INDIGO_LIGHT,
+                            margin: [6, 4, 6, 4],
+                            border: [false, false, false, false],
+                        }))
+                    ),
+                ];
+                content.push({
+                    table: { widths, body: tableBody },
+                    layout: { defaultBorder: false, hLineColor: () => SLATE_200, vLineColor: () => SLATE_200 } as any,
+                    margin: [0, 6, 0, 10],
+                });
+            }
+            continue;
+        }
+
+        // Blockquote
+        if (line.startsWith('> ')) {
+            content.push({
+                table: {
+                    widths: ['*'],
+                    body: [[{
+                        text: parseBoldInline(line.slice(2)),
+                        fontSize: 10, color: '#1e40af',
+                        fillColor: '#eff6ff',
+                        border: [true, false, false, false],
+                        margin: [12, 8, 12, 8],
+                    }]],
+                },
+                layout: {
+                    defaultBorder: false,
+                    hLineColor: () => INDIGO,
+                    vLineColor: (i: number) => i === 0 ? INDIGO : 'transparent',
+                    vLineWidth: (i: number) => i === 0 ? 3 : 0,
+                },
+                margin: [0, 6, 0, 6],
+            });
+            i++;
+            continue;
+        }
+
+        // Numbered list
+        if (/^\d+\. /.test(line)) {
+            const items: any[] = [];
+            while (i < lines.length && /^\d+\. /.test(lines[i])) {
+                items.push({ text: parseBoldInline(lines[i].replace(/^\d+\. /, '')), fontSize: 10, color: SLATE_700 });
+                i++;
+            }
+            content.push({ ol: items, margin: [0, 4, 0, 8] });
+            continue;
+        }
+
+        // Bullet list
+        if (line.startsWith('- ')) {
+            const items: any[] = [];
+            while (i < lines.length && lines[i].startsWith('- ')) {
+                items.push({ text: parseBoldInline(lines[i].slice(2)), fontSize: 10, color: SLATE_700 });
+                i++;
+            }
+            content.push({ ul: items, margin: [0, 4, 0, 8] });
+            continue;
+        }
+
+        if (line.trim() === '') { i++; continue; }
+
+        // Regular paragraph
+        content.push({ text: parseBoldInline(line), fontSize: 10, color: SLATE_700, margin: [0, 0, 0, 6] });
+        i++;
+    }
+
+    return content;
+}
+
+export const generateResearchPDF = (
+    researchContent: string,
+    clientName: string,
+    quoteId: string,
+    issueDate: Date
+): void => {
+    const INDIGO = '#4f46e5';
+    const SLATE_900 = '#1e293b';
+    const SLATE_500 = '#64748b';
+    const WHITE = '#ffffff';
+
+    const docDefinition: any = {
+        pageSize: 'A4',
+        pageMargins: [40, 80, 40, 60],
+        header: {
+            margin: [40, 20, 40, 0],
+            columns: [
+                {
+                    stack: [
+                        { text: 'Awebes', style: 'companyName' },
+                        { text: 'Webfejlesztés | Digitális Megoldások', style: 'companySubline' },
+                        { text: 'info@awebes.hu | +36 30 421 6462', style: 'companySubline', margin: [0, 4, 0, 0] },
+                    ],
+                    width: '*',
+                },
+                {
+                    width: 'auto',
+                    table: {
+                        body: [[{ text: 'RESEARCH', style: 'documentTitle', alignment: 'center', border: [false, false, false, false] }]],
+                    },
+                    layout: {
+                        defaultBorder: false,
+                        paddingLeft: () => 20, paddingRight: () => 20,
+                        paddingTop: () => 6, paddingBottom: () => 6,
+                    },
+                    fillColor: INDIGO,
+                },
+            ],
+        },
+        footer: (currentPage: number, pageCount: number) => ({
+            columns: [
+                { text: `Awebes | ${clientName || 'Ügyfél'} | ${quoteId || ''}`, alignment: 'left', style: 'footerText' },
+                { text: `Oldal ${currentPage} / ${pageCount}`, alignment: 'right', style: 'footerText' },
+            ],
+            margin: [40, 20, 40, 0],
+        }),
+        content: [
+            {
+                columns: [
+                    { width: '*', text: clientName || 'Ügyfél', style: 'clientName' },
+                    { width: 'auto', text: formatDate(issueDate), style: 'detailsValue' },
+                ],
+                margin: [0, 0, 0, 20],
+            },
+            ...markdownToPdfContent(researchContent),
+        ],
+        styles: {
+            companyName: { fontSize: 18, bold: true, color: SLATE_900 },
+            companySubline: { fontSize: 10, color: SLATE_500 },
+            documentTitle: { fontSize: 20, bold: true, color: WHITE },
+            clientName: { fontSize: 14, bold: true, color: SLATE_900 },
+            detailsLabel: { fontSize: 10, color: SLATE_500, lineHeight: 1.4 },
+            detailsValue: { fontSize: 10, bold: true, color: '#334155', lineHeight: 1.4 },
+            footerText: { fontSize: 9, color: SLATE_500 },
+        },
+        defaultStyle: { font: 'Roboto', fontSize: 10, color: '#334155' },
+    };
+
+    const sanitized = (clientName || '').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const fileName = `Research_${quoteId || 'awebes'}_${sanitized || 'ugyfel'}.pdf`;
+    pdfMake.createPdf(docDefinition).download(fileName);
+};

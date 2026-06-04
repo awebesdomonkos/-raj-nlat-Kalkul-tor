@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
 import { QuoteHistoryItem, QuoteStatus, PackageId } from '../types';
-import { HistoryIcon, XIcon, SearchIcon, TrashIcon, DuplicateIcon, PdfIcon, SitemapIcon } from './icons';
+import { HistoryIcon, XIcon, SearchIcon, TrashIcon, DuplicateIcon, PdfIcon, SitemapIcon, EyeIcon } from './icons';
 import { BASE_PACKAGES } from '../constants';
+import HistoryDetailView from './HistoryDetailView';
 
 interface HistoryModalProps {
     isOpen: boolean;
@@ -34,8 +35,11 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
     onDownloadPdf, onDownloadSitemapPdf, onDuplicate, onStatusChange,
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
+    const [detailItemId, setDetailItemId] = useState<string | null>(null);
 
     if (!isOpen) return null;
+
+    const detailItem = detailItemId ? history.find(h => h.id === detailItemId) ?? null : null;
 
     const filteredHistory = history
         .filter(item =>
@@ -45,10 +49,15 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
         )
         .sort((a, b) => b.savedAt - a.savedAt);
 
+    const handleClose = () => {
+        setDetailItemId(null);
+        onClose();
+    };
+
     return (
         <div
             className="fixed inset-0 bg-black bg-opacity-70 z-50 flex justify-center items-center p-4"
-            onClick={onClose}
+            onClick={handleClose}
             role="dialog"
             aria-modal="true"
             aria-labelledby="history-modal-title"
@@ -57,173 +66,198 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                 className="bg-slate-800 rounded-xl shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col border border-slate-700"
                 onClick={e => e.stopPropagation()}
             >
-                {/* Header */}
-                <div className="p-6 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
-                    <h2 id="history-modal-title" className="text-xl font-bold text-slate-100 flex items-center gap-3">
-                        <HistoryIcon />
-                        Mentett Ajánlatok
-                    </h2>
-                    <button onClick={onClose} className="text-slate-400 hover:text-white p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500">
-                        <XIcon />
-                    </button>
-                </div>
-
-                {/* Search */}
-                <div className="p-6 flex-shrink-0">
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <SearchIcon />
+                {detailItem ? (
+                    /* ── Detail view ── */
+                    <HistoryDetailView
+                        item={detailItem}
+                        onBack={() => setDetailItemId(null)}
+                        onDownloadQuotePdf={onDownloadPdf}
+                        onDownloadSitemapPdf={onDownloadSitemapPdf}
+                    />
+                ) : (
+                    /* ── List view ── */
+                    <>
+                        {/* Header */}
+                        <div className="p-6 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
+                            <h2 id="history-modal-title" className="text-xl font-bold text-slate-100 flex items-center gap-3">
+                                <HistoryIcon />
+                                Mentett Ajánlatok
+                            </h2>
+                            <button onClick={handleClose} className="text-slate-400 hover:text-white p-1 rounded-full focus:outline-none focus:ring-2 focus:ring-slate-500">
+                                <XIcon />
+                            </button>
                         </div>
-                        <input
-                            type="text"
-                            value={searchQuery}
-                            onChange={e => setSearchQuery(e.target.value)}
-                            placeholder="Keresés azonosító, ügyfél vagy tárgy szerint..."
-                            className="w-full pl-10 p-2.5 rounded-md bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 focus:ring-indigo-500"
-                        />
-                    </div>
-                </div>
 
-                {/* List */}
-                <div className="flex-grow overflow-y-auto px-6 pb-6">
-                    {filteredHistory.length > 0 ? (
-                        <ul className="space-y-3">
-                            {filteredHistory.map(item => {
-                                const pkg = BASE_PACKAGES.find(p => p.id === item.state.selectedPackageId);
-                                const hasSitemap = !isMaintenance(item.state.selectedPackageId);
-                                const total = item.state.selectedPackageId === PackageId.CONTINUOUS_MAINTENANCE
-                                    ? null
-                                    : item.state.selectedPackageId === PackageId.MAINTENANCE
-                                    ? pkg?.price ?? null
-                                    : (() => {
-                                        // Quick total calc from saved state
-                                        let t = pkg?.price ?? 0;
-                                        Object.values(item.state.customInstances ?? {}).forEach(instances => {
-                                            (instances as any[]).forEach(i => { t += i.price ?? 0; });
-                                        });
-                                        Object.entries(item.state.selectedExtras ?? {}).forEach(([id, sel]) => {
-                                            if (!sel) return;
-                                            const extra = (item.state as any).customPrices?.[id];
-                                            if (extra) t += extra;
-                                        });
-                                        t *= (item.state.quoteDetails?.priorityMultiplier ?? 1);
-                                        const disc = item.state.discountPercentage ?? 0;
-                                        if (disc > 0) t = t * (1 - disc / 100);
-                                        return t;
-                                    })();
+                        {/* Search */}
+                        <div className="p-6 flex-shrink-0">
+                            <div className="relative">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <SearchIcon />
+                                </div>
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={e => setSearchQuery(e.target.value)}
+                                    placeholder="Keresés azonosító, ügyfél vagy tárgy szerint..."
+                                    className="w-full pl-10 p-2.5 rounded-md bg-slate-900 border border-slate-700 text-slate-200 focus:border-indigo-500 focus:ring-indigo-500"
+                                />
+                            </div>
+                        </div>
 
-                                return (
-                                    <li
-                                        key={item.id}
-                                        className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 hover:bg-slate-700/30 transition-all duration-200 hover:-translate-y-0.5"
-                                    >
-                                        {/* Top row: info + actions */}
-                                        <div className="flex items-start justify-between gap-4 flex-wrap">
-                                            {/* Info */}
-                                            <div className="flex-grow min-w-0">
-                                                <div className="flex items-center gap-2 flex-wrap">
-                                                    <p className="font-bold text-indigo-400 text-sm">{item.id}</p>
-                                                    {pkg && (
-                                                        <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                                                            {pkg.name}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <p className="text-slate-100 font-semibold mt-1 truncate">
-                                                    {item.clientName || '[Nincs ügyfél neve]'}
-                                                </p>
-                                                <p className="text-slate-400 text-sm truncate">
-                                                    {item.subject || '—'}
-                                                </p>
-                                                <div className="flex items-center gap-4 mt-1.5">
-                                                    <p className="text-slate-500 text-xs">
-                                                        Mentve: {new Date(item.savedAt).toLocaleString('hu-HU')}
-                                                    </p>
-                                                    {total !== null && (
-                                                        <p className="text-indigo-400 text-xs font-semibold">
-                                                            {formatCurrency(total)}
+                        {/* List */}
+                        <div className="flex-grow overflow-y-auto px-6 pb-6">
+                            {filteredHistory.length > 0 ? (
+                                <ul className="space-y-3">
+                                    {filteredHistory.map(item => {
+                                        const pkg = BASE_PACKAGES.find(p => p.id === item.state.selectedPackageId);
+                                        const hasSitemap = !isMaintenance(item.state.selectedPackageId);
+                                        const total = item.state.selectedPackageId === PackageId.CONTINUOUS_MAINTENANCE
+                                            ? null
+                                            : item.state.selectedPackageId === PackageId.MAINTENANCE
+                                            ? pkg?.price ?? null
+                                            : (() => {
+                                                let t = pkg?.price ?? 0;
+                                                Object.values(item.state.customInstances ?? {}).forEach(instances => {
+                                                    (instances as any[]).forEach(i => { t += i.price ?? 0; });
+                                                });
+                                                Object.entries(item.state.selectedExtras ?? {}).forEach(([id, sel]) => {
+                                                    if (!sel) return;
+                                                    const extra = (item.state as any).customPrices?.[id];
+                                                    if (extra) t += extra;
+                                                });
+                                                t *= (item.state.quoteDetails?.priorityMultiplier ?? 1);
+                                                const disc = item.state.discountPercentage ?? 0;
+                                                if (disc > 0) t = t * (1 - disc / 100);
+                                                return t;
+                                            })();
+
+                                        return (
+                                            <li
+                                                key={item.id}
+                                                className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 hover:bg-slate-700/30 transition-all duration-200 hover:-translate-y-0.5"
+                                            >
+                                                <div className="flex items-start justify-between gap-4 flex-wrap">
+                                                    {/* Info */}
+                                                    <div className="flex-grow min-w-0">
+                                                        <div className="flex items-center gap-2 flex-wrap">
+                                                            <p className="font-bold text-indigo-400 text-sm">{item.id}</p>
+                                                            {pkg && (
+                                                                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                                                                    {pkg.name}
+                                                                </span>
+                                                            )}
+                                                            {item.researchContent && (
+                                                                <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                                                    Research
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-slate-100 font-semibold mt-1 truncate">
+                                                            {item.clientName || '[Nincs ügyfél neve]'}
                                                         </p>
-                                                    )}
+                                                        <p className="text-slate-400 text-sm truncate">
+                                                            {item.subject || '—'}
+                                                        </p>
+                                                        <div className="flex items-center gap-4 mt-1.5">
+                                                            <p className="text-slate-500 text-xs">
+                                                                Mentve: {new Date(item.savedAt).toLocaleString('hu-HU')}
+                                                            </p>
+                                                            {total !== null && (
+                                                                <p className="text-indigo-400 text-xs font-semibold">
+                                                                    {formatCurrency(total)}
+                                                                </p>
+                                                            )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Actions */}
+                                                    <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
+                                                        {/* Status badge */}
+                                                        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full text-white ${statusConfig[item.status].color}`}>
+                                                            {statusConfig[item.status].text}
+                                                        </span>
+                                                        <select
+                                                            value={item.status}
+                                                            onChange={e => onStatusChange(item.id, e.target.value as QuoteStatus)}
+                                                            className={`bg-slate-700 border-slate-600 rounded-md text-sm py-1.5 pl-2 pr-8 focus:ring-2 focus:outline-none ${statusConfig[item.status].ring} focus:border-transparent transition-all duration-200`}
+                                                            onClick={e => e.stopPropagation()}
+                                                            aria-label="Státusz módosítása"
+                                                        >
+                                                            {Object.values(QuoteStatus).map(s => (
+                                                                <option key={s} value={s}>{statusConfig[s].text}</option>
+                                                            ))}
+                                                        </select>
+
+                                                        {/* View details */}
+                                                        <button
+                                                            onClick={() => setDetailItemId(item.id)}
+                                                            className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                            title="Részletek megtekintése"
+                                                        >
+                                                            <EyeIcon />
+                                                        </button>
+
+                                                        {/* Load */}
+                                                        <button
+                                                            onClick={() => onLoad(item.id)}
+                                                            className="px-4 py-2 rounded-md text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700 focus:ring-indigo-500"
+                                                        >
+                                                            Betöltés
+                                                        </button>
+
+                                                        {/* Duplicate */}
+                                                        <button
+                                                            onClick={() => onDuplicate(item.id)}
+                                                            className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                            title="Másolás"
+                                                        >
+                                                            <DuplicateIcon />
+                                                        </button>
+
+                                                        {/* Quote PDF */}
+                                                        <button
+                                                            onClick={() => onDownloadPdf(item.id)}
+                                                            className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                            title="Árajánlat PDF letöltése"
+                                                        >
+                                                            <PdfIcon />
+                                                        </button>
+
+                                                        {/* Site Map PDF */}
+                                                        {hasSitemap && (
+                                                            <button
+                                                                onClick={() => onDownloadSitemapPdf(item.id)}
+                                                                className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                                title="Site Map PDF letöltése"
+                                                            >
+                                                                <SitemapIcon />
+                                                            </button>
+                                                        )}
+
+                                                        {/* Delete */}
+                                                        <button
+                                                            onClick={() => onDelete(item.id)}
+                                                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                            title="Törlés"
+                                                        >
+                                                            <TrashIcon />
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                            </div>
-
-                                            {/* Actions */}
-                                            <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
-                                                {/* Status */}
-                                                <span className={`px-2.5 py-1 text-xs font-semibold rounded-full text-white ${statusConfig[item.status].color}`}>
-                                                    {statusConfig[item.status].text}
-                                                </span>
-                                                <select
-                                                    value={item.status}
-                                                    onChange={e => onStatusChange(item.id, e.target.value as QuoteStatus)}
-                                                    className={`bg-slate-700 border-slate-600 rounded-md text-sm py-1.5 pl-2 pr-8 focus:ring-2 focus:outline-none ${statusConfig[item.status].ring} focus:border-transparent transition-all duration-200`}
-                                                    onClick={e => e.stopPropagation()}
-                                                    aria-label="Státusz módosítása"
-                                                >
-                                                    {Object.values(QuoteStatus).map(s => (
-                                                        <option key={s} value={s}>{statusConfig[s].text}</option>
-                                                    ))}
-                                                </select>
-
-                                                {/* Load */}
-                                                <button
-                                                    onClick={() => onLoad(item.id)}
-                                                    className="px-4 py-2 rounded-md text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700 focus:ring-indigo-500"
-                                                >
-                                                    Betöltés
-                                                </button>
-
-                                                {/* Duplicate */}
-                                                <button
-                                                    onClick={() => onDuplicate(item.id)}
-                                                    className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                                    title="Másolás"
-                                                >
-                                                    <DuplicateIcon />
-                                                </button>
-
-                                                {/* Quote PDF */}
-                                                <button
-                                                    onClick={() => onDownloadPdf(item.id)}
-                                                    className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500"
-                                                    title="Árajánlat PDF letöltése"
-                                                >
-                                                    <PdfIcon />
-                                                </button>
-
-                                                {/* Site Map PDF (only for website packages) */}
-                                                {hasSitemap && (
-                                                    <button
-                                                        onClick={() => onDownloadSitemapPdf(item.id)}
-                                                        className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                                        title="Site Map PDF letöltése"
-                                                    >
-                                                        <SitemapIcon />
-                                                    </button>
-                                                )}
-
-                                                {/* Delete */}
-                                                <button
-                                                    onClick={() => onDelete(item.id)}
-                                                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                                    title="Törlés"
-                                                >
-                                                    <TrashIcon />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    ) : (
-                        <div className="text-center py-10">
-                            <p className="text-slate-400">
-                                {searchQuery ? 'Nincs a keresésnek megfelelő találat.' : 'Nincsenek mentett ajánlatok.'}
-                            </p>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            ) : (
+                                <div className="text-center py-10">
+                                    <p className="text-slate-400">
+                                        {searchQuery ? 'Nincs a keresésnek megfelelő találat.' : 'Nincsenek mentett ajánlatok.'}
+                                    </p>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    </>
+                )}
             </div>
         </div>
     );
