@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { QuoteHistoryItem, QuoteStatus, PackageId } from '../types';
+import { QuoteHistoryItem, QuoteStatus, PackageId, FigmaPhaseStatus } from '../types';
 import { HistoryIcon, XIcon, SearchIcon, TrashIcon, DuplicateIcon, PdfIcon, SitemapIcon, EyeIcon } from './icons';
 import { BASE_PACKAGES } from '../constants';
 import HistoryDetailView from './HistoryDetailView';
@@ -15,6 +15,8 @@ interface HistoryModalProps {
     onDownloadSitemapPdf: (id: string) => void;
     onDuplicate: (id: string) => void;
     onStatusChange: (id: string, status: QuoteStatus) => void;
+    onFigmaApproval: (id: string) => void;
+    onUpdateFigmaPhase: (id: string, phase: FigmaPhaseStatus, figmaFileUrl?: string) => void;
 }
 
 const statusConfig: Record<QuoteStatus, { text: string; color: string; ring: string }> = {
@@ -33,6 +35,7 @@ const formatCurrency = (amount: number) =>
 const HistoryModal: React.FC<HistoryModalProps> = ({
     isOpen, onClose, history, onLoad, onDelete,
     onDownloadPdf, onDownloadSitemapPdf, onDuplicate, onStatusChange,
+    onFigmaApproval, onUpdateFigmaPhase,
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [detailItemId, setDetailItemId] = useState<string | null>(null);
@@ -73,6 +76,8 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                         onBack={() => setDetailItemId(null)}
                         onDownloadQuotePdf={onDownloadPdf}
                         onDownloadSitemapPdf={onDownloadSitemapPdf}
+                        onFigmaApproval={onFigmaApproval}
+                        onUpdateFigmaPhase={onUpdateFigmaPhase}
                     />
                 ) : (
                     /* ── List view ── */

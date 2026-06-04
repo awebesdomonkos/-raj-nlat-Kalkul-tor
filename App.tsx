@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { PackageId, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, MaintenancePlan, EliteExtension, QuoteState, QuoteHistoryItem, QuoteStatus } from './types';
+import { PackageId, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, MaintenancePlan, EliteExtension, QuoteState, QuoteHistoryItem, QuoteStatus, ClientNotes, FigmaPhaseStatus } from './types';
 import { BASE_PACKAGES, EXTRAS, BONUS_PAGES, PACKAGE_FEATURES, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from './constants';
 import PackageSelector from './components/PackageSelector';
 import ExtrasAccordion from './components/ExtrasAccordion';
@@ -15,6 +15,7 @@ import Notification from './components/Notification';
 import ContinuousMaintenanceSelector from './components/ContinuousMaintenanceSelector';
 import EliteExtensions from './components/EliteExtensions';
 import HistoryModal from './components/HistoryModal';
+import AcceptanceNotesModal, { AcceptancePhase } from './components/AcceptanceNotesModal';
 import { generateQuotePDF, generateSitemapPDF, PdfQuoteData } from './pdfGenerator';
 import RestoreNotification from './components/RestoreNotification';
 import SitemapView from './components/SitemapView';
@@ -142,6 +143,10 @@ const App: React.FC = () => {
 
     const [isHistoryOpen, setIsHistoryOpen] = useState(false);
     const [quoteHistory, setQuoteHistory] = useState<QuoteHistoryItem[]>([]);
+    const [acceptanceModal, setAcceptanceModal] = useState<{
+        phase: AcceptancePhase;
+        quoteId: string;
+    } | null>(null);
 
     // On mount: fetch JARVIS-generated quotes from the server-side JSON
     // and merge them into history (JARVIS pushes new quotes here via git).
@@ -652,18 +657,18 @@ const App: React.FC = () => {
     }, [quoteHistory, showNotification]);
 
     const handleStatusChange = useCallback((id: string, newStatus: QuoteStatus) => {
+        // Intercept ACCEPTED: show notes modal instead of saving directly
+        if (newStatus === QuoteStatus.ACCEPTED) {
+            setAcceptanceModal({ phase: 'quote', quoteId: id });
+            return;
+        }
         setQuoteHistory(prevHistory => {
             const updatedHistory = prevHistory.map(item => {
                 if (item.id === id) {
-                    return {
-                        ...item,
-                        status: newStatus,
-                        state: { ...item.state, status: newStatus },
-                    };
+                    return { ...item, status: newStatus, state: { ...item.state, status: newStatus } };
                 }
                 return item;
             });
-
             try {
                 localStorage.setItem('quoteHistory', JSON.stringify(updatedHistory));
                 showNotification(`"${id}" státusza megváltozott.`);
@@ -674,6 +679,73 @@ const App: React.FC = () => {
             return updatedHistory;
         });
     }, [showNotification]);
+
+    const saveHistoryUpdate = useCallback((updatedHistory: QuoteHistoryItem[], msg: string) => {
+        try {
+            localStorage.setItem('quoteHistory', JSON.stringify(updatedHistory));
+            showNotification(msg);
+        } catch (e) {
+            console.error("Failed to save history", e);
+        }
+    }, [showNotification]);
+
+    const handleAcceptanceNotesSaveOnly = useCallback((notes: ClientNotes) => {
+        if (!acceptanceModal) return;
+        const { phase, quoteId } = acceptanceModal;
+        setAcceptanceModal(null);
+        setQuoteHistory(prev => {
+            const updated = prev.map(item => {
+                if (item.id !== quoteId) return item;
+                if (phase === 'quote') {
+                    return { ...item, status: QuoteStatus.ACCEPTED, state: { ...item.state, status: QuoteStatus.ACCEPTED }, clientNotes: notes };
+                }
+                return { ...item, figmaClientNotes: notes, figmaPhase: 'figma_approved' as FigmaPhaseStatus };
+            });
+            saveHistoryUpdate(updated, phase === 'quote' ? `"${quoteId}" elfogadva, megjegyzések mentve.` : `"${quoteId}" Figma jóváhagyva.`);
+            return updated;
+        });
+    }, [acceptanceModal, saveHistoryUpdate]);
+
+    const handleAcceptanceNotesSaveAndStart = useCallback((notes: ClientNotes) => {
+        if (!acceptanceModal) return;
+        const { phase, quoteId } = acceptanceModal;
+        setAcceptanceModal(null);
+        setQuoteHistory(prev => {
+            const updated = prev.map(item => {
+                if (item.id !== quoteId) return item;
+                if (phase === 'quote') {
+                    return {
+                        ...item,
+                        status: QuoteStatus.ACCEPTED,
+                        state: { ...item.state, status: QuoteStatus.ACCEPTED },
+                        clientNotes: notes,
+                        figmaPhase: 'brief_ready' as FigmaPhaseStatus,
+                    };
+                }
+                return { ...item, figmaClientNotes: notes, figmaPhase: 'figma_approved' as FigmaPhaseStatus };
+            });
+            saveHistoryUpdate(updated, phase === 'quote'
+                ? `"${quoteId}" elfogadva! Figma tervezés indítható — jelezd JARVIS-nak.`
+                : `"${quoteId}" Figma jóváhagyva! Fejlesztés indítható.`
+            );
+            return updated;
+        });
+    }, [acceptanceModal, saveHistoryUpdate]);
+
+    const handleFigmaApproval = useCallback((id: string) => {
+        setAcceptanceModal({ phase: 'figma', quoteId: id });
+    }, []);
+
+    const handleUpdateFigmaPhase = useCallback((id: string, figmaPhase: FigmaPhaseStatus, figmaFileUrl?: string) => {
+        setQuoteHistory(prev => {
+            const updated = prev.map(item => {
+                if (item.id !== id) return item;
+                return { ...item, figmaPhase, ...(figmaFileUrl ? { figmaFileUrl } : {}) };
+            });
+            saveHistoryUpdate(updated, `"${id}" Figma fázis: ${figmaPhase}`);
+            return updated;
+        });
+    }, [saveHistoryUpdate]);
 
     const handleDownloadQuotePdf = useCallback((id: string) => {
         const quoteToDownload = quoteHistory.find(item => item.id === id);
@@ -1077,7 +1149,23 @@ const App: React.FC = () => {
                 onDownloadSitemapPdf={handleDownloadSitemapPdf}
                 onDuplicate={handleDuplicateQuote}
                 onStatusChange={handleStatusChange}
+                onFigmaApproval={handleFigmaApproval}
+                onUpdateFigmaPhase={handleUpdateFigmaPhase}
             />
+            {acceptanceModal && (() => {
+                const item = quoteHistory.find(q => q.id === acceptanceModal.quoteId);
+                return item ? (
+                    <AcceptanceNotesModal
+                        isOpen
+                        phase={acceptanceModal.phase}
+                        clientName={item.clientName}
+                        quoteId={item.id}
+                        onSaveOnly={handleAcceptanceNotesSaveOnly}
+                        onSaveAndStart={handleAcceptanceNotesSaveAndStart}
+                        onCancel={() => setAcceptanceModal(null)}
+                    />
+                ) : null;
+            })()}
             <Notification message={notification} onHide={handleHideNotification} />
             {sessionToRestore && (
                 <RestoreNotification

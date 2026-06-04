@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { QuoteHistoryItem, PackageId, PriceType, QuoteStatus } from '../types';
+import { QuoteHistoryItem, PackageId, PriceType, QuoteStatus, FigmaPhaseStatus, ClientNotes } from '../types';
 import { BASE_PACKAGES, EXTRAS, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from '../constants';
 import { ArrowLeftIcon, PdfIcon, SitemapIcon, ResearchDocIcon } from './icons';
 import SitemapView from './SitemapView';
@@ -13,9 +13,11 @@ interface HistoryDetailViewProps {
   onBack: () => void;
   onDownloadQuotePdf: (id: string) => void;
   onDownloadSitemapPdf: (id: string) => void;
+  onFigmaApproval: (id: string) => void;
+  onUpdateFigmaPhase: (id: string, phase: FigmaPhaseStatus, figmaFileUrl?: string) => void;
 }
 
-type Tab = 'quote' | 'sitemap' | 'research';
+type Tab = 'quote' | 'sitemap' | 'research' | 'figma';
 
 const statusConfig: Record<QuoteStatus, { text: string; color: string }> = {
   [QuoteStatus.DRAFT]:    { text: 'Vázlat',     color: 'bg-slate-500' },
@@ -33,14 +35,49 @@ const formatDate = (ts: number) =>
 const isMaintenance = (id: PackageId | null) =>
   id === PackageId.MAINTENANCE || id === PackageId.CONTINUOUS_MAINTENANCE;
 
+const FIGMA_PHASE_CONFIG: Record<FigmaPhaseStatus, { label: string; color: string; badge: string }> = {
+  not_started:      { label: 'Nem indult el',            color: 'text-slate-400',  badge: 'bg-slate-700'         },
+  brief_ready:      { label: 'Várakozik — JARVIS indítható', color: 'text-amber-300',  badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/40' },
+  figma_in_progress:{ label: 'JARVIS tervezi...',         color: 'text-blue-300',   badge: 'bg-blue-500/20 text-blue-300 border border-blue-500/40'    },
+  figma_done:       { label: 'Terv kész — jóváhagyásra vár', color: 'text-indigo-300', badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' },
+  figma_approved:   { label: 'Figma jóváhagyva ✓',        color: 'text-green-400',  badge: 'bg-green-500/20 text-green-400 border border-green-500/40'  },
+};
+
+const ClientNotesDisplay: React.FC<{ notes: ClientNotes; title: string }> = ({ notes, title }) => (
+  <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4 space-y-3">
+    <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold">{title}</p>
+    {notes.hasChanges && (
+      <div className="space-y-2">
+        {notes.designNotes && (
+          <div><p className="text-slate-500 text-xs mb-0.5">🎨 Dizájn</p><p className="text-slate-300 text-sm">{notes.designNotes}</p></div>
+        )}
+        {notes.itemChanges && (
+          <div><p className="text-slate-500 text-xs mb-0.5">📋 Tételek</p><p className="text-slate-300 text-sm">{notes.itemChanges}</p></div>
+        )}
+        {notes.pageChanges && (
+          <div><p className="text-slate-500 text-xs mb-0.5">📄 Oldalak</p><p className="text-slate-300 text-sm">{notes.pageChanges}</p></div>
+        )}
+      </div>
+    )}
+    {notes.generalNotes && (
+      <div><p className="text-slate-500 text-xs mb-0.5">💬 Általános</p><p className="text-slate-300 text-sm">{notes.generalNotes}</p></div>
+    )}
+    {!notes.hasChanges && !notes.generalNotes && (
+      <p className="text-slate-500 text-sm">Nem volt változás — minden rendben.</p>
+    )}
+    <p className="text-slate-600 text-xs">{new Date(notes.submittedAt).toLocaleString('hu-HU')}</p>
+  </div>
+);
+
 const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
-  item, onBack, onDownloadQuotePdf, onDownloadSitemapPdf,
+  item, onBack, onDownloadQuotePdf, onDownloadSitemapPdf, onFigmaApproval, onUpdateFigmaPhase,
 }) => {
   const [activeTab, setActiveTab] = useState<Tab>('quote');
   const { state } = item;
   const pkg = BASE_PACKAGES.find(p => p.id === state.selectedPackageId) ?? null;
   const hasSitemap = !isMaintenance(state.selectedPackageId);
   const hasResearch = !!item.researchContent;
+  const showFigmaTab = item.status === QuoteStatus.ACCEPTED || (item.figmaPhase && item.figmaPhase !== 'not_started');
   const issueDate = new Date(item.savedAt);
   const expiryDate = addCalendarDays(issueDate, state.quoteDetails.validityDays);
 
@@ -99,6 +136,11 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
     { id: 'quote', label: 'Árajánlat', icon: <PdfIcon /> },
     ...(hasSitemap ? [{ id: 'sitemap' as Tab, label: 'Site Map', icon: <SitemapIcon /> }] : []),
     ...(hasResearch ? [{ id: 'research' as Tab, label: 'Research', icon: <ResearchDocIcon /> }] : []),
+    ...(showFigmaTab ? [{ id: 'figma' as Tab, label: 'Figma', icon: (
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+      </svg>
+    )}] : []),
   ];
 
   return (
@@ -304,6 +346,83 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
               <ResearchDocIcon />
               Research PDF letöltése
             </button>
+          </div>
+        )}
+
+        {/* ── FIGMA TAB ── */}
+        {activeTab === 'figma' && (
+          <div className="p-6 space-y-5">
+            {/* Phase status */}
+            {(() => {
+              const phase = item.figmaPhase ?? 'not_started';
+              const cfg = FIGMA_PHASE_CONFIG[phase];
+              return (
+                <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5">
+                  <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-3">Figma fázis státusza</p>
+                  <span className={`inline-flex items-center px-3 py-1.5 rounded-full text-sm font-semibold ${cfg.badge}`}>
+                    {cfg.label}
+                  </span>
+                  {phase === 'brief_ready' && (
+                    <p className="text-slate-500 text-xs mt-3">
+                      A megjegyzések el vannak mentve. Jelezd JARVIS-nak a chatben hogy elindíthatja a Figma tervezést.
+                    </p>
+                  )}
+                  {phase === 'figma_in_progress' && (
+                    <p className="text-slate-500 text-xs mt-3">JARVIS aktívan dolgozik a Figma terveken...</p>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Figma file URL */}
+            {item.figmaFileUrl && (
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-4">
+                <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-2">Figma fájl</p>
+                <a
+                  href={item.figmaFileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors"
+                >
+                  <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                  Figma terv megnyitása
+                </a>
+              </div>
+            )}
+
+            {/* Client notes from quote acceptance */}
+            {item.clientNotes && (
+              <ClientNotesDisplay notes={item.clientNotes} title="Ügyfél megjegyzései az árajánlathoz" />
+            )}
+
+            {/* Figma approval button */}
+            {(item.figmaPhase === 'figma_done') && (
+              <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-4">
+                <p className="text-indigo-300 text-sm font-semibold mb-1">Ügyfél jóváhagyta a Figma designt?</p>
+                <p className="text-slate-400 text-xs mb-3">Kattints az elfogadáshoz — megadhatod az ügyfél visszajelzéseit is.</p>
+                <button
+                  onClick={() => onFigmaApproval(item.id)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-sm font-bold transition-colors"
+                >
+                  ✅ Figma jóváhagyása
+                </button>
+              </div>
+            )}
+
+            {/* Figma client notes (after approval) */}
+            {item.figmaClientNotes && (
+              <ClientNotesDisplay notes={item.figmaClientNotes} title="Ügyfél visszajelzése a Figma designhoz" />
+            )}
+
+            {/* Dev phase ready banner */}
+            {item.figmaPhase === 'figma_approved' && (
+              <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+                <p className="text-green-400 text-sm font-semibold">🚀 Fejlesztési fázis indítható</p>
+                <p className="text-slate-400 text-xs mt-1">Figma elfogadva — jelezd JARVIS-nak hogy elindíthatja a WordPress fejlesztést.</p>
+              </div>
+            )}
           </div>
         )}
       </div>

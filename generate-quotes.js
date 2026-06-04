@@ -72,6 +72,12 @@ const quotes = [
       discountPercentage: 0,
     },
     researchContent: readResearch(JARVIS_ROOT),
+    // Figma workflow fields — set by JARVIS as the project progresses:
+    // figmaPhase: 'not_started' | 'brief_ready' | 'figma_in_progress' | 'figma_done' | 'figma_approved'
+    // figmaFileUrl: 'https://figma.com/file/...'
+    // figmaBriefPath: 'Projects/Lakatos_Karoly_Web/Figma_Brief.md'
+    // clientNotes: { hasChanges, designNotes, itemChanges, pageChanges, generalNotes, submittedAt }
+    // figmaClientNotes: { ... }  (set after Figma approval)
   },
 ];
 

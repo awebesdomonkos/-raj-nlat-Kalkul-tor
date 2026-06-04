@@ -141,6 +141,22 @@ export interface QuoteState {
     discountPercentage: number;
 }
 
+export interface ClientNotes {
+    hasChanges: boolean;
+    designNotes: string;
+    itemChanges: string;
+    pageChanges: string;
+    generalNotes: string;
+    submittedAt: number;
+}
+
+export type FigmaPhaseStatus =
+    | 'not_started'
+    | 'brief_ready'      // notes saved, waiting for JARVIS to start
+    | 'figma_in_progress' // JARVIS is working on it
+    | 'figma_done'        // Figma file created, waiting for client review
+    | 'figma_approved';   // Client approved the Figma design
+
 export interface QuoteHistoryItem {
     id: string; // quoteId
     savedAt: number; // timestamp
@@ -149,4 +165,9 @@ export interface QuoteHistoryItem {
     status: QuoteStatus;
     state: QuoteState;
     researchContent?: string; // markdown research document
+    clientNotes?: ClientNotes; // notes from client at acceptance
+    figmaClientNotes?: ClientNotes; // notes from client at figma approval
+    figmaPhase?: FigmaPhaseStatus;
+    figmaFileUrl?: string; // Figma file URL
+    figmaBriefPath?: string; // local path to Figma_Brief.md
 }
