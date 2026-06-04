@@ -170,4 +170,5 @@ export interface QuoteHistoryItem {
     figmaPhase?: FigmaPhaseStatus;
     figmaFileUrl?: string; // Figma file URL
     figmaBriefPath?: string; // local path to Figma_Brief.md
+    figmaDesignBrief?: string; // AI-generated design brief (markdown)
 }

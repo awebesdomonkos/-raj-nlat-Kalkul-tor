@@ -26,8 +26,8 @@ const PHASE_CONFIG = {
             { key: 'pageChanges',  label: '📄 Oldal változások',    placeholder: 'Pl. Rólunk oldal helyett Csapatunk legyen, extra GYIK aloldalak...' },
         ],
         saveLabel: '💾 Csak mentés',
-        startLabel: '🎨 Figma tervezés elindítása',
-        startHint: 'Menti a megjegyzéseket, majd JARVIS-nak jelezd hogy elindíthatja a Figma fázist.',
+        startLabel: '🎨 Figma tervezés automatikus indítása',
+        startHint: 'Menti a megjegyzéseket és azonnal elindítja a Figma tervezést — nincs szükség manuális jelzésre.',
     },
     figma: {
         title: 'Figma design elfogadva',

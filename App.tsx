@@ -706,31 +706,103 @@ const App: React.FC = () => {
         });
     }, [acceptanceModal, saveHistoryUpdate]);
 
-    const handleAcceptanceNotesSaveAndStart = useCallback((notes: ClientNotes) => {
+    const handleAcceptanceNotesSaveAndStart = useCallback(async (notes: ClientNotes) => {
         if (!acceptanceModal) return;
         const { phase, quoteId } = acceptanceModal;
-        setAcceptanceModal(null);
-        setQuoteHistory(prev => {
-            const updated = prev.map(item => {
-                if (item.id !== quoteId) return item;
-                if (phase === 'quote') {
-                    return {
-                        ...item,
-                        status: QuoteStatus.ACCEPTED,
-                        state: { ...item.state, status: QuoteStatus.ACCEPTED },
-                        clientNotes: notes,
-                        figmaPhase: 'brief_ready' as FigmaPhaseStatus,
-                    };
-                }
-                return { ...item, figmaClientNotes: notes, figmaPhase: 'figma_approved' as FigmaPhaseStatus };
+
+        // Figma jóváhagyás fázis — nincs API hívás
+        if (phase === 'figma') {
+            setAcceptanceModal(null);
+            setQuoteHistory(prev => {
+                const updated = prev.map(item => item.id !== quoteId ? item
+                    : { ...item, figmaClientNotes: notes, figmaPhase: 'figma_approved' as FigmaPhaseStatus });
+                saveHistoryUpdate(updated, `"${quoteId}" Figma jóváhagyva! Fejlesztés indítható.`);
+                return updated;
             });
-            saveHistoryUpdate(updated, phase === 'quote'
-                ? `"${quoteId}" elfogadva! Figma tervezés indítható — jelezd JARVIS-nak.`
-                : `"${quoteId}" Figma jóváhagyva! Fejlesztés indítható.`
-            );
+            return;
+        }
+
+        // Quote elfogadás fázis — snapshot ELŐBB a state változtatás előtt
+        const quoteItem = quoteHistory.find(q => q.id === quoteId);
+        setAcceptanceModal(null);
+
+        // Azonnal "in_progress" állapot
+        setQuoteHistory(prev => {
+            const updated = prev.map(item => item.id !== quoteId ? item : {
+                ...item,
+                status: QuoteStatus.ACCEPTED,
+                state: { ...item.state, status: QuoteStatus.ACCEPTED },
+                clientNotes: notes,
+                figmaPhase: 'figma_in_progress' as FigmaPhaseStatus,
+            });
+            saveHistoryUpdate(updated, `"${quoteId}" elfogadva! Figma tervezés indul...`);
             return updated;
         });
-    }, [acceptanceModal, saveHistoryUpdate]);
+
+        // API payload összerakása
+        const st = quoteItem?.state;
+        const extras = st ? EXTRAS.filter(e => st.selectedExtras[e.id]).map(e => e.name) : [];
+        const pages = st ? [
+            ...(st.editablePackageContents?.pages ?? []).map((p: { text: string }) => p.text).filter(Boolean),
+            ...(st.customSections ?? []).map((s: { name: string }) => s.name),
+        ] : [];
+        const packageName = st?.selectedPackageId
+            ? BASE_PACKAGES.find(p => p.id === st.selectedPackageId)?.name ?? st.selectedPackageId
+            : 'ismeretlen csomag';
+
+        const payload = {
+            quoteId,
+            clientName: quoteItem?.clientName ?? '',
+            clientEmail: st?.quoteDetails?.clientEmail ?? '',
+            subject: quoteItem?.subject ?? '',
+            packageName,
+            totalPrice: 0,
+            websiteUrl: st?.quoteDetails?.websiteUrl ?? '',
+            extras,
+            pages,
+            clientNotes: notes.hasChanges ? notes : null,
+            researchSummary: quoteItem?.researchContent
+                ? quoteItem.researchContent.substring(0, 800)
+                : null,
+        };
+
+        try {
+            const resp = await fetch('/api/trigger-figma', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+            const data = await resp.json() as { success: boolean; figmaFileUrl?: string; designBrief?: string; error?: string };
+
+            if (data.success) {
+                setQuoteHistory(prev => {
+                    const updated = prev.map(item => item.id !== quoteId ? item : {
+                        ...item,
+                        figmaPhase: 'figma_done' as FigmaPhaseStatus,
+                        ...(data.figmaFileUrl ? { figmaFileUrl: data.figmaFileUrl } : {}),
+                        ...(data.designBrief ? { figmaDesignBrief: data.designBrief } : {}),
+                    });
+                    saveHistoryUpdate(updated, `"${quoteId}" Figma terv kész! ${data.figmaFileUrl ? 'Fájl létrehozva.' : 'Brief elkészítve.'}`);
+                    return updated;
+                });
+                showNotification(data.figmaFileUrl
+                    ? `✅ Figma fájl elkészítve — megnyithatod az Előzmények / Figma fülön!`
+                    : `✅ Figma design brief elkészítve!`
+                );
+            } else {
+                throw new Error(data.error ?? 'Ismeretlen API hiba');
+            }
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : 'Hálózati hiba';
+            setQuoteHistory(prev => {
+                const updated = prev.map(item => item.id !== quoteId ? item
+                    : { ...item, figmaPhase: 'brief_ready' as FigmaPhaseStatus });
+                saveHistoryUpdate(updated, `"${quoteId}" Figma trigger hiba — állapot visszaállítva.`);
+                return updated;
+            });
+            showNotification(`❌ Figma API hiba: ${msg}`);
+        }
+    }, [acceptanceModal, saveHistoryUpdate, quoteHistory, showNotification]);
 
     const handleFigmaApproval = useCallback((id: string) => {
         setAcceptanceModal({ phase: 'figma', quoteId: id });

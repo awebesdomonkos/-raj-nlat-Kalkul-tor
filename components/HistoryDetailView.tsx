@@ -37,8 +37,8 @@ const isMaintenance = (id: PackageId | null) =>
 
 const FIGMA_PHASE_CONFIG: Record<FigmaPhaseStatus, { label: string; color: string; badge: string }> = {
   not_started:      { label: 'Nem indult el',            color: 'text-slate-400',  badge: 'bg-slate-700'         },
-  brief_ready:      { label: 'Várakozik — JARVIS indítható', color: 'text-amber-300',  badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/40' },
-  figma_in_progress:{ label: 'JARVIS tervezi...',         color: 'text-blue-300',   badge: 'bg-blue-500/20 text-blue-300 border border-blue-500/40'    },
+  brief_ready:      { label: 'Brief kész — újra próbálható', color: 'text-amber-300',  badge: 'bg-amber-500/20 text-amber-300 border border-amber-500/40' },
+  figma_in_progress:{ label: 'Figma tervezés folyamatban...', color: 'text-blue-300',   badge: 'bg-blue-500/20 text-blue-300 border border-blue-500/40'    },
   figma_done:       { label: 'Terv kész — jóváhagyásra vár', color: 'text-indigo-300', badge: 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/40' },
   figma_approved:   { label: 'Figma jóváhagyva ✓',        color: 'text-green-400',  badge: 'bg-green-500/20 text-green-400 border border-green-500/40'  },
 };
@@ -364,11 +364,17 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
                   </span>
                   {phase === 'brief_ready' && (
                     <p className="text-slate-500 text-xs mt-3">
-                      A megjegyzések el vannak mentve. Jelezd JARVIS-nak a chatben hogy elindíthatja a Figma tervezést.
+                      Az API hívás nem sikerült — az elfogadás mentve van. Próbálj újra az elfogadás gombbal.
                     </p>
                   )}
                   {phase === 'figma_in_progress' && (
-                    <p className="text-slate-500 text-xs mt-3">JARVIS aktívan dolgozik a Figma terveken...</p>
+                    <div className="flex items-center gap-2 mt-3">
+                      <svg className="w-4 h-4 text-blue-400 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/>
+                      </svg>
+                      <p className="text-blue-400 text-xs">Claude API generálja a design briefinget és létrehozza a Figma fájlt...</p>
+                    </div>
                   )}
                 </div>
               );
@@ -389,6 +395,16 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
                   </svg>
                   Figma terv megnyitása
                 </a>
+              </div>
+            )}
+
+            {/* AI-generated design brief */}
+            {item.figmaDesignBrief && (
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5">
+                <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-3">JARVIS Design Brief</p>
+                <div className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap font-mono">
+                  {item.figmaDesignBrief}
+                </div>
               </div>
             )}
 
