@@ -30,8 +30,8 @@ interface ApiResponse {
 }
 
 async function generateDesignBrief(data: TriggerPayload): Promise<string> {
-  const key = process.env.ANTHROPIC_API_KEY;
-  if (!key) throw new Error('ANTHROPIC_API_KEY nincs beállítva');
+  const key = process.env.GEMINI_API_KEY;
+  if (!key) throw new Error('GEMINI_API_KEY nincs beállítva');
 
   const notesSection = data.clientNotes?.hasChanges
     ? `\nÜGYFÉL MEGJEGYZÉSEK:\n${data.clientNotes.designNotes ? `- Dizájn: ${data.clientNotes.designNotes}\n` : ''}${data.clientNotes.itemChanges ? `- Tételek: ${data.clientNotes.itemChanges}\n` : ''}${data.clientNotes.pageChanges ? `- Oldalak: ${data.clientNotes.pageChanges}\n` : ''}${data.clientNotes.generalNotes ? `- Általános: ${data.clientNotes.generalNotes}\n` : ''}`
@@ -74,27 +74,27 @@ Adj vissza egy strukturált Figma briefinget a következő szekciókkal (markdow
 
 Legyen konkrét és rövid. Max 450 szó.`;
 
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': key,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1200,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 1200, temperature: 0.7 },
+      }),
+    }
+  );
 
   if (!resp.ok) {
     const err = await resp.text();
-    throw new Error(`Claude API hiba (${resp.status}): ${err.substring(0, 200)}`);
+    throw new Error(`Gemini API hiba (${resp.status}): ${err.substring(0, 200)}`);
   }
 
-  const json = (await resp.json()) as { content: { type: string; text: string }[] };
-  return json.content[0]?.text ?? '';
+  const json = (await resp.json()) as {
+    candidates: { content: { parts: { text: string }[] } }[];
+  };
+  return json.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
 }
 
 async function createFigmaFile(
