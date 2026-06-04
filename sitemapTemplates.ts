@@ -396,23 +396,31 @@ export const generateSitemapFromQuote = (
   const extraPages: SitemapPageNode[] = [];
   const addedIds = new Set<string>();
 
+  // Instantiable extras (pl. minden "Oldalak" kategória) — csak customInstances-ben vannak nyilvántartva
+  Object.keys(customInstances).forEach(extraId => {
+    const instances = customInstances[extraId];
+    if (!instances || instances.length === 0) return;
+
+    const template = EXTRA_PAGE_TEMPLATES[extraId];
+    if (template) {
+      instances.forEach(instance => {
+        const page = {
+          ...JSON.parse(JSON.stringify(template)),
+          id: `${extraId}-${instance.id}`,
+          name: instance.name || template.name,
+        };
+        extraPages.push(page);
+      });
+      addedIds.add(extraId);
+    }
+  });
+
+  // Non-instantiable selected extras (ha van template-jük és még nem lett hozzáadva)
   Object.keys(selectedExtras).forEach(extraId => {
     if (!selectedExtras[extraId]) return;
+    if (addedIds.has(extraId)) return;
 
-    if (customInstances[extraId] && customInstances[extraId].length > 0) {
-      const template = EXTRA_PAGE_TEMPLATES[extraId];
-      if (template) {
-        customInstances[extraId].forEach(instance => {
-          const page = {
-            ...JSON.parse(JSON.stringify(template)),
-            id: `${extraId}-${instance.id}`,
-            name: instance.name || template.name,
-          };
-          extraPages.push(page);
-          addedIds.add(extraId);
-        });
-      }
-    } else if (EXTRA_PAGE_TEMPLATES[extraId] && !addedIds.has(extraId)) {
+    if (EXTRA_PAGE_TEMPLATES[extraId]) {
       extraPages.push(JSON.parse(JSON.stringify(EXTRA_PAGE_TEMPLATES[extraId])));
       addedIds.add(extraId);
     }
