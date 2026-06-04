@@ -2,7 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { BasePackage, Extra, BonusPage, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, PackageId, MaintenancePlan, EliteExtension } from '../types';
 import { CheckIcon, PlusIcon, PdfIcon, XIcon, EmailIcon, LoaderIcon } from './icons';
-import { generateQuotePDF, PdfQuoteData } from '../pdfGenerator';
+import { generateQuotePDF, generateSitemapPDF, PdfQuoteData } from '../pdfGenerator';
 import EmailModal from './EmailModal';
 import { EXTRAS } from '../constants';
 
@@ -128,6 +128,12 @@ const Summary: React.FC<SummaryProps> = (props) => {
 
     const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
     const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+    const [isGeneratingSitemapPdf, setIsGeneratingSitemapPdf] = useState(false);
+
+    const selectedExtrasMap = useMemo(
+        () => Object.fromEntries(selectedExtras.map(e => [e.id, true])),
+        [selectedExtras]
+    );
 
     const selectedPlan = useMemo(() => {
         if (selectedPackage?.id === PackageId.CONTINUOUS_MAINTENANCE && selectedPlanId) {
@@ -189,6 +195,25 @@ const Summary: React.FC<SummaryProps> = (props) => {
             // In a real app, you might want to show an error notification here.
         } finally {
             setIsGeneratingPdf(false);
+        }
+    };
+
+    const handleExportSitemapPDF = async () => {
+        if (!selectedPackage || isGeneratingSitemapPdf) return;
+        setIsGeneratingSitemapPdf(true);
+        try {
+            await new Promise(resolve => setTimeout(resolve, 50));
+            generateSitemapPDF(
+                selectedPackage.id as PackageId,
+                selectedExtrasMap,
+                customInstances,
+                quoteDetails,
+                issueDate
+            );
+        } catch (error) {
+            console.error('Sitemap PDF generation failed:', error);
+        } finally {
+            setIsGeneratingSitemapPdf(false);
         }
     };
 
@@ -467,14 +492,14 @@ const Summary: React.FC<SummaryProps> = (props) => {
                     <p className="text-xs text-slate-500 pt-2 text-right">Az árak az áfát nem tartalmazzák. Ez egy előzetes kalkuláció, a végleges árajánlatot a személyes egyeztetés után küldjük.</p>
                 </div>
                 <div className="mt-8 flex items-center gap-2">
-                     <button 
+                     <button
                         onClick={() => setIsEmailModalOpen(true)}
                         className="flex-shrink-0 p-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-all duration-200 disabled:bg-slate-600 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-indigo-500 hover:-translate-y-0.5"
                         title="Küldés e-mailben"
                     >
                         <EmailIcon />
                     </button>
-                    <button 
+                    <button
                         onClick={handleExportPDF}
                         disabled={isGeneratingPdf}
                         className="w-full flex items-center justify-center gap-2 bg-slate-600 hover:bg-slate-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-200 disabled:bg-slate-500 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-slate-500 hover:-translate-y-0.5"
@@ -492,6 +517,27 @@ const Summary: React.FC<SummaryProps> = (props) => {
                         )}
                     </button>
                 </div>
+                {!isMaintenance && (
+                    <button
+                        onClick={handleExportSitemapPDF}
+                        disabled={isGeneratingSitemapPdf}
+                        className="mt-2 w-full flex items-center justify-center gap-2 bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 hover:text-indigo-200 font-bold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-indigo-500 hover:-translate-y-0.5"
+                    >
+                        {isGeneratingSitemapPdf ? (
+                            <>
+                                <LoaderIcon />
+                                Site Map generálása...
+                            </>
+                        ) : (
+                            <>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+                                </svg>
+                                Site Map PDF exportálása
+                            </>
+                        )}
+                    </button>
+                )}
             </div>
             <EmailModal
                 isOpen={isEmailModalOpen}

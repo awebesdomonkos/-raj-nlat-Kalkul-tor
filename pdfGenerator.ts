@@ -1,6 +1,7 @@
 
 import { BasePackage, BonusPage, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, PackageId, MaintenancePlan, EliteExtension } from './types';
 import { formatDate } from './utils';
+import { generateSitemapFromQuote, SitemapPageNode } from './sitemapTemplates';
 
 // This tells TypeScript that pdfMake is available as a global variable
 // from the script tag in index.html
@@ -528,4 +529,148 @@ export const generateQuotePDF = (data: PdfQuoteData) => {
     const fileName = `Ajanlat_${data.quoteDetails.quoteId || 'xxxx-xxx'}_${sanitizedClientName || 'ugyfel'}.pdf`;
 
     pdfMake.createPdf(docDefinition).download(fileName);
+};
+
+// ── Sitemap PDF ────────────────────────────────────────────────────────────────
+
+export const generateSitemapPDF = (
+    packageId: PackageId | null,
+    selectedExtrasMap: Record<string, boolean>,
+    customInstances: Record<string, CustomInstance[]>,
+    quoteDetails: QuoteDetailsType,
+    issueDate: Date
+): void => {
+    const sitemapData = generateSitemapFromQuote(packageId, selectedExtrasMap, customInstances);
+    if (!sitemapData) return;
+
+    const { root, extraPages, systemPages } = sitemapData;
+
+    const C = {
+        indigo: '#4f46e5',
+        indigoLight: '#eef2ff',
+        green: '#16a34a',
+        greenLight: '#f0fdf4',
+        border: '#e2e8f0',
+        textDark: '#1e293b',
+        textMid: '#334155',
+        textLight: '#64748b',
+        white: '#ffffff',
+        bg: '#f8fafc',
+    };
+
+    const makeCard = (node: SitemapPageNode, variant: 'root' | 'extra' | 'system', width: number): any => {
+        const headerColor = variant === 'root' ? C.indigo : variant === 'system' ? C.green : C.textMid;
+        const headerBg = variant === 'root' ? C.indigoLight : variant === 'system' ? C.greenLight : C.bg;
+        const borderCol = variant === 'root' ? C.indigo : variant === 'system' ? '#86efac' : C.border;
+
+        const body: any[][] = [
+            [{
+                text: node.name,
+                fontSize: 8,
+                bold: true,
+                color: headerColor,
+                fillColor: headerBg,
+                margin: [6, 4, 6, 4],
+            }],
+            ...node.sections.map(s => ([{
+                stack: [
+                    { text: s.title, fontSize: 7, bold: true, color: C.textMid },
+                    ...(s.description ? [{ text: s.description, fontSize: 6, color: C.textLight, margin: [0, 1, 0, 0] }] : []),
+                ],
+                fillColor: C.white,
+                margin: [6, 3, 6, 3],
+            }])),
+        ];
+
+        return {
+            table: { widths: [width], body },
+            layout: {
+                hLineWidth: () => 0.5,
+                vLineWidth: () => 0.75,
+                hLineColor: () => borderCol,
+                vLineColor: () => borderCol,
+            },
+        };
+    };
+
+    const renderTree = (node: SitemapPageNode, depth: number, isRoot: boolean): any[] => {
+        const CARD_W = 150;
+        const INDENT = depth * 18;
+        const items: any[] = [
+            {
+                columns: [
+                    ...(INDENT > 0 ? [{ width: INDENT, text: '' }] : []),
+                    { width: CARD_W, stack: [makeCard(node, isRoot ? 'root' : 'extra', CARD_W)] },
+                ],
+                columnGap: 0,
+                margin: [0, 0, 0, depth > 0 ? 5 : 2],
+            },
+        ];
+        (node.children ?? []).forEach(child => items.push(...renderTree(child, depth + 1, false)));
+        return items;
+    };
+
+    const renderGrid = (nodes: SitemapPageNode[], variant: 'extra' | 'system'): any[] => {
+        const CARD_W = 155;
+        const GAP = 10;
+        const PER_ROW = 3;
+        const rows: any[] = [];
+        for (let i = 0; i < nodes.length; i += PER_ROW) {
+            const chunk = nodes.slice(i, i + PER_ROW);
+            while (chunk.length < PER_ROW) chunk.push(null as any);
+            rows.push({
+                columns: chunk.map((n: SitemapPageNode | null) =>
+                    n
+                        ? { width: CARD_W, stack: [makeCard(n, variant, CARD_W)] }
+                        : { width: CARD_W, text: '' }
+                ),
+                columnGap: GAP,
+                margin: [0, 0, 0, GAP],
+            });
+        }
+        return rows;
+    };
+
+    const sectionLabel = (text: string, color: string = C.textLight): any => ({
+        text,
+        fontSize: 7,
+        bold: true,
+        color,
+        margin: [0, 16, 0, 8],
+    });
+
+    const content: any[] = [
+        {
+            columns: [
+                {
+                    stack: [
+                        { text: 'Vizuális Site Map', fontSize: 15, bold: true, color: C.indigo },
+                        ...(quoteDetails.clientName ? [{ text: quoteDetails.clientName, fontSize: 10, bold: true, color: C.textDark, margin: [0, 2, 0, 0] }] : []),
+                        ...(quoteDetails.subject ? [{ text: quoteDetails.subject, fontSize: 9, color: C.textLight }] : []),
+                    ],
+                },
+                { text: formatDate(issueDate), alignment: 'right', fontSize: 9, color: C.textLight },
+            ],
+            margin: [0, 0, 0, 16],
+        },
+        sectionLabel('FŐOLDAL STRUKTÚRA', C.indigo),
+        ...renderTree(root, 0, true),
+        ...(extraPages.length > 0 ? [
+            sectionLabel(`EXTRA OLDALAK (${extraPages.length})`),
+            ...renderGrid(extraPages, 'extra'),
+        ] : []),
+        sectionLabel('RENDSZER OLDALAK — INGYENES BÓNUSZ', C.green),
+        ...renderGrid(systemPages, 'system'),
+    ];
+
+    const sanitized = (quoteDetails.clientName || '').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+    const fileName = `Sitemap_${sanitized || 'awebes'}_${formatDate(issueDate).replace(/[\s.]/g, '')}.pdf`;
+
+    pdfMake.createPdf({
+        pageSize: 'A4',
+        pageOrientation: 'landscape',
+        pageMargins: [30, 36, 30, 36],
+        content,
+        defaultStyle: { font: 'Roboto' },
+    }).download(fileName);
 };
