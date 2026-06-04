@@ -6,8 +6,10 @@
  * Always use this script — never write the JSON manually (unescaped chars cause SyntaxError).
  */
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const PROJECTS_ROOT = '/Users/zaladomonkos/Documents/Cloude /Agents/JARVIS/Projects';
 const OUTPUT = path.join(__dirname, 'public', 'jarvis-quotes.json');
@@ -146,6 +148,77 @@ const quotes = [
       discountPercentage: 0,
     },
     researchContent: readResearch('Happy_Couples_Cyprus_Web'),
+  },
+  // ── Hürkecz Imre – Ingatlanfejlesztő weboldal ────────────────────────────
+  {
+    id: '2026-HI-001',
+    savedAt: Date.now(),
+    clientName: 'Hürkecz Imre',
+    subject: 'Prémium ingatlanfejlesztő weboldal – Háromnyelvű (HU/EN/DE)',
+    status: 'vazlat',
+    state: {
+      selectedPackageId: 'catalog',
+      selectedExtras: {},
+      customPrices: {},
+      customSections: [
+        { id: 'hi-cs1', name: 'Háromnyelvűség (HU/EN/DE)', price: 120000 },
+        { id: 'hi-cs2', name: 'Videós galéria (Vimeo/YouTube embed, lazy load)', price: 30000 },
+        { id: 'hi-cs3', name: 'Kívánságlista (Wishlist) funkció', price: 50000 },
+        { id: 'hi-cs4', name: 'Idővonal / Projekt-tracker komponens', price: 45000 },
+        { id: 'hi-cs5', name: 'Letölthető dokumentumok rendszere (alaprajz PDF, útmutató)', price: 20000 },
+        { id: 'hi-cs6', name: 'Hírlevél feliratkozás integráció (Brevo/Mailchimp)', price: 25000 },
+        { id: 'hi-cs7', name: 'Arculattervezés (logo, színpaletta, tipográfia, brand identity)', price: 100000 },
+        { id: 'hi-cs8', name: 'SEO-optimalizált szövegírás (HU + EN + DE – 3 nyelvű)', price: 80000 },
+        { id: 'hi-cs9', name: 'Belső látványtervek integrálása + before/after slider', price: 50000 },
+        { id: 'hi-cs10', name: 'ÁSZF + Adatkezelési tájékoztató szövegezés (⚠️ jogi felelősség nélkül)', price: 25000 },
+      ],
+      customInstances: {
+        rolunk: [{ id: 'hi-r1', name: 'Rólunk', description: 'Cégbemutató, értékek, alapítói történet — bizalomépítő alap', price: 35000 }],
+        kapcsolat: [{ id: 'hi-k1', name: 'Kapcsolat', description: 'Kapcsolati adatok, visszahívás kérés, Google Maps, kapcsolati űrlap', price: 35000 }],
+        gyik: [{ id: 'hi-g1', name: 'GYIK', description: 'Vásárlói és eladói kérdések — SEO érték + bizalomnövelő', price: 25000 }],
+        'ingatlan-eladas': [{ id: 'hi-ie1', name: 'Adja el ingatlanát nekünk', description: 'Eladói lead oldal — folyamat bemutatás, értékbecslés form, trust signalok', price: 50000 }],
+        blog: [{ id: 'hi-b1', name: 'Blog hub', description: 'SEO tartalom rendszer — cikklista + cikksablon', price: 35000 }],
+      },
+      quoteDetails: {
+        clientName: 'Hürkecz Imre',
+        clientEmail: 'kevin20140721@gmail.com',
+        quoteId: '2026-HI-001',
+        subject: 'Prémium ingatlanfejlesztő weboldal – Háromnyelvű (HU/EN/DE)',
+        estimatedTime: '8–10 hét',
+        validityDays: 30,
+        priorityMultiplier: 1,
+        websiteUrl: '',
+      },
+      editablePackageContents: {
+        pages: [
+          { text: 'Főoldal', isNew: false },
+          { text: 'Projektlistázó (szűrővel: állapot, típus, helyszín, ár)', isNew: false },
+          { text: 'Projekt adatlap sablon (galéria, alaprajz, személyre szabás, idővonal)', isNew: false },
+        ],
+        features: [
+          { text: 'Menü beállítás', isNew: false },
+          { text: 'CMS rendszer konfigurálás (WordPress + ACF egyedi projekt mezők)', isNew: false },
+          { text: 'Cookie bar beállítása (GDPR)', isNew: false },
+          { text: 'Alap SEO beállítások', isNew: false },
+          { text: 'Prémium Bricks Builder licence (Lifetime)', isNew: false },
+          { text: 'Webbiztonsági plugin beállítása', isNew: false },
+          { text: 'Reszponzív megjelenés (mobile-first)', isNew: false },
+          { text: 'SMTP beállítás', isNew: false },
+          { text: 'Kapcsolati űrlap', isNew: false },
+          { text: 'Google Analytics integrálása', isNew: false },
+          { text: 'Google Search Console – XML Sitemap + hreflang', isNew: false },
+          { text: 'Nyelvváltó (HU ↔ EN ↔ DE)', isNew: true },
+          { text: 'Ajánlatkérő form minden projekt adatlapon', isNew: true },
+          { text: 'Eladói lead form (értékbecslés kérés)', isNew: true },
+        ],
+      },
+      selectedPlanId: null,
+      selectedEliteExtensions: {},
+      customElitePrices: {},
+      status: 'vazlat',
+      discountPercentage: 0,
+    },
+    researchContent: readResearch('Hurkecz_Imre_Web'),
   },
 ];
 
