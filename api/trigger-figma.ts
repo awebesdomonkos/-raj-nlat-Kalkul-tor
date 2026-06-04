@@ -22,10 +22,17 @@ interface TriggerPayload {
   researchSummary: string | null;
 }
 
+interface PexelsPhoto {
+  url: string;
+  photographer: string;
+  alt: string;
+}
+
 interface ApiResponse {
   success: boolean;
   figmaFileUrl?: string;
   designBrief?: string;
+  photos?: PexelsPhoto[];
   error?: string;
 }
 
@@ -93,6 +100,31 @@ ${components}
 ${notesSection}${researchSection}`;
 }
 
+async function fetchPexelsPhotos(data: TriggerPayload): Promise<PexelsPhoto[]> {
+  const key = process.env.PEXELS_API_KEY;
+  if (!key) return [];
+
+  // Build search query from subject + extras
+  const terms = [data.subject, ...data.extras].filter(Boolean);
+  const query = terms.slice(0, 2).join(' ') || 'professional service';
+
+  const resp = await fetch(
+    `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=6&orientation=landscape`,
+    { headers: { Authorization: key } }
+  );
+  if (!resp.ok) return [];
+
+  const json = (await resp.json()) as {
+    photos: { src: { large: string }; photographer: string; alt: string }[];
+  };
+
+  return (json.photos ?? []).map((p) => ({
+    url: p.src.large,
+    photographer: p.photographer,
+    alt: p.alt,
+  }));
+}
+
 function getFigmaProjectUrl(): string {
   const projectId = process.env.FIGMA_PROJECT_ID ?? '610035441';
   return `https://www.figma.com/files/project/${projectId}`;
@@ -126,11 +158,13 @@ export default async function handler(req: Request): Promise<Response> {
   try {
     const designBrief = generateDesignBrief(data);
     const figmaFileUrl = getFigmaProjectUrl();
+    const photos = await fetchPexelsPhotos(data);
 
     const result: ApiResponse = {
       success: true,
-      figmaFileUrl: figmaFileUrl ?? undefined,
+      figmaFileUrl,
       designBrief,
+      photos,
     };
 
     return new Response(JSON.stringify(result), {
