@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { PackageId, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, MaintenancePlan, EliteExtension, QuoteState, QuoteHistoryItem, QuoteStatus, AIQuoteResponse } from './types';
+import { PackageId, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, MaintenancePlan, EliteExtension, QuoteState, QuoteHistoryItem, QuoteStatus } from './types';
 import { BASE_PACKAGES, EXTRAS, BONUS_PAGES, PACKAGE_FEATURES, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from './constants';
 import PackageSelector from './components/PackageSelector';
 import ExtrasAccordion from './components/ExtrasAccordion';
@@ -12,7 +12,6 @@ import { ResetIcon, SearchIcon } from './components/icons';
 import { addCalendarDays } from './utils';
 import LandingPageExtras from './components/LandingPageExtras';
 import Notification from './components/Notification';
-import AIBriefProcessor from './components/AIBriefProcessor';
 import ContinuousMaintenanceSelector from './components/ContinuousMaintenanceSelector';
 import EliteExtensions from './components/EliteExtensions';
 import HistoryModal from './components/HistoryModal';
@@ -451,90 +450,7 @@ const App: React.FC = () => {
         debouncedShowNotification();
     }, [debouncedShowNotification]);
     
-    const handleAIGenerate = useCallback((data: AIQuoteResponse) => {
-        const pkg = BASE_PACKAGES.find(p => p.id === data.packageId);
-        if (!pkg) {
-            showNotification("AI hiba: Érvénytelen csomagot választott.");
-            return;
-        }
-        handlePackageChange(data.packageId);
-    
-        setQuoteDetails(prev => ({
-            ...prev,
-            clientName: data.quoteDetails.clientName || '',
-            clientEmail: data.quoteDetails.clientEmail || '',
-            quoteId: data.quoteDetails.quoteId || '',
-            subject: data.quoteDetails.subject || '',
-            estimatedTime: data.quoteDetails.estimatedTime || '',
-            websiteUrl: data.quoteDetails.websiteUrl || '',
-        }));
-    
-        if (data.packageId === PackageId.LANDING && data.landingSections) {
-            const newSections = data.landingSections.map(s => ({
-                id: crypto.randomUUID(),
-                name: s.name,
-                price: s.price,
-            }));
-            setCustomSections(newSections);
-        }
-    
-        const newSelectedExtras: Record<string, boolean> = {};
-        const newCustomPrices: Record<string, number> = {};
-        const newCustomInstances: Record<string, CustomInstance[]> = {};
-    
-        if (data.extras) {
-            data.extras.forEach(extra => {
-                if (EXTRAS.find(e => e.id === extra.id)) {
-                    newSelectedExtras[extra.id] = true;
-                    if (extra.customPrice !== undefined) {
-                        newCustomPrices[extra.id] = extra.customPrice;
-                    }
-                }
-            });
-        }
-    
-        if (data.pages) {
-            data.pages.forEach(page => {
-                const extraTemplate = EXTRAS.find(e => e.id === page.extraId && e.isInstantiable);
-                if (extraTemplate) {
-                    newSelectedExtras[page.extraId] = true;
-                    if (!newCustomInstances[page.extraId]) {
-                        newCustomInstances[page.extraId] = [];
-                    }
-                    newCustomInstances[page.extraId].push({
-                        id: crypto.randomUUID(),
-                        name: page.name,
-                        description: page.description,
-                        price: page.price
-                    });
-                }
-            });
-        }
-
-        if (data.customAdditions && data.customAdditions.length > 0) {
-            newSelectedExtras['egyedi-fejlesztes'] = true;
-            if (!newCustomInstances['egyedi-fejlesztes']) {
-                newCustomInstances['egyedi-fejlesztes'] = [];
-            }
-            data.customAdditions.forEach(addition => {
-                newCustomInstances['egyedi-fejlesztes'].push({
-                    id: crypto.randomUUID(),
-                    name: addition.name,
-                    description: addition.description,
-                    price: addition.price
-                });
-            });
-        }
-    
-        setSelectedExtras(newSelectedExtras);
-        setCustomPrices(newCustomPrices);
-        setCustomInstances(newCustomInstances);
-        
-        showNotification("AI által generált ajánlat betöltve!");
-    
-    }, [handlePackageChange, showNotification]);
-
-     const handleSaveQuote = useCallback(() => {
+    const handleSaveQuote = useCallback(() => {
         if (!selectedPackageId || !quoteDetails.quoteId) {
             showNotification("Az ajánlat mentéséhez válasszon csomagot és adjon meg egy azonosítót.");
             return;
@@ -935,7 +851,6 @@ const App: React.FC = () => {
         <>
             <Header onOpenHistory={() => setIsHistoryOpen(true)} />
             <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-                <AIBriefProcessor onGenerate={handleAIGenerate} />
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                     <div className="lg:col-span-2 space-y-8">
                         <section>
