@@ -545,132 +545,245 @@ export const generateSitemapPDF = (
 
     const { root, extraPages, systemPages } = sitemapData;
 
-    const C = {
-        indigo: '#4f46e5',
-        indigoLight: '#eef2ff',
-        green: '#16a34a',
-        greenLight: '#f0fdf4',
-        border: '#e2e8f0',
-        textDark: '#1e293b',
-        textMid: '#334155',
-        textLight: '#64748b',
-        white: '#ffffff',
-        bg: '#f8fafc',
-    };
+    // Identical color tokens to the quote PDF
+    const INDIGO      = '#4f46e5';
+    const INDIGO_DARK = '#312e81';
+    const INDIGO_LIGHT= '#eef2ff';
+    const GREEN       = '#16a34a';
+    const GREEN_LIGHT = '#f0fdf4';
+    const SLATE_900   = '#1e293b';
+    const SLATE_700   = '#334155';
+    const SLATE_500   = '#64748b';
+    const SLATE_200   = '#e2e8f0';
+    const SLATE_100   = '#f1f5f9';
+    const SLATE_50    = '#f8fafc';
+    const WHITE       = '#ffffff';
 
-    const makeCard = (node: SitemapPageNode, variant: 'root' | 'extra' | 'system', width: number): any => {
-        const headerColor = variant === 'root' ? C.indigo : variant === 'system' ? C.green : C.textMid;
-        const headerBg = variant === 'root' ? C.indigoLight : variant === 'system' ? C.greenLight : C.bg;
-        const borderCol = variant === 'root' ? C.indigo : variant === 'system' ? '#86efac' : C.border;
+    // Build table rows for the main sitemap tree (hierarchical indentation)
+    const buildTreeRows = (node: SitemapPageNode, depth: number, isRoot: boolean): any[][] => {
+        const rows: any[][] = [];
+        const leftPad = 10 + depth * 16;
+        const rowFill = isRoot ? INDIGO_LIGHT : depth === 0 ? SLATE_100 : SLATE_50;
+        const nameColor = isRoot ? INDIGO_DARK : SLATE_700;
+        const borderTop = depth > 0;
 
-        const body: any[][] = [
-            [{
-                text: node.name,
-                fontSize: 8,
-                bold: true,
-                color: headerColor,
-                fillColor: headerBg,
-                margin: [6, 4, 6, 4],
-            }],
-            ...node.sections.map(s => ([{
-                stack: [
-                    { text: s.title, fontSize: 7, bold: true, color: C.textMid },
-                    ...(s.description ? [{ text: s.description, fontSize: 6, color: C.textLight, margin: [0, 1, 0, 0] }] : []),
-                ],
-                fillColor: C.white,
-                margin: [6, 3, 6, 3],
-            }])),
-        ];
-
-        return {
-            table: { widths: [width], body },
-            layout: {
-                hLineWidth: () => 0.5,
-                vLineWidth: () => 0.75,
-                hLineColor: () => borderCol,
-                vLineColor: () => borderCol,
-            },
-        };
-    };
-
-    const renderTree = (node: SitemapPageNode, depth: number, isRoot: boolean): any[] => {
-        const CARD_W = 150;
-        const INDENT = depth * 18;
-        const items: any[] = [
+        // Page header row
+        rows.push([
             {
-                columns: [
-                    ...(INDENT > 0 ? [{ width: INDENT, text: '' }] : []),
-                    { width: CARD_W, stack: [makeCard(node, isRoot ? 'root' : 'extra', CARD_W)] },
-                ],
-                columnGap: 0,
-                margin: [0, 0, 0, depth > 0 ? 5 : 2],
+                text: depth > 0
+                    ? [{ text: '↳ ', color: SLATE_500, fontSize: 9 }, { text: node.name, bold: true, fontSize: 10, color: nameColor }]
+                    : [{ text: node.name, bold: true, fontSize: 10, color: nameColor }],
+                fillColor: rowFill,
+                border: [false, borderTop, false, false],
+                borderColor: [null, SLATE_200, null, null],
+                margin: [leftPad, 7, 10, 7],
             },
-        ];
-        (node.children ?? []).forEach(child => items.push(...renderTree(child, depth + 1, false)));
-        return items;
-    };
+            {
+                text: isRoot ? 'Főoldal' : depth === 0 ? 'Oldal' : 'Aloldal',
+                fontSize: 8,
+                color: SLATE_500,
+                alignment: 'right',
+                fillColor: rowFill,
+                border: [false, borderTop, false, false],
+                borderColor: [null, SLATE_200, null, null],
+                margin: [10, 7, 10, 7],
+            },
+        ]);
 
-    const renderGrid = (nodes: SitemapPageNode[], variant: 'extra' | 'system'): any[] => {
-        const CARD_W = 155;
-        const GAP = 10;
-        const PER_ROW = 3;
-        const rows: any[] = [];
-        for (let i = 0; i < nodes.length; i += PER_ROW) {
-            const chunk = nodes.slice(i, i + PER_ROW);
-            while (chunk.length < PER_ROW) chunk.push(null as any);
-            rows.push({
-                columns: chunk.map((n: SitemapPageNode | null) =>
-                    n
-                        ? { width: CARD_W, stack: [makeCard(n, variant, CARD_W)] }
-                        : { width: CARD_W, text: '' }
-                ),
-                columnGap: GAP,
-                margin: [0, 0, 0, GAP],
-            });
-        }
+        // Section rows
+        node.sections.forEach(s => {
+            rows.push([
+                {
+                    stack: [
+                        { text: s.title, fontSize: 9, color: SLATE_700 },
+                        ...(s.description ? [{ text: s.description, fontSize: 8, color: SLATE_500, margin: [0, 1, 0, 0] }] : []),
+                    ],
+                    border: [false, false, false, false],
+                    margin: [leftPad + 14, 3, 10, 3],
+                },
+                { text: '', border: [false, false, false, false], margin: [0, 3, 10, 3] },
+            ]);
+        });
+
+        // Recurse into children
+        (node.children ?? []).forEach(child => rows.push(...buildTreeRows(child, depth + 1, false)));
         return rows;
     };
 
-    const sectionLabel = (text: string, color: string = C.textLight): any => ({
-        text,
-        fontSize: 7,
-        bold: true,
-        color,
-        margin: [0, 16, 0, 8],
+    // Build table rows for extra / system pages (flat list)
+    const buildPageRows = (pages: SitemapPageNode[], variant: 'extra' | 'system'): any[][] => {
+        const rows: any[][] = [];
+        const hColor = variant === 'system' ? GREEN       : INDIGO_DARK;
+        const hFill  = variant === 'system' ? GREEN_LIGHT : INDIGO_LIGHT;
+        const typeLabel = variant === 'system' ? 'Rendszer oldal' : 'Extra oldal';
+
+        pages.forEach((page, pi) => {
+            rows.push([
+                {
+                    text: [{ text: page.name, bold: true, fontSize: 10, color: hColor }],
+                    fillColor: hFill,
+                    border: [false, pi > 0, false, false],
+                    borderColor: [null, SLATE_200, null, null],
+                    margin: [10, 7, 10, 7],
+                },
+                {
+                    text: typeLabel,
+                    fontSize: 8,
+                    color: SLATE_500,
+                    alignment: 'right',
+                    fillColor: hFill,
+                    border: [false, pi > 0, false, false],
+                    borderColor: [null, SLATE_200, null, null],
+                    margin: [10, 7, 10, 7],
+                },
+            ]);
+
+            page.sections.forEach(s => {
+                rows.push([
+                    {
+                        stack: [
+                            { text: s.title, fontSize: 9, color: SLATE_700 },
+                            ...(s.description ? [{ text: s.description, fontSize: 8, color: SLATE_500, margin: [0, 1, 0, 0] }] : []),
+                        ],
+                        border: [false, false, false, false],
+                        margin: [24, 3, 10, 3],
+                    },
+                    { text: '', border: [false, false, false, false], margin: [0, 3, 10, 3] },
+                ]);
+            });
+        });
+
+        return rows;
+    };
+
+    // Identical table layout to the quote PDF
+    const makeTable = (rows: any[][], headerLeft: string, headerRight: string): any => ({
+        table: {
+            headerRows: 1,
+            widths: ['*', 'auto'],
+            body: [
+                [
+                    { text: headerLeft,  style: 'tableHeader', fillColor: INDIGO },
+                    { text: headerRight, style: 'tableHeader', alignment: 'right', fillColor: INDIGO },
+                ],
+                ...rows,
+            ],
+        },
+        layout: {
+            hLineWidth: (i: number, node: any) => (i === 0 || i === node.table.body.length) ? 0 : 1,
+            vLineWidth: () => 0,
+            hLineColor: () => SLATE_200,
+            paddingTop:    () => 0,
+            paddingBottom: () => 0,
+            paddingLeft:   () => 0,
+            paddingRight:  () => 0,
+        },
+        margin: [0, 10, 0, 0],
     });
 
+    // ── Content ─────────────────────────────────────────────────────────────────
     const content: any[] = [
+        // Client info section — mirrors quote PDF exactly
         {
+            columns: [
+                { width: '50%', text: 'Megrendelő:', style: 'subheader' },
+                { width: '50%', text: 'Site Map Részletei:', style: 'subheader' },
+            ],
+            margin: [0, 25, 0, 5],
+        },
+        {
+            columns: [
+                { width: '50%', text: quoteDetails.clientName || 'Nincs megadva', style: 'clientName' },
+                {
+                    width: '50%',
+                    columns: [
+                        { width: 'auto', text: 'Tárgy:\nKelt:', style: 'detailsLabel' },
+                        { width: '*', text: `${quoteDetails.subject || '-'}\n${formatDate(issueDate)}`, style: 'detailsValue' },
+                    ],
+                },
+            ],
+            columnGap: 20,
+        },
+
+        // Main tree
+        { text: 'Főoldal Struktúra', style: 'sectionHeader', margin: [0, 30, 0, 5] },
+        makeTable(buildTreeRows(root, 0, true), 'Oldal neve', 'Típus'),
+
+        // Extra pages
+        ...(extraPages.length > 0 ? [
+            { text: `Extra Oldalak (${extraPages.length} db)`, style: 'sectionHeader', margin: [0, 20, 0, 5] },
+            makeTable(buildPageRows(extraPages, 'extra'), 'Oldal neve', 'Típus'),
+        ] : []),
+
+        // System pages — green section header
+        { text: 'Rendszer Oldalak — Ingyenes Bónusz', style: 'sectionHeaderGreen', margin: [0, 20, 0, 5] },
+        makeTable(buildPageRows(systemPages, 'system'), 'Oldal neve', 'Típus'),
+
+        // Disclaimer — identical style to quote PDF
+        {
+            text: 'A site map előzetes tervként szolgál és a projekt részleteinek pontosítása után módosulhat. A megvalósítás az elfogadott árajánlat alapján történik.',
+            style: 'disclaimer',
+            margin: [0, 30, 0, 0],
+        },
+    ];
+
+    // ── Doc definition — identical structure to quote PDF ───────────────────────
+    const docDefinition: any = {
+        pageSize: 'A4',
+        pageMargins: [40, 80, 40, 60],
+        header: {
+            margin: [40, 20, 40, 0],
             columns: [
                 {
                     stack: [
-                        { text: 'Vizuális Site Map', fontSize: 15, bold: true, color: C.indigo },
-                        ...(quoteDetails.clientName ? [{ text: quoteDetails.clientName, fontSize: 10, bold: true, color: C.textDark, margin: [0, 2, 0, 0] }] : []),
-                        ...(quoteDetails.subject ? [{ text: quoteDetails.subject, fontSize: 9, color: C.textLight }] : []),
+                        { text: 'Awebes', style: 'companyName' },
+                        { text: 'Webfejlesztés | Digitális Megoldások', style: 'companySubline' },
+                        { text: 'info@awebes.hu | +36 30 421 6462', style: 'companySubline', margin: [0, 4, 0, 0] },
                     ],
+                    width: '*',
                 },
-                { text: formatDate(issueDate), alignment: 'right', fontSize: 9, color: C.textLight },
+                {
+                    width: 'auto',
+                    table: {
+                        body: [[{ text: 'SITE MAP', style: 'documentTitle', alignment: 'center', border: [false, false, false, false] }]],
+                    },
+                    layout: {
+                        defaultBorder: false,
+                        paddingLeft:   () => 20, paddingRight: () => 20,
+                        paddingTop:    () => 6,  paddingBottom: () => 6,
+                    },
+                    fillColor: INDIGO,
+                },
             ],
-            margin: [0, 0, 0, 16],
         },
-        sectionLabel('FŐOLDAL STRUKTÚRA', C.indigo),
-        ...renderTree(root, 0, true),
-        ...(extraPages.length > 0 ? [
-            sectionLabel(`EXTRA OLDALAK (${extraPages.length})`),
-            ...renderGrid(extraPages, 'extra'),
-        ] : []),
-        sectionLabel('RENDSZER OLDALAK — INGYENES BÓNUSZ', C.green),
-        ...renderGrid(systemPages, 'system'),
-    ];
+        footer: (currentPage: number, pageCount: number) => ({
+            columns: [
+                { text: 'Awebes | info@awebes.hu | +36 30 421 6462', alignment: 'left',  style: 'footerText' },
+                { text: `Oldal ${currentPage} / ${pageCount}`,        alignment: 'right', style: 'footerText' },
+            ],
+            margin: [40, 20, 40, 0],
+        }),
+        content,
+        styles: {
+            // Company header — identical to quote PDF
+            companyName:       { fontSize: 18, bold: true, color: SLATE_900 },
+            companySubline:    { fontSize: 10, color: SLATE_500 },
+            documentTitle:     { fontSize: 20, bold: true, color: WHITE },
+            // Content
+            subheader:         { fontSize: 10, bold: true, color: SLATE_500, textTransform: 'uppercase' },
+            clientName:        { fontSize: 14, bold: true, color: SLATE_900 },
+            detailsLabel:      { fontSize: 10, color: SLATE_500, lineHeight: 1.4 },
+            detailsValue:      { fontSize: 10, bold: true,  color: SLATE_700, lineHeight: 1.4 },
+            sectionHeader:     { fontSize: 12, bold: true, color: INDIGO },
+            sectionHeaderGreen:{ fontSize: 12, bold: true, color: GREEN },
+            tableHeader:       { bold: true, fontSize: 11, color: WHITE },
+            disclaimer:        { fontSize: 9, color: SLATE_500, italics: true },
+            footerText:        { fontSize: 9, color: SLATE_500 },
+        },
+        defaultStyle: { font: 'Roboto', fontSize: 10, color: SLATE_700 },
+    };
 
     const sanitized = (quoteDetails.clientName || '').replace(/[^a-z0-9]/gi, '_').toLowerCase();
     const fileName = `Sitemap_${sanitized || 'awebes'}_${formatDate(issueDate).replace(/[\s.]/g, '')}.pdf`;
-
-    pdfMake.createPdf({
-        pageSize: 'A4',
-        pageOrientation: 'landscape',
-        pageMargins: [30, 36, 30, 36],
-        content,
-        defaultStyle: { font: 'Roboto' },
-    }).download(fileName);
+    pdfMake.createPdf(docDefinition).download(fileName);
 };
