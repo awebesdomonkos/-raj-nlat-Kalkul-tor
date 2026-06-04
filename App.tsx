@@ -147,8 +147,12 @@ const App: React.FC = () => {
     // and merge them into history (JARVIS pushes new quotes here via git).
     useEffect(() => {
         fetch('/jarvis-quotes.json')
-            .then(r => r.ok ? r.json() : [])
+            .then(r => {
+                console.log('[JARVIS] jarvis-quotes.json status:', r.status, r.ok);
+                return r.ok ? r.json() : [];
+            })
             .then((serverQuotes: any[]) => {
+                console.log('[JARVIS] server quotes loaded:', serverQuotes.length, serverQuotes.map((q: any) => q.id));
                 if (!serverQuotes.length) return;
                 setQuoteHistory(prev => {
                     const merged = [...prev];
@@ -159,12 +163,14 @@ const App: React.FC = () => {
                             const idx = merged.findIndex(q => q.id === item.id);
                             if (idx === -1) merged.unshift(item);
                             else if (merged[idx].savedAt < item.savedAt) merged[idx] = item;
-                        } catch { /* skip malformed */ }
+                        } catch (e) {
+                            console.warn('[JARVIS] failed to migrate quote:', (raw as any)?.id, e);
+                        }
                     }
                     return merged;
                 });
             })
-            .catch(() => { /* silently ignore if file not found */ });
+            .catch(err => console.error('[JARVIS] failed to load jarvis-quotes.json:', err));
     }, []);
 
     useEffect(() => {
