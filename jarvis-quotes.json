@@ -15,7 +15,7 @@
           {
             "id": "lk-r1",
             "name": "Rólunk",
-            "description": "A cég bemutatkozása, értékek, személyes bemutatkozás",
+            "description": "A cég bemutatkozása, értékek, személyes bemutatkozás — kitűnési lehetőség, ahol a versenytársak névtelenül működnek",
             "price": 35000
           }
         ],
@@ -23,7 +23,7 @@
           {
             "id": "lk-k1",
             "name": "Kapcsolat",
-            "description": "Kapcsolati adatok, visszahívás, Google Maps, kapcsolati űrlap",
+            "description": "Kapcsolati adatok, visszahívás kérés, Google Maps, kapcsolati űrlap — lead gen alap, a telefonszám az elsődleges konverziós pont",
             "price": 35000
           }
         ],
@@ -31,7 +31,7 @@
           {
             "id": "lk-g1",
             "name": "GYIK",
-            "description": "Leggyakoribb kérdések sittszállítással és lomtalanítással kapcsolatban",
+            "description": "Leggyakoribb kérdések sittszállítással, lomtalanítással és zöldhulladékkal kapcsolatban — szinte egyetlen versenytársnál sincs, SEO arany",
             "price": 25000
           }
         ]
@@ -48,56 +48,20 @@
       },
       "editablePackageContents": {
         "pages": [
-          {
-            "text": "Főoldal",
-            "isNew": false
-          }
+          { "text": "Főoldal", "isNew": false }
         ],
         "features": [
-          {
-            "text": "Menü beállítás",
-            "isNew": false
-          },
-          {
-            "text": "CMS rendszer konfigurálás",
-            "isNew": false
-          },
-          {
-            "text": "Cookie bar beállítása (GDPR)",
-            "isNew": false
-          },
-          {
-            "text": "Alap SEO beállítások",
-            "isNew": false
-          },
-          {
-            "text": "Prémium Bricks Builder licence (Lifetime)",
-            "isNew": false
-          },
-          {
-            "text": "Webbiztonsági plugin beállítása",
-            "isNew": false
-          },
-          {
-            "text": "Reszponzív megjelenés (mobile-first)",
-            "isNew": false
-          },
-          {
-            "text": "SMTP beállítás",
-            "isNew": false
-          },
-          {
-            "text": "Kapcsolati űrlap",
-            "isNew": false
-          },
-          {
-            "text": "Google Analytics integrálása",
-            "isNew": false
-          },
-          {
-            "text": "Google Search Console – XML Sitemap",
-            "isNew": false
-          }
+          { "text": "Menü beállítás", "isNew": false },
+          { "text": "CMS rendszer konfigurálás", "isNew": false },
+          { "text": "Cookie bar beállítása (GDPR)", "isNew": false },
+          { "text": "Alap SEO beállítások", "isNew": false },
+          { "text": "Prémium Bricks Builder licence (Lifetime)", "isNew": false },
+          { "text": "Webbiztonsági plugin beállítása", "isNew": false },
+          { "text": "Reszponzív megjelenés (mobile-first)", "isNew": false },
+          { "text": "SMTP beállítás", "isNew": false },
+          { "text": "Kapcsolati űrlap", "isNew": false },
+          { "text": "Google Analytics integrálása", "isNew": false },
+          { "text": "Google Search Console – XML Sitemap", "isNew": false }
         ]
       },
       "selectedPlanId": null,
@@ -106,6 +70,6 @@
       "status": "vazlat",
       "discountPercentage": 0
     },
-    "researchContent": "# Iparági Research — Lakatos Károly weboldal\n**Dátum:** 2026-06-04 | **Készítette:** JARVIS | **Forrás:** Élő versenytárs-analízis\n\n---\n\n## Elemzett versenytársak\n\n| Oldal | Fókusz |\n|---|---|\n| sittszallitas.hu | Sittszállítás + lomtalanítás, konténer nélkül |\n| sitt.hu | Sitt + lom elszállítás, Bp + Pest m. |\n| lomtalanitas.co.hu | Lomtalanítás, lakáskiürítés, Budapest |\n| ticitransport.hu | Sittszállítás, komplex hulladék |\n| kipakoljuk.hu | Lakáskiürítés, lomtalanítás |\n\n---\n\n## Kulcsmegfigyelések\n\n### 1. CTA — Minden versenytársnál ugyanaz a minta\n- **Domináns CTA:** Telefonszám — hatalmas méretben, oldalon többször, „Hívjon minket akár azonnal!"\n- **Másodlagos CTA:** „Ingyenes ajánlatkérés" / „Ajánlatkérés" gomb\n- **Ami hiányzik a konkurenseknél:** Online foglalás, azonnali árkalkulátor → **lehetőség!**\n\n### 2. Differenciáló üzenetek — amik bevált szövegek ebben az iparágban\n- „Konténer nélkül" → nincs parkolási probléma, belső kerületek is megoldhatók\n- „Rejtett költségek nélkül" (ticitransport.hu)\n- „Munkáinkra GARANCIÁT vállalunk"\n- „Ingyenes ajánlat" + „Azonnali időpont"\n- „Akár aznap" (kipakoljuk.hu) → sürgősség, gyorsaság hangsúlya\n- „Számlaképesség" → fontos trust signal (adóalany ügyfelek is igényelhetik)\n\n### 3. Trust signalok — amik megjelennek\n- ✅ Garancia-nyilatkozat\n- ✅ Számlaképesség kiemelése\n- ✅ Területi lehatárolás: „Budapest + Pest megye/vármegye" → lokális bizalom\n- ✅ Azonnali telefonos elérhetőség\n- ❌ **Ami HIÁNYZIK a konkurenseknél:** valódi ügyfélvélemények, projekt fotók, csapatbemutató\n\n### 4. Oldalstruktúra — közös minta\nSzinte minden versenytársnál:\n1. **Hero** — főcím + azonnali telefonszám + CTA gomb\n2. **Szolgáltatások** — ikonokkal, rövid leírással\n3. **Miért minket** — 3-4 pont (gyors, megbízható, garancia, fix ár)\n4. **Területlehatárolás** — Budapest + Pest megye\n5. **Kapcsolat / Ajánlatkérés** — form vagy telefon\n6. **Footer** — elérhetőség, GDPR linkek\n\n**Ami hiányzik szinte mindenhol:**\n- Dedikált GYIK oldal\n- Testimonialok szekció\n- Részletes szolgáltatásonkénti aloldal\n- Blog / SEO tartalom\n\n### 5. SEO megfigyelések\n**Kulcskifejezések amikre a versenytársak optimalizálnak:**\n- „sittszállítás Budapest"\n- „lomtalanítás Budapest"\n- „garázskiürítés"\n- „konténer nélkül" + helyszín\n- „lakáskiürítés Pest megye"\n- „[szolgáltatás] akár aznap"\n\n**Lakatos Károly esetén célzott kulcsszavak:**\n- „sittszállítás [város]"\n- „lomtalanítás [város]"\n- „zöldhulladék elszállítás [város]"\n- „garázskiürítés magánszemélyeknek"\n- „költöztetés + lom elszállítás"\n\n### 6. Lakatos Károly egyedi erőssége a piacon\n> ⭐ **A legfontosabb megállapítás:** A legtöbb versenytárs CSAK sittszállítással + lomtalanítással foglalkozik. Lakatos Károly ennél TÖBBET kínál:\n\n| Szolgáltatás | Versenytársak | Lakatos Károly |\n|---|---|---|\n| Sittszállítás | ✅ | ✅ |\n| Lomtalanítás / Garázskiürítés | ✅ | ✅ |\n| Zöldhulladék elszállítása | ⚠️ ritkán | ✅ |\n| **Költöztetés** | ❌ szinte soha | ✅ |\n\n→ **A „mindent elviszünk" pozicionálás** egyedi és erős differenciátor!\n\n---\n\n## Design irány — iparági sztenderd vs. javasolt\n\n| | Iparági sztenderd | Javasolt Lakatos Károlynak |\n|---|---|---|\n| **Szín** | Kék-fehér, szürke | Sötétszürke + narancssárga (energia, megbízhatóság) |\n| **Hangvétel** | Funkcionális, száraz | Barátságos + megbízható (magánszemélyeknek!) |\n| **Tipográfia** | Vegyes, sokszor régi | Modern sans-serif, erős hierarchia |\n| **Képek** | Kevés, stock fotó | Stock fotó (nincs saját) — jó minőségű, munkás témájú |\n| **Mobil** | Sok régi, nem optimalizált | Mobile-first (célközönség mobilon keres!) |\n\n---\n\n## Lehetőségek — amivel kitűnhet Lakatos Károly\n\n1. **„Mindent elviszünk" üzenet** — az egyetlen, aki sitt + lom + zöld + költöztetés egyben\n2. **Barátságos hangvétel** — a versenytársak szárazak, ő emberközelibb lehet\n3. **Jobb vizuális megjelenés** — a piacon sok az elavult oldal\n4. **GYIK oldal** — szinte senkinek nincs, de az ügyfelek keresik\n5. **Telefonszám + azonnali visszahívás ígéret** (pl. „30 percen belül visszahívjuk")\n\n---\n\n## Ajánlott oldalstruktúra a research alapján\n\nFőoldal:\n- Hero: „Mindent elviszünk – sittszállítástól a költöztetésig"\n  - CTA: Telefonszám + „Ingyenes ajánlatot kérek"\n- Szolgáltatások (4 kártya ikonnal)\n- Miért minket? (4 pont: gyors, garanciás, számlaképes, fix ár)\n- Területlehatárolás (Budapest + vonzáskörzet)\n- Ügyfélvélemények (2-3 db placeholder)\n- CTA szekció: „Hívjon most!"\n\nRólunk (/rolunk)\nKapcsolat (/kapcsolat)\nGYIK (/gyik)\n\n---\n\n## Összefoglaló — Mire figyeljen a design és szövegírás\n\n- **Mobil-first** — a célközönség Googlen keres, mobilon\n- **Telefon = elsődleges CTA** minden oldalon, scrollozás nélkül látható\n- **Gyorsaság és garancia** — ez a két legfontosabb üzenet\n- **„Mindent elviszünk" pozicionálás** — ez a legfőbb differenciátor\n- **Nincs kép** → jó minőségű stock fotók (teherautó, munka közben, kiürített garázs)\n- **SEO:** lokális kulcsszavak a service területhez igazítva"
+    "researchContent": "# Iparági Research — Lakatos Károly weboldal\n**Dátum:** 2026-06-04 | **Készítette:** JARVIS | **Forrás:** Élő versenytárs-analízis\n\n---\n\n## Elemzett versenytársak\n\n| Oldal | Fókusz | Megfigyelés |\n|---|---|---|\n| sitt-elszallitas.hu | Sittszállítás + lomtalanítás | „Több mint 10 éve a szakmában" — tapasztalat kiemelve |\n| lomtalanitas.co.hu | Lomtalanítás, lakáskiürítés, sittszállítás | Telefonszám hero-ban óriási méretben |\n| zoldhulladekelszallitas.hu | Zöldhulladék — 5000 Ft/m³ | Tisztán áralapú pozicionálás |\n| zoldhulladekfuvar.hu | Zöldhulladék — Fix 2990 Ft/m³ | Személyes megközelítés (diszpécser neve kiemelve) |\n| zoldhulladek-szallitas.hu | Zöldhulladék + kertgondozás | Szélesebb kínálat, kevésbé fókuszált |\n\n---\n\n## Kulcsmegfigyelések\n\n### 1. CTA — Minden versenytársnál ugyanaz a minta\n- **Domináns CTA:** Telefonszám — hatalmas méretben, hero-ban, mobilon kattintható\n- **Másodlagos CTA:** „Ingyenes ajánlatkérés" / kapcsolati form\n- **Ami hiányzik a konkurenseknél:** Online időpontfoglalás, árkalkulátor → **lehetőség**\n\n### 2. Árazási stratégiák\n- Zöldhulladék piacon **ár-háború** zajlik: 2990–5000 Ft/m³ fix ajánlatok\n- Sittszállítás + lomtalanítás területen értékalapú üzenettel lehet kitűnni\n- Lakatos Károly előnye: kombinált szolgáltatás magasabb értéket képvisel\n\n### 3. Trust signalok — amik megjelennek\n- ✅ Tapasztalat évszáma: „10+ éve a szakmában"\n- ✅ Személyes diszpécser neve kiemelve → **bizalom építő**\n- ✅ Telefonos elérhetőség azonnal látható\n- ❌ **Ami HIÁNYZIK:** valódi ügyfélvélemények, garancia-nyilatkozat, számlaképesség kiemelése\n\n### 4. Oldalstruktúra — közös minta\nSzinte minden versenytársnál:\n1. **Hero** — főcím + telefonszám + CTA gomb\n2. **Szolgáltatások** — ikonokkal, rövid leírással\n3. **Miért minket?** — 3-4 érv\n4. **Területlehatárolás** — Budapest + vonzáskörzet\n5. **Kapcsolat** — form vagy telefon\n6. **Footer** — elérhetőség, GDPR\n\n**Ami hiányzik szinte mindenhol:**\n- Dedikált GYIK oldal\n- Ügyfélvélemények szekció\n- Rólunk / csapatbemutató\n- Blog / SEO tartalom\n\n### 5. SEO kulcsszavak\n**Magas forgalmú:**\n- „sittszállítás Budapest"\n- „lomtalanítás Budapest"\n- „garázskiürítés Budapest"\n- „zöldhulladék elszállítás Budapest"\n\n**Long-tail Lakatos Károlynak:**\n- „sittszállítás [kerület/város]"\n- „garázskiürítés magánszemélyeknek"\n- „költöztetés + lomtalanítás egy helyen"\n- „mindent elviszünk Budapest"\n\n### 6. Lakatos Károly egyedi erőssége\n\n> ⭐ **A legfontosabb megállapítás:** A versenytársak SPECIALISTÁK — vagy sittszállítás, VAGY zöldhulladék, VAGY lomtalanítás. Lakatos Károly MIND A NÉGYET kínálja egyszerre.\n\n| Szolgáltatás | Versenytársak | Lakatos Károly |\n|---|---|---|\n| Sittszállítás | ✅ sokan | ✅ |\n| Lomtalanítás / Garázskiürítés | ✅ sokan | ✅ |\n| Zöldhulladék elszállítása | ✅ (de külön cégek!) | ✅ |\n| **Költöztetés** | ❌ szinte soha | ✅ |\n| **Mind a 4 egyben** | ❌ senki | ✅ |\n\n→ **„Mindent elviszünk" pozicionálás** — ezt senki más nem tudja másolni!\n\n---\n\n## Design irány\n\n| | Iparági sztenderd | Javasolt Lakatos Károlynak |\n|---|---|---|\n| **Szín** | Kék-fehér, szürke, zöld | Sötétszürke + narancssárga (erő, energia) |\n| **Hangvétel** | Száraz, ár-fókuszú | Barátságos + megbízható |\n| **Mobil** | Sok régi, nem optimalizált | Mobile-first kötelező |\n\n---\n\n## Lehetőségek\n\n1. **„Mindent elviszünk"** — egyedi pozicionálás, senki más nem kombinálja\n2. **Személyes megközelítés** — névvel, arccal kitűnni a névtelen versenytársak közül\n3. **GYIK oldal** — szinte senkinek nincs → SEO arany\n4. **Ügyfélvélemények** — senkinél sincs rendesen → azonnal kitűnik\n5. **Jobb vizuális megjelenés** — a piacon sok az elavult oldal\n6. **Számlaképesség kiemelése** — fontos B2C trust signal\n\n---\n\n## Összefoglaló\n\n- **Mobile-first kötelező** — célközönség Googlen, mobilon keres\n- **Telefon = elsődleges CTA** — minden oldalon scrollozás nélkül látható\n- **Ár-háborúba NEM szállunk be** — értéket adunk el, nem m³-t\n- **„Mindent elviszünk"** — ez a legfőbb differenciátor\n- **SEO:** lokális kulcsszavak + GYIK oldal = SEO aranya"
   }
 ]
