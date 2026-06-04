@@ -15,7 +15,7 @@ import Notification from './components/Notification';
 import ContinuousMaintenanceSelector from './components/ContinuousMaintenanceSelector';
 import EliteExtensions from './components/EliteExtensions';
 import HistoryModal from './components/HistoryModal';
-import { generateQuotePDF, PdfQuoteData } from './pdfGenerator';
+import { generateQuotePDF, generateSitemapPDF, PdfQuoteData } from './pdfGenerator';
 import RestoreNotification from './components/RestoreNotification';
 import SitemapView from './components/SitemapView';
 
@@ -730,6 +730,21 @@ const App: React.FC = () => {
 
     }, [quoteHistory, showNotification]);
 
+    const handleDownloadSitemapPdf = useCallback((id: string) => {
+        const item = quoteHistory.find(q => q.id === id);
+        if (!item) { showNotification("Hiba: Az ajánlat nem található."); return; }
+        const { state } = item;
+        if (!state.selectedPackageId) { showNotification("Hiba: Érvénytelen ajánlat."); return; }
+        generateSitemapPDF(
+            state.selectedPackageId,
+            state.selectedExtras,
+            state.customInstances,
+            state.quoteDetails,
+            new Date(item.savedAt)
+        );
+        showNotification(`"${id}" Site Map PDF generálva.`);
+    }, [quoteHistory, showNotification]);
+
     const handleRestoreSession = useCallback(() => {
         if (!sessionToRestore) return;
     
@@ -1004,6 +1019,7 @@ const App: React.FC = () => {
                 onLoad={handleLoadQuote}
                 onDelete={handleDeleteQuote}
                 onDownloadPdf={handleDownloadQuotePdf}
+                onDownloadSitemapPdf={handleDownloadSitemapPdf}
                 onDuplicate={handleDuplicateQuote}
                 onStatusChange={handleStatusChange}
             />
