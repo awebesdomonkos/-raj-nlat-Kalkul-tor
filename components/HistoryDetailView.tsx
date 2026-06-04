@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { QuoteHistoryItem, PackageId, PriceType, QuoteStatus, FigmaPhaseStatus, ClientNotes } from '../types';
+import { QuoteHistoryItem, PackageId, PriceType, QuoteStatus, FigmaPhaseStatus, ClientNotes, PexelsPhoto } from '../types';
 import { BASE_PACKAGES, EXTRAS, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from '../constants';
 import { ArrowLeftIcon, PdfIcon, SitemapIcon, ResearchDocIcon } from './icons';
 import SitemapView from './SitemapView';
@@ -405,6 +405,36 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
                 <div className="text-slate-300 text-sm leading-relaxed whitespace-pre-wrap font-mono">
                   {item.figmaDesignBrief}
                 </div>
+              </div>
+            )}
+
+            {/* Pexels stock photos */}
+            {item.figmaPhotos && item.figmaPhotos.length > 0 && (
+              <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5">
+                <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-3">
+                  📷 Stock fotók — Pexels ({item.figmaPhotos.length} db)
+                </p>
+                <div className="grid grid-cols-3 gap-2">
+                  {item.figmaPhotos.map((photo: PexelsPhoto, i: number) => (
+                    <a
+                      key={i}
+                      href={photo.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative block rounded-lg overflow-hidden aspect-video bg-slate-800"
+                    >
+                      <img
+                        src={photo.url}
+                        alt={photo.alt}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-200 flex items-end p-1.5 opacity-0 group-hover:opacity-100">
+                        <span className="text-white text-xs truncate">© {photo.photographer}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+                <p className="text-slate-500 text-xs mt-2">Kattints a képre a teljes méretű verzióhoz · Pexels licensz</p>
               </div>
             )}
 

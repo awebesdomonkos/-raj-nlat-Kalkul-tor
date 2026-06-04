@@ -1,6 +1,6 @@
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { PackageId, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, MaintenancePlan, EliteExtension, QuoteState, QuoteHistoryItem, QuoteStatus, ClientNotes, FigmaPhaseStatus } from './types';
+import { PackageId, Extra, PriceType, CustomInstance, EditableContentItem, QuoteDetailsType, MaintenancePlan, EliteExtension, QuoteState, QuoteHistoryItem, QuoteStatus, ClientNotes, FigmaPhaseStatus, PexelsPhoto } from './types';
 import { BASE_PACKAGES, EXTRAS, BONUS_PAGES, PACKAGE_FEATURES, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from './constants';
 import PackageSelector from './components/PackageSelector';
 import ExtrasAccordion from './components/ExtrasAccordion';
@@ -772,7 +772,7 @@ const App: React.FC = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
-            const data = await resp.json() as { success: boolean; figmaFileUrl?: string; designBrief?: string; error?: string };
+            const data = await resp.json() as { success: boolean; figmaFileUrl?: string; designBrief?: string; photos?: PexelsPhoto[]; error?: string };
 
             if (data.success) {
                 setQuoteHistory(prev => {
@@ -781,6 +781,7 @@ const App: React.FC = () => {
                         figmaPhase: 'figma_done' as FigmaPhaseStatus,
                         ...(data.figmaFileUrl ? { figmaFileUrl: data.figmaFileUrl } : {}),
                         ...(data.designBrief ? { figmaDesignBrief: data.designBrief } : {}),
+                        ...(data.photos?.length ? { figmaPhotos: data.photos } : {}),
                     });
                     saveHistoryUpdate(updated, `"${quoteId}" Figma terv kész! ${data.figmaFileUrl ? 'Fájl létrehozva.' : 'Brief elkészítve.'}`);
                     return updated;

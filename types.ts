@@ -150,6 +150,12 @@ export interface ClientNotes {
     submittedAt: number;
 }
 
+export interface PexelsPhoto {
+  url: string;
+  photographer: string;
+  alt: string;
+}
+
 export type FigmaPhaseStatus =
     | 'not_started'
     | 'brief_ready'      // notes saved, waiting for JARVIS to start
@@ -171,4 +177,5 @@ export interface QuoteHistoryItem {
     figmaFileUrl?: string; // Figma file URL
     figmaBriefPath?: string; // local path to Figma_Brief.md
     figmaDesignBrief?: string; // AI-generated design brief (markdown)
+    figmaPhotos?: PexelsPhoto[]; // Pexels stock photos for the design
 }
