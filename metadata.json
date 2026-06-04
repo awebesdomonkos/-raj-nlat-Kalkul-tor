@@ -1,0 +1,8 @@
+{
+  "name": "Árajánlat Kalkulátor",
+  "description": "Egy interaktív webalkalmazás, amely segít az ügyfeleknek személyre szabott árajánlatot készíteni webfejlesztési projektekhez a rendelkezésre álló csomagok és extrák alapján.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": []
+}
