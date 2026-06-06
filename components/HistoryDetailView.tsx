@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QuoteHistoryItem, PackageId, PriceType, QuoteStatus, FigmaPhaseStatus, ClientNotes, PexelsPhoto } from '../types';
 import { BASE_PACKAGES, EXTRAS, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from '../constants';
 import { ArrowLeftIcon, PdfIcon, SitemapIcon, ResearchDocIcon } from './icons';
@@ -77,6 +77,17 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
   const [activeTab, setActiveTab] = useState<Tab>('quote');
   const [isResearchModalOpen, setIsResearchModalOpen] = useState(false);
   const { state } = item;
+
+  useEffect(() => {
+    if (activeTab !== 'research' || item.researchContent) return;
+    fetch(`/research.json?v=${Date.now()}`, { cache: 'no-store' })
+      .then(r => r.ok ? r.json() : {})
+      .then((researchMap: Record<string, string>) => {
+        const content = researchMap[item.id] ?? researchMap[state.quoteDetails.quoteId ?? ''];
+        if (content) onUpdateResearch(item.id, content);
+      })
+      .catch(() => {});
+  }, [activeTab, item.id, item.researchContent]);
   const pkg = BASE_PACKAGES.find(p => p.id === state.selectedPackageId) ?? null;
   const hasSitemap = !isMaintenance(state.selectedPackageId);
   const hasResearch = !!item.researchContent;
