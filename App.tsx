@@ -184,7 +184,7 @@ const App: React.FC = () => {
     // On mount: fetch JARVIS-generated research documents and inject into matching quotes.
     // JARVIS writes to public/research.json and pushes — Vercel deploys automatically.
     useEffect(() => {
-        fetch('/research.json')
+        fetch('/research.json', { cache: 'no-store' })
             .then(r => r.ok ? r.json() : {})
             .then((researchMap: Record<string, string>) => {
                 const entries = Object.entries(researchMap);
