@@ -152,7 +152,7 @@ const App: React.FC = () => {
     // and merge them into history (JARVIS pushes new quotes here via git).
     // Respects 'deletedJarvisIds' in localStorage so user-deleted entries stay deleted.
     useEffect(() => {
-        fetch('/jarvis-quotes.json')
+        fetch(`/jarvis-quotes.json?v=${Date.now()}`)
             .then(r => {
                 console.log('[JARVIS] jarvis-quotes.json status:', r.status, r.ok);
                 return r.ok ? r.json() : [];
@@ -184,13 +184,19 @@ const App: React.FC = () => {
     // On mount: fetch JARVIS-generated research documents and inject into matching quotes.
     // JARVIS writes to public/research.json and pushes — Vercel deploys automatically.
     useEffect(() => {
-        fetch('/research.json', { cache: 'no-store' })
+        fetch(`/research.json?v=${Date.now()}`, { cache: 'no-store' })
             .then(r => r.ok ? r.json() : {})
             .then((researchMap: Record<string, string>) => {
                 const entries = Object.entries(researchMap);
                 if (!entries.length) return;
                 setQuoteHistory(prev => {
-                    const updated = prev.map(item => {
+                    const base = prev.length > 0 ? prev : (() => {
+                        try {
+                            const stored = localStorage.getItem('quoteHistory');
+                            return stored ? migrateQuoteHistory(JSON.parse(stored)) : [];
+                        } catch { return []; }
+                    })();
+                    const updated = base.map((item: QuoteHistoryItem) => {
                         const content = researchMap[item.id];
                         return content ? { ...item, researchContent: content } : item;
                     });
