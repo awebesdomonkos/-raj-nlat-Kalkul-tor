@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
-import { QuoteHistoryItem, QuoteStatus, PackageId, FigmaPhaseStatus } from '../types';
+import { QuoteHistoryItem, QuoteStatus, PackageId, FigmaPhaseStatus, PriceType } from '../types';
 import { HistoryIcon, XIcon, SearchIcon, TrashIcon, DuplicateIcon, PdfIcon, SitemapIcon, EyeIcon } from './icons';
-import { BASE_PACKAGES } from '../constants';
+import { BASE_PACKAGES, EXTRAS } from '../constants';
 import HistoryDetailView from './HistoryDetailView';
 
 interface HistoryModalProps {
@@ -125,11 +125,12 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                                                 Object.values(item.state.customInstances ?? {}).forEach(instances => {
                                                     (instances as any[]).forEach(i => { t += i.price ?? 0; });
                                                 });
-                                                Object.entries(item.state.selectedExtras ?? {}).forEach(([id, sel]) => {
-                                                    if (!sel) return;
-                                                    const extra = (item.state as any).customPrices?.[id];
-                                                    if (extra) t += extra;
+                                                EXTRAS.filter(e => item.state.selectedExtras?.[e.id]).forEach(extra => {
+                                                    if (extra.isInstantiable) return;
+                                                    const price = item.state.customPrices?.[extra.id] ?? (extra.type === PriceType.HOURLY ? 0 : extra.price);
+                                                    t += price;
                                                 });
+                                                (item.state.customSections ?? []).forEach((s: any) => { t += s.price ?? 0; });
                                                 t *= (item.state.quoteDetails?.priorityMultiplier ?? 1);
                                                 const disc = item.state.discountPercentage ?? 0;
                                                 if (disc > 0) t = t * (1 - disc / 100);

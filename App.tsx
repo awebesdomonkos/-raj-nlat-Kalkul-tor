@@ -150,6 +150,7 @@ const App: React.FC = () => {
 
     // On mount: fetch JARVIS-generated quotes from the server-side JSON
     // and merge them into history (JARVIS pushes new quotes here via git).
+    // Respects 'deletedJarvisIds' in localStorage so user-deleted entries stay deleted.
     useEffect(() => {
         fetch('/jarvis-quotes.json')
             .then(r => {
@@ -159,9 +160,11 @@ const App: React.FC = () => {
             .then((serverQuotes: any[]) => {
                 console.log('[JARVIS] server quotes loaded:', serverQuotes.length, serverQuotes.map((q: any) => q.id));
                 if (!serverQuotes.length) return;
+                const deletedIds: string[] = JSON.parse(localStorage.getItem('deletedJarvisIds') || '[]');
                 setQuoteHistory(prev => {
                     const merged = [...prev];
                     for (const raw of serverQuotes) {
+                        if (deletedIds.includes(raw.id)) continue;
                         try {
                             const migratedState = migrateQuoteState(raw.state);
                             const item: QuoteHistoryItem = { ...raw, state: migratedState };
@@ -593,17 +596,28 @@ const App: React.FC = () => {
     }, [quoteHistory, showNotification, clearUnsavedSession]);
 
     const handleDeleteQuote = useCallback((id: string) => {
-        setQuoteHistory(prevHistory => {
-            const updatedHistory = prevHistory.filter(item => item.id !== id);
-             try {
-                localStorage.setItem('quoteHistory', JSON.stringify(updatedHistory));
-                showNotification(`"${id}" azonosítójú ajánlat törölve.`);
-            } catch (e) {
-                console.error("Failed to update quote history in localStorage", e);
-                showNotification("Hiba történt a törlés során.");
+        // Pure state update — no side effects inside updater
+        setQuoteHistory(prev => prev.filter(item => item.id !== id));
+
+        // Persist filtered history
+        try {
+            const stored: QuoteHistoryItem[] = JSON.parse(localStorage.getItem('quoteHistory') || '[]');
+            localStorage.setItem('quoteHistory', JSON.stringify(stored.filter(item => item.id !== id)));
+        } catch (e) {
+            console.error("Failed to save quoteHistory after delete:", e);
+        }
+
+        // Always mark as deleted so JARVIS JSON merge skips it on reload
+        try {
+            const deleted: string[] = JSON.parse(localStorage.getItem('deletedJarvisIds') || '[]');
+            if (!deleted.includes(id)) {
+                localStorage.setItem('deletedJarvisIds', JSON.stringify([...deleted, id]));
             }
-            return updatedHistory;
-        });
+        } catch (e) {
+            console.error("Failed to update deletedJarvisIds:", e);
+        }
+
+        showNotification(`"${id}" azonosítójú ajánlat törölve.`);
     }, [showNotification]);
 
     const handleDuplicateQuote = useCallback((id: string) => {
