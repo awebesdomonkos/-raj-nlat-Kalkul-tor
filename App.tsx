@@ -202,7 +202,7 @@ const App: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        const STORAGE_WIPE_VERSION = 'wipe_v1';
+        const STORAGE_WIPE_VERSION = 'wipe_v2';
         if (localStorage.getItem('storageWipeVersion') !== STORAGE_WIPE_VERSION) {
             localStorage.removeItem('quoteHistory');
             localStorage.removeItem('unsavedQuoteSession');
