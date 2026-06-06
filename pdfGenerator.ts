@@ -181,8 +181,9 @@ export const generateQuotePDF = (data: PdfQuoteData) => {
 
     // Add Custom Sections
     if (customSections.length > 0) {
+        const sectionsLabel = selectedPackage.id === PackageId.LANDING ? 'Landing Oldal Szekciók' : 'Funkciók és Kiegészítők';
         tableBody.push([
-            { text: 'Landing Oldal Szekciók', style: 'categoryHeader', colSpan: 2, alignment: 'left', fillColor: '#f1f5f9', border: [false, true, false, false] },
+            { text: sectionsLabel, style: 'categoryHeader', colSpan: 2, alignment: 'left', fillColor: '#f1f5f9', border: [false, true, false, false] },
             {}
         ]);
         customSections.forEach(section => {
