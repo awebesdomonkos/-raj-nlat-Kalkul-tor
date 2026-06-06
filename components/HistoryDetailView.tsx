@@ -5,6 +5,7 @@ import { BASE_PACKAGES, EXTRAS, MAINTENANCE_PLANS, ELITE_EXTENSIONS } from '../c
 import { ArrowLeftIcon, PdfIcon, SitemapIcon, ResearchDocIcon } from './icons';
 import SitemapView from './SitemapView';
 import ResearchView from './ResearchView';
+import ResearchUploadModal from './ResearchUploadModal';
 import { generateResearchPDF } from '../pdfGenerator';
 import { addCalendarDays } from '../utils';
 
@@ -15,6 +16,7 @@ interface HistoryDetailViewProps {
   onDownloadSitemapPdf: (id: string) => void;
   onFigmaApproval: (id: string) => void;
   onUpdateFigmaPhase: (id: string, phase: FigmaPhaseStatus, figmaFileUrl?: string) => void;
+  onUpdateResearch: (id: string, content: string) => void;
 }
 
 type Tab = 'quote' | 'sitemap' | 'research' | 'figma';
@@ -70,9 +72,10 @@ const ClientNotesDisplay: React.FC<{ notes: ClientNotes; title: string }> = ({ n
 );
 
 const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
-  item, onBack, onDownloadQuotePdf, onDownloadSitemapPdf, onFigmaApproval, onUpdateFigmaPhase,
+  item, onBack, onDownloadQuotePdf, onDownloadSitemapPdf, onFigmaApproval, onUpdateFigmaPhase, onUpdateResearch,
 }) => {
   const [activeTab, setActiveTab] = useState<Tab>('quote');
+  const [isResearchModalOpen, setIsResearchModalOpen] = useState(false);
   const { state } = item;
   const pkg = BASE_PACKAGES.find(p => p.id === state.selectedPackageId) ?? null;
   const hasSitemap = !isMaintenance(state.selectedPackageId);
@@ -135,7 +138,7 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
   const tabs: { id: Tab; label: string; icon: React.ReactNode }[] = [
     { id: 'quote', label: 'Árajánlat', icon: <PdfIcon /> },
     ...(hasSitemap ? [{ id: 'sitemap' as Tab, label: 'Site Map', icon: <SitemapIcon /> }] : []),
-    ...(hasResearch ? [{ id: 'research' as Tab, label: 'Research', icon: <ResearchDocIcon /> }] : []),
+    { id: 'research' as Tab, label: 'Research', icon: <ResearchDocIcon /> },
     ...(showFigmaTab ? [{ id: 'figma' as Tab, label: 'Figma', icon: (
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
@@ -331,23 +334,63 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
         )}
 
         {/* ── RESEARCH TAB ── */}
-        {activeTab === 'research' && item.researchContent && (
+        {activeTab === 'research' && (
           <div className="p-6 space-y-4">
-            <ResearchView content={item.researchContent} />
-            <button
-              onClick={() => generateResearchPDF(
-                item.researchContent!,
-                item.clientName,
-                item.id,
-                new Date(item.savedAt)
-              )}
-              className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors"
-            >
-              <ResearchDocIcon />
-              Research PDF letöltése
-            </button>
+            {hasResearch ? (
+              <>
+                <ResearchView content={item.researchContent!} />
+                <div className="flex gap-3 flex-wrap">
+                  <button
+                    onClick={() => generateResearchPDF(
+                      item.researchContent!,
+                      item.clientName,
+                      item.id,
+                      new Date(item.savedAt)
+                    )}
+                    className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                  >
+                    <ResearchDocIcon />
+                    Research PDF letöltése
+                  </button>
+                  <button
+                    onClick={() => setIsResearchModalOpen(true)}
+                    className="flex items-center gap-2 px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-sm font-semibold transition-colors"
+                  >
+                    ✏️ Szerkesztés
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
+                <div className="w-14 h-14 rounded-full bg-indigo-500/10 flex items-center justify-center">
+                  <ResearchDocIcon />
+                </div>
+                <div>
+                  <p className="text-slate-300 font-semibold">Nincs még research dokumentum</p>
+                  <p className="text-slate-500 text-sm mt-1">Töltsd fel a JARVIS által generált piacelemzést</p>
+                </div>
+                <button
+                  onClick={() => setIsResearchModalOpen(true)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm font-semibold transition-colors"
+                >
+                  📋 Research hozzáadása
+                </button>
+              </div>
+            )}
           </div>
         )}
+
+        <ResearchUploadModal
+          isOpen={isResearchModalOpen}
+          clientName={item.clientName}
+          quoteId={item.id}
+          existingContent={item.researchContent ?? ''}
+          onSave={(content) => {
+            onUpdateResearch(item.id, content);
+            setIsResearchModalOpen(false);
+          }}
+          onCancel={() => setIsResearchModalOpen(false)}
+        />
 
         {/* ── FIGMA TAB ── */}
         {activeTab === 'figma' && (

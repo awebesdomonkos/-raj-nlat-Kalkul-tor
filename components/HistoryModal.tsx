@@ -17,6 +17,7 @@ interface HistoryModalProps {
     onStatusChange: (id: string, status: QuoteStatus) => void;
     onFigmaApproval: (id: string) => void;
     onUpdateFigmaPhase: (id: string, phase: FigmaPhaseStatus, figmaFileUrl?: string) => void;
+    onUpdateResearch: (id: string, content: string) => void;
 }
 
 const statusConfig: Record<QuoteStatus, { text: string; color: string; ring: string }> = {
@@ -35,7 +36,7 @@ const formatCurrency = (amount: number) =>
 const HistoryModal: React.FC<HistoryModalProps> = ({
     isOpen, onClose, history, onLoad, onDelete,
     onDownloadPdf, onDownloadSitemapPdf, onDuplicate, onStatusChange,
-    onFigmaApproval, onUpdateFigmaPhase,
+    onFigmaApproval, onUpdateFigmaPhase, onUpdateResearch,
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [detailItemId, setDetailItemId] = useState<string | null>(null);
@@ -78,6 +79,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                         onDownloadSitemapPdf={onDownloadSitemapPdf}
                         onFigmaApproval={onFigmaApproval}
                         onUpdateFigmaPhase={onUpdateFigmaPhase}
+                        onUpdateResearch={onUpdateResearch}
                     />
                 ) : (
                     /* ── List view ── */

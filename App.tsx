@@ -181,6 +181,36 @@ const App: React.FC = () => {
             .catch(err => console.error('[JARVIS] failed to load jarvis-quotes.json:', err));
     }, []);
 
+    // On mount: fetch JARVIS-generated research documents and inject into matching quotes.
+    // JARVIS writes to public/research.json and pushes — Vercel deploys automatically.
+    useEffect(() => {
+        fetch('/research.json')
+            .then(r => r.ok ? r.json() : {})
+            .then((researchMap: Record<string, string>) => {
+                const entries = Object.entries(researchMap);
+                if (!entries.length) return;
+                setQuoteHistory(prev => {
+                    const updated = prev.map(item => {
+                        const content = researchMap[item.id];
+                        return content ? { ...item, researchContent: content } : item;
+                    });
+                    try { localStorage.setItem('quoteHistory', JSON.stringify(updated)); } catch {}
+                    return updated;
+                });
+            })
+            .catch(() => {});
+    }, []);
+
+    useEffect(() => {
+        const STORAGE_WIPE_VERSION = 'wipe_v1';
+        if (localStorage.getItem('storageWipeVersion') !== STORAGE_WIPE_VERSION) {
+            localStorage.removeItem('quoteHistory');
+            localStorage.removeItem('unsavedQuoteSession');
+            localStorage.removeItem('deletedJarvisIds');
+            localStorage.setItem('storageWipeVersion', STORAGE_WIPE_VERSION);
+        }
+    }, []);
+
     useEffect(() => {
         try {
             const storedHistory = localStorage.getItem('quoteHistory');
@@ -213,6 +243,33 @@ const App: React.FC = () => {
                     showNotification(`Árajánlat importálva az előzményekbe: ${decoded.id}`);
                 } catch {
                     console.warn('Invalid ?save= param, ignoring.');
+                }
+                return;
+            }
+
+            // URL import: ?research=<quoteId>&content=<encodeURIComponent(markdown)>
+            // Injects research content into an existing quote by ID.
+            const researchId = params.get('research');
+            const researchContent = params.get('content');
+            if (researchId && researchContent) {
+                try {
+                    const decoded = decodeURIComponent(researchContent);
+                    const existing: QuoteHistoryItem[] = (() => {
+                        try { return migrateQuoteHistory(JSON.parse(localStorage.getItem('quoteHistory') || '[]')); }
+                        catch { return []; }
+                    })();
+                    const idx = existing.findIndex(q => q.id === researchId);
+                    if (idx > -1) {
+                        const updated = existing.map((q, i) => i === idx ? { ...q, researchContent: decoded } : q);
+                        localStorage.setItem('quoteHistory', JSON.stringify(updated));
+                        setQuoteHistory(updated);
+                        window.history.replaceState({}, '', window.location.pathname);
+                        showNotification(`✅ Research importálva: ${researchId}`);
+                    } else {
+                        showNotification(`⚠️ Nem található árajánlat: ${researchId}`);
+                    }
+                } catch {
+                    console.warn('Invalid ?research= param, ignoring.');
                 }
                 return;
             }
@@ -834,6 +891,17 @@ const App: React.FC = () => {
         });
     }, [saveHistoryUpdate]);
 
+    const handleUpdateResearch = useCallback((quoteId: string, content: string) => {
+        setQuoteHistory(prev => {
+            const updated = prev.map(item =>
+                item.id !== quoteId ? item : { ...item, researchContent: content }
+            );
+            saveHistoryUpdate(updated, `"${quoteId}" research feltöltve`);
+            return updated;
+        });
+        showNotification('✅ Research dokumentum mentve!');
+    }, [saveHistoryUpdate, showNotification]);
+
     const handleDownloadQuotePdf = useCallback((id: string) => {
         const quoteToDownload = quoteHistory.find(item => item.id === id);
         if (!quoteToDownload) {
@@ -1238,6 +1306,7 @@ const App: React.FC = () => {
                 onStatusChange={handleStatusChange}
                 onFigmaApproval={handleFigmaApproval}
                 onUpdateFigmaPhase={handleUpdateFigmaPhase}
+                onUpdateResearch={handleUpdateResearch}
             />
             {acceptanceModal && (() => {
                 const item = quoteHistory.find(q => q.id === acceptanceModal.quoteId);
