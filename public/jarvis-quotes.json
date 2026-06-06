@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "id": "2026-HI-001",
+    "savedAt": 1780617600000,
+    "clientName": "Hürkecz Imre",
+    "subject": "Katalógus weboldal – Prémium ingatlanfejlesztő (HU/EN/DE)",
+    "status": "elkuldve",
+    "state": {
+      "selectedPackageId": "intro",
+      "selectedExtras": {
+        "kapcsolat": true,
+        "gyik": true,
+        "rolunk": true,
+        "referenciak-osszestio": true,
+        "multilingualism": true,
+        "hirlevel-feliratkozas": true,
+        "beagyazhato-pdf": true
+      },
+      "customPrices": {},
+      "customSections": [
+        {
+          "id": "ingatlanok-sablon-oldal",
+          "name": "Ingatlanok sablon oldal",
+          "price": 45000
+        },
+        {
+          "id": "ingatlan-vetel-landing",
+          "name": "Ingatlan vétel Landing",
+          "price": 45000
+        },
+        {
+          "id": "lakasok-felujitas-atalakitas",
+          "name": "Lakások és házak teljeskörű felújítása, átalakítása",
+          "price": 45000
+        }
+      ],
+      "customInstances": {
+        "multilingualism": [
+          {
+            "id": "lang-angol-1",
+            "name": "Angol",
+            "description": "Új nyelv hozzáadása a weboldalhoz. Az ár a fordítandó tartalom mennyiségétől függ. Minden hozzáadott nyelvhez egyedi, becsült díjat adhat meg.",
+            "price": 40000
+          },
+          {
+            "id": "lang-nemet-1",
+            "name": "Német",
+            "description": "Új nyelv hozzáadása a weboldalhoz. Az ár a fordítandó tartalom mennyiségétől függ. Minden hozzáadott nyelvhez egyedi, becsült díjat adhat meg.",
+            "price": 40000
+          }
+        ]
+      },
+      "quoteDetails": {
+        "clientName": "Hürkecz Imre",
+        "clientEmail": "",
+        "quoteId": "2026-HI-001",
+        "subject": "Katalógus weboldal – Prémium ingatlanfejlesztő (HU/EN/DE)",
+        "estimatedTime": "8 munkanap",
+        "validityDays": 30,
+        "priorityMultiplier": 1,
+        "websiteUrl": ""
+      },
+      "editablePackageContents": {
+        "pages": [
+          { "text": "Főoldal" }
+        ],
+        "features": [
+          { "text": "Menü beállítás" },
+          { "text": "CMS rendszer konfigurálás" },
+          { "text": "Cookie bar beállítása (GDPR)" },
+          { "text": "Alap SEO beállítások" },
+          { "text": "Prémium weboldal építő biztosítás (Lifetime license)" },
+          { "text": "Webbiztonsági plugin beállítása" },
+          { "text": "Felhasználói tevékenységi log" },
+          { "text": "Lokális font hosztolás" },
+          { "text": "Képek optimalizálása" },
+          { "text": "Reszponzív megjelenés" },
+          { "text": "SMTP beállítás" },
+          { "text": "Kapcsolati űrlap" },
+          { "text": "Facebook pixel integrálása" },
+          { "text": "Google Analytics integrálása" },
+          { "text": "Google Search - XML Sitemap beállítása" }
+        ]
+      },
+      "selectedPlanId": null,
+      "selectedEliteExtensions": {},
+      "customElitePrices": {},
+      "status": "elkuldve",
+      "discountPercentage": 0
+    }
+  }
+]
