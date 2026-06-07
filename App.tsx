@@ -153,28 +153,22 @@ const App: React.FC = () => {
     // Respects 'deletedJarvisIds' in localStorage so user-deleted entries stay deleted.
     useEffect(() => {
         fetch(`/jarvis-quotes.json?v=${Date.now()}`)
-            .then(r => {
-                console.log('[JARVIS] jarvis-quotes.json status:', r.status, r.ok);
-                return r.ok ? r.json() : [];
-            })
-            .then((serverQuotes: any[]) => {
-                console.log('[JARVIS] server quotes loaded:', serverQuotes.length, serverQuotes.map((q: any) => q.id));
-                if (!serverQuotes.length) return;
-                const deletedIds: string[] = JSON.parse(localStorage.getItem('deletedJarvisIds') || '[]');
-                setQuoteHistory(prev => {
-                    const merged = [...prev];
-                    for (const raw of serverQuotes) {
-                        if (deletedIds.includes(raw.id)) continue;
-                        try {
-                            const migratedState = migrateQuoteState(raw.state);
-                            const item: QuoteHistoryItem = { ...raw, state: migratedState };
-                            const idx = merged.findIndex(q => q.id === item.id);
-                            if (idx === -1) merged.unshift(item);
-                            else if (merged[idx].savedAt < item.savedAt) merged[idx] = item;
-                        } catch (e) {
-                            console.warn('[JARVIS] failed to migrate quote:', (raw as any)?.id, e);
-                        }
+            .then(r => r.ok ? r.json() : null)
+            .then((serverQuotes: any[] | null) => {
+                if (!serverQuotes || !serverQuotes.length) return;
+                const migrated: QuoteHistoryItem[] = serverQuotes.flatMap((raw: any) => {
+                    try {
+                        return [{ ...raw, state: migrateQuoteState(raw.state) } as QuoteHistoryItem];
+                    } catch (e) {
+                        console.warn('[JARVIS] failed to migrate quote:', (raw as any)?.id, e);
+                        return [];
                     }
+                });
+                setQuoteHistory(prev => {
+                    const serverIds = new Set(migrated.map(q => q.id));
+                    const localOnly = prev.filter(q => !serverIds.has(q.id));
+                    const merged = [...migrated, ...localOnly];
+                    try { localStorage.setItem('quoteHistory', JSON.stringify(merged)); } catch {}
                     return merged;
                 });
             })
@@ -212,7 +206,7 @@ const App: React.FC = () => {
         if (localStorage.getItem('storageWipeVersion') !== STORAGE_WIPE_VERSION) {
             localStorage.removeItem('quoteHistory');
             localStorage.removeItem('unsavedQuoteSession');
-            localStorage.removeItem('deletedJarvisIds');
+
             localStorage.setItem('storageWipeVersion', STORAGE_WIPE_VERSION);
         }
     }, []);
@@ -576,6 +570,33 @@ const App: React.FC = () => {
         debouncedShowNotification();
     }, [debouncedShowNotification]);
     
+    const syncQuoteToServer = useCallback(async (quote: QuoteHistoryItem) => {
+        try {
+            const res = await fetch('/api/save-quote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'upsert', quote }),
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        } catch (e) {
+            console.error('[JARVIS] sync to server failed:', e);
+            showNotification('⚠️ Szerver szinkronizáció sikertelen.');
+        }
+    }, [showNotification]);
+
+    const deleteQuoteFromServer = useCallback(async (id: string) => {
+        try {
+            const res = await fetch('/api/save-quote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'delete', id }),
+            });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        } catch (e) {
+            console.error('[JARVIS] delete from server failed:', e);
+        }
+    }, []);
+
     const handleSaveQuote = useCallback(() => {
         if (!selectedPackageId || !quoteDetails.quoteId) {
             showNotification("Az ajánlat mentéséhez válasszon csomagot és adjon meg egy azonosítót.");
@@ -624,11 +645,13 @@ const App: React.FC = () => {
             }
             return updatedHistory;
         });
+        syncQuoteToServer(newHistoryItem);
 
     }, [
-        selectedPackageId, selectedExtras, customPrices, customSections, 
+        selectedPackageId, selectedExtras, customPrices, customSections,
         customInstances, quoteDetails, editablePackageContents, showNotification,
-        selectedPlanId, selectedEliteExtensions, customElitePrices, status, discountPercentage
+        selectedPlanId, selectedEliteExtensions, customElitePrices, status, discountPercentage,
+        syncQuoteToServer
     ]);
 
     const handleLoadQuote = useCallback((id: string) => {
@@ -659,10 +682,8 @@ const App: React.FC = () => {
     }, [quoteHistory, showNotification, clearUnsavedSession]);
 
     const handleDeleteQuote = useCallback((id: string) => {
-        // Pure state update — no side effects inside updater
         setQuoteHistory(prev => prev.filter(item => item.id !== id));
 
-        // Persist filtered history
         try {
             const stored: QuoteHistoryItem[] = JSON.parse(localStorage.getItem('quoteHistory') || '[]');
             localStorage.setItem('quoteHistory', JSON.stringify(stored.filter(item => item.id !== id)));
@@ -670,18 +691,9 @@ const App: React.FC = () => {
             console.error("Failed to save quoteHistory after delete:", e);
         }
 
-        // Always mark as deleted so JARVIS JSON merge skips it on reload
-        try {
-            const deleted: string[] = JSON.parse(localStorage.getItem('deletedJarvisIds') || '[]');
-            if (!deleted.includes(id)) {
-                localStorage.setItem('deletedJarvisIds', JSON.stringify([...deleted, id]));
-            }
-        } catch (e) {
-            console.error("Failed to update deletedJarvisIds:", e);
-        }
-
+        deleteQuoteFromServer(id);
         showNotification(`"${id}" azonosítójú ajánlat törölve.`);
-    }, [showNotification]);
+    }, [showNotification, deleteQuoteFromServer]);
 
     const handleDuplicateQuote = useCallback((id: string) => {
         const quoteToDuplicate = quoteHistory.find(item => item.id === id);
@@ -731,7 +743,8 @@ const App: React.FC = () => {
             }
             return updatedHistory;
         });
-    }, [quoteHistory, showNotification]);
+        syncQuoteToServer(newHistoryItem);
+    }, [quoteHistory, showNotification, syncQuoteToServer]);
 
     const handleStatusChange = useCallback((id: string, newStatus: QuoteStatus) => {
         // Intercept ACCEPTED: show notes modal instead of saving directly
@@ -753,18 +766,24 @@ const App: React.FC = () => {
                 console.error("Failed to update quote history in localStorage", e);
                 showNotification("Hiba történt a státusz frissítése során.");
             }
+            const updated = updatedHistory.find(item => item.id === id);
+            if (updated) syncQuoteToServer(updated);
             return updatedHistory;
         });
-    }, [showNotification]);
+    }, [showNotification, syncQuoteToServer]);
 
-    const saveHistoryUpdate = useCallback((updatedHistory: QuoteHistoryItem[], msg: string) => {
+    const saveHistoryUpdate = useCallback((updatedHistory: QuoteHistoryItem[], msg: string, changedId?: string) => {
         try {
             localStorage.setItem('quoteHistory', JSON.stringify(updatedHistory));
             showNotification(msg);
         } catch (e) {
             console.error("Failed to save history", e);
         }
-    }, [showNotification]);
+        if (changedId) {
+            const changed = updatedHistory.find(q => q.id === changedId);
+            if (changed) syncQuoteToServer(changed);
+        }
+    }, [showNotification, syncQuoteToServer]);
 
     const handleAcceptanceNotesSaveOnly = useCallback((notes: ClientNotes) => {
         if (!acceptanceModal) return;
@@ -778,7 +797,7 @@ const App: React.FC = () => {
                 }
                 return { ...item, figmaClientNotes: notes, figmaPhase: 'figma_approved' as FigmaPhaseStatus };
             });
-            saveHistoryUpdate(updated, phase === 'quote' ? `"${quoteId}" elfogadva, megjegyzések mentve.` : `"${quoteId}" Figma jóváhagyva.`);
+            saveHistoryUpdate(updated, phase === 'quote' ? `"${quoteId}" elfogadva, megjegyzések mentve.` : `"${quoteId}" Figma jóváhagyva.`, quoteId);
             return updated;
         });
     }, [acceptanceModal, saveHistoryUpdate]);
@@ -793,7 +812,7 @@ const App: React.FC = () => {
             setQuoteHistory(prev => {
                 const updated = prev.map(item => item.id !== quoteId ? item
                     : { ...item, figmaClientNotes: notes, figmaPhase: 'figma_approved' as FigmaPhaseStatus });
-                saveHistoryUpdate(updated, `"${quoteId}" Figma jóváhagyva! Fejlesztés indítható.`);
+                saveHistoryUpdate(updated, `"${quoteId}" Figma jóváhagyva! Fejlesztés indítható.`, quoteId);
                 return updated;
             });
             return;
@@ -812,7 +831,7 @@ const App: React.FC = () => {
                 clientNotes: notes,
                 figmaPhase: 'figma_in_progress' as FigmaPhaseStatus,
             });
-            saveHistoryUpdate(updated, `"${quoteId}" elfogadva! Figma tervezés indul...`);
+            saveHistoryUpdate(updated, `"${quoteId}" elfogadva! Figma tervezés indul...`, quoteId);
             return updated;
         });
 
@@ -860,7 +879,7 @@ const App: React.FC = () => {
                         ...(data.designBrief ? { figmaDesignBrief: data.designBrief } : {}),
                         ...(data.photos?.length ? { figmaPhotos: data.photos } : {}),
                     });
-                    saveHistoryUpdate(updated, `"${quoteId}" Figma terv kész! ${data.figmaFileUrl ? 'Fájl létrehozva.' : 'Brief elkészítve.'}`);
+                    saveHistoryUpdate(updated, `"${quoteId}" Figma terv kész! ${data.figmaFileUrl ? 'Fájl létrehozva.' : 'Brief elkészítve.'}`, quoteId);
                     return updated;
                 });
                 showNotification(data.figmaFileUrl
@@ -875,7 +894,7 @@ const App: React.FC = () => {
             setQuoteHistory(prev => {
                 const updated = prev.map(item => item.id !== quoteId ? item
                     : { ...item, figmaPhase: 'brief_ready' as FigmaPhaseStatus });
-                saveHistoryUpdate(updated, `"${quoteId}" Figma trigger hiba — állapot visszaállítva.`);
+                saveHistoryUpdate(updated, `"${quoteId}" Figma trigger hiba — állapot visszaállítva.`, quoteId);
                 return updated;
             });
             showNotification(`❌ Figma API hiba: ${msg}`);
@@ -892,7 +911,7 @@ const App: React.FC = () => {
                 if (item.id !== id) return item;
                 return { ...item, figmaPhase, ...(figmaFileUrl ? { figmaFileUrl } : {}) };
             });
-            saveHistoryUpdate(updated, `"${id}" Figma fázis: ${figmaPhase}`);
+            saveHistoryUpdate(updated, `"${id}" Figma fázis: ${figmaPhase}`, id);
             return updated;
         });
     }, [saveHistoryUpdate]);
@@ -902,7 +921,7 @@ const App: React.FC = () => {
             const updated = prev.map(item =>
                 item.id !== quoteId ? item : { ...item, researchContent: content }
             );
-            saveHistoryUpdate(updated, `"${quoteId}" research feltöltve`);
+            saveHistoryUpdate(updated, `"${quoteId}" research feltöltve`, quoteId);
             return updated;
         });
         showNotification('✅ Research dokumentum mentve!');
