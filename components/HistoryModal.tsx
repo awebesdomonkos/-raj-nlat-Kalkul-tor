@@ -142,110 +142,102 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                                         return (
                                             <li
                                                 key={item.id}
-                                                className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 hover:bg-slate-700/30 transition-all duration-200 hover:-translate-y-0.5"
+                                                className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 hover:bg-slate-700/30 transition-all duration-200"
                                             >
-                                                <div className="flex items-start justify-between gap-4 flex-wrap">
-                                                    {/* Info */}
-                                                    <div className="flex-grow min-w-0">
-                                                        <div className="flex items-center gap-2 flex-wrap">
-                                                            <p className="font-bold text-indigo-400 text-sm">{item.id}</p>
-                                                            {pkg && (
-                                                                <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                                                                    {pkg.name}
-                                                                </span>
-                                                            )}
-                                                            {item.researchContent && (
-                                                                <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                                                                    Research
-                                                                </span>
-                                                            )}
-                                                        </div>
-                                                        <p className="text-slate-100 font-semibold mt-1 truncate">
-                                                            {item.clientName || '[Nincs ügyfél neve]'}
-                                                        </p>
-                                                        <p className="text-slate-400 text-sm truncate">
-                                                            {item.subject || '—'}
-                                                        </p>
-                                                        <div className="flex items-center gap-4 mt-1.5">
-                                                            <p className="text-slate-500 text-xs">
-                                                                Mentve: {new Date(item.savedAt).toLocaleString('hu-HU')}
-                                                            </p>
-                                                            {total !== null && (
-                                                                <p className="text-indigo-400 text-xs font-semibold">
-                                                                    {formatCurrency(total)}
-                                                                </p>
-                                                            )}
-                                                        </div>
+                                                {/* Info */}
+                                                <div className="min-w-0">
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        <p className="font-bold text-indigo-400 text-sm">{item.id}</p>
+                                                        {pkg && (
+                                                            <span className="text-xs px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                                                                {pkg.name}
+                                                            </span>
+                                                        )}
+                                                        {item.researchContent && (
+                                                            <span className="text-xs px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                                                                Research
+                                                            </span>
+                                                        )}
                                                     </div>
+                                                    <p className="text-slate-100 font-semibold mt-1 truncate">
+                                                        {item.clientName || '[Nincs ügyfél neve]'}
+                                                    </p>
+                                                    <p className="text-slate-400 text-sm truncate">
+                                                        {item.subject || '—'}
+                                                    </p>
+                                                    <div className="flex items-center gap-4 mt-1">
+                                                        <p className="text-slate-500 text-xs">
+                                                            Mentve: {new Date(item.savedAt).toLocaleString('hu-HU')}
+                                                        </p>
+                                                        {total !== null && (
+                                                            <p className="text-indigo-400 text-xs font-semibold">
+                                                                {formatCurrency(total)}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                </div>
 
-                                                    {/* Actions */}
-                                                    <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
-                                                        {/* Status badge */}
-                                                        <span className={`px-2.5 py-1 text-xs font-semibold rounded-full text-white ${statusConfig[item.status].color}`}>
-                                                            {statusConfig[item.status].text}
-                                                        </span>
-                                                        <select
-                                                            value={item.status}
-                                                            onChange={e => onStatusChange(item.id, e.target.value as QuoteStatus)}
-                                                            className={`bg-slate-700 border-slate-600 rounded-md text-sm py-1.5 pl-2 pr-8 focus:ring-2 focus:outline-none ${statusConfig[item.status].ring} focus:border-transparent transition-all duration-200`}
-                                                            onClick={e => e.stopPropagation()}
-                                                            aria-label="Státusz módosítása"
-                                                        >
-                                                            {Object.values(QuoteStatus).map(s => (
-                                                                <option key={s} value={s}>{statusConfig[s].text}</option>
-                                                            ))}
-                                                        </select>
+                                                {/* Actions — two rows on mobile */}
+                                                <div className="mt-3 pt-3 border-t border-slate-700/60 flex flex-wrap items-center gap-2">
+                                                    {/* Status */}
+                                                    <span className={`px-2.5 py-1 text-xs font-semibold rounded-full text-white ${statusConfig[item.status].color}`}>
+                                                        {statusConfig[item.status].text}
+                                                    </span>
+                                                    <select
+                                                        value={item.status}
+                                                        onChange={e => onStatusChange(item.id, e.target.value as QuoteStatus)}
+                                                        className={`bg-slate-700 border-slate-600 rounded-md text-sm py-1.5 pl-2 pr-8 focus:ring-2 focus:outline-none ${statusConfig[item.status].ring} focus:border-transparent transition-all duration-200`}
+                                                        onClick={e => e.stopPropagation()}
+                                                        aria-label="Státusz módosítása"
+                                                    >
+                                                        {Object.values(QuoteStatus).map(s => (
+                                                            <option key={s} value={s}>{statusConfig[s].text}</option>
+                                                        ))}
+                                                    </select>
 
-                                                        {/* View details */}
+                                                    {/* Primary action */}
+                                                    <button
+                                                        onClick={() => onLoad(item.id)}
+                                                        className="px-4 py-1.5 rounded-md text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                    >
+                                                        Betöltés
+                                                    </button>
+
+                                                    {/* Icon actions — pushed to right */}
+                                                    <div className="ml-auto flex items-center gap-1">
                                                         <button
                                                             onClick={() => setDetailItemId(item.id)}
-                                                            className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                            className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                             title="Részletek megtekintése"
                                                         >
                                                             <EyeIcon />
                                                         </button>
-
-                                                        {/* Load */}
-                                                        <button
-                                                            onClick={() => onLoad(item.id)}
-                                                            className="px-4 py-2 rounded-md text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-700 focus:ring-indigo-500"
-                                                        >
-                                                            Betöltés
-                                                        </button>
-
-                                                        {/* Duplicate */}
                                                         <button
                                                             onClick={() => onDuplicate(item.id)}
-                                                            className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                            className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                             title="Másolás"
                                                         >
                                                             <DuplicateIcon />
                                                         </button>
-
-                                                        {/* Quote PDF */}
                                                         <button
                                                             onClick={() => onDownloadPdf(item.id)}
-                                                            className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                            className="p-2 text-slate-400 hover:text-green-400 hover:bg-green-500/10 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-green-500"
                                                             title="Árajánlat PDF letöltése"
                                                         >
                                                             <PdfIcon />
                                                         </button>
-
-                                                        {/* Site Map PDF */}
                                                         {hasSitemap && (
                                                             <button
                                                                 onClick={() => onDownloadSitemapPdf(item.id)}
-                                                                className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                                                className="p-2 text-slate-400 hover:text-indigo-400 hover:bg-indigo-500/10 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                                                 title="Site Map PDF letöltése"
                                                             >
                                                                 <SitemapIcon />
                                                             </button>
                                                         )}
-
-                                                        {/* Delete */}
                                                         <button
                                                             onClick={() => onDelete(item.id)}
-                                                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all duration-200 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-red-500"
+                                                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-500/10 rounded-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
                                                             title="Törlés"
                                                         >
                                                             <TrashIcon />
