@@ -1,9 +1,131 @@
 [
   {
+    "id": "hi-001-2026",
+    "savedAt": 1780617600000,
+    "clientName": "Hürkecz Imre",
+    "subject": "Katalógus weboldal – Prémium ingatlanfejlesztő (HU/EN/DE)",
+    "status": "elkuldve",
+    "state": {
+      "selectedPackageId": "intro",
+      "selectedExtras": {
+        "kapcsolat": true,
+        "gyik": true,
+        "rolunk": true,
+        "referenciak-osszestio": true,
+        "multilingualism": true,
+        "hirlevel-feliratkozas": true,
+        "beagyazhato-pdf": true
+      },
+      "customPrices": {},
+      "customSections": [
+        {
+          "id": "ingatlanok-sablon-oldal",
+          "name": "Ingatlanok sablon oldal",
+          "price": 45000
+        },
+        {
+          "id": "ingatlan-vetel-landing",
+          "name": "Ingatlan vétel Landing",
+          "price": 45000
+        },
+        {
+          "id": "lakasok-felujitas-atalakitas",
+          "name": "Lakások és házak teljeskörű felújítása, átalakítása",
+          "price": 45000
+        }
+      ],
+      "customInstances": {
+        "multilingualism": [
+          {
+            "id": "lang-angol-1",
+            "name": "Angol",
+            "description": "Új nyelv hozzáadása a weboldalhoz. Az ár a fordítandó tartalom mennyiségétől függ. Minden hozzáadott nyelvhez egyedi, becsült díjat adhat meg.",
+            "price": 40000
+          },
+          {
+            "id": "lang-nemet-1",
+            "name": "Német",
+            "description": "Új nyelv hozzáadása a weboldalhoz. Az ár a fordítandó tartalom mennyiségétől függ. Minden hozzáadott nyelvhez egyedi, becsült díjat adhat meg.",
+            "price": 40000
+          }
+        ]
+      },
+      "quoteDetails": {
+        "clientName": "Hürkecz Imre",
+        "clientEmail": "",
+        "quoteId": "2026-HI-001",
+        "subject": "Katalógus weboldal – Prémium ingatlanfejlesztő (HU/EN/DE)",
+        "estimatedTime": "8 munkanap",
+        "validityDays": 30,
+        "priorityMultiplier": 1,
+        "websiteUrl": ""
+      },
+      "editablePackageContents": {
+        "pages": [
+          {
+            "text": "Főoldal"
+          }
+        ],
+        "features": [
+          {
+            "text": "Menü beállítás"
+          },
+          {
+            "text": "CMS rendszer konfigurálás"
+          },
+          {
+            "text": "Cookie bar beállítása (GDPR)"
+          },
+          {
+            "text": "Alap SEO beállítások"
+          },
+          {
+            "text": "Prémium weboldal építő biztosítás (Lifetime license)"
+          },
+          {
+            "text": "Webbiztonsági plugin beállítása"
+          },
+          {
+            "text": "Felhasználói tevékenységi log"
+          },
+          {
+            "text": "Lokális font hosztolás"
+          },
+          {
+            "text": "Képek optimalizálása"
+          },
+          {
+            "text": "Reszponzív megjelenés"
+          },
+          {
+            "text": "SMTP beállítás"
+          },
+          {
+            "text": "Kapcsolati űrlap"
+          },
+          {
+            "text": "Facebook pixel integrálása"
+          },
+          {
+            "text": "Google Analytics integrálása"
+          },
+          {
+            "text": "Google Search - XML Sitemap beállítása"
+          }
+        ]
+      },
+      "selectedPlanId": null,
+      "selectedEliteExtensions": {},
+      "customElitePrices": {},
+      "status": "elkuldve",
+      "discountPercentage": 0
+    }
+  },
+  {
     "id": "2026-DEV-215",
     "savedAt": 1780838236247,
-    "clientName": "Hürkecz Imre",
-    "subject": "Prémium ingatlanfejlesztő (HU/EN/DE)",
+    "clientName": "HÃ¼rkecz Imre",
+    "subject": "PrÃ©mium ingatlanfejlesztÅ (HU/EN/DE)",
     "status": "vazlat",
     "state": {
       "selectedPackageId": "intro",
@@ -14,16 +136,16 @@
         "szolgaltatas": [
           {
             "id": "a7a6cea4-37c3-4191-a1de-f46deeb78dc3",
-            "name": "Szolgáltatás",
-            "description": "Egyedi oldal a kínált szolgáltatások részletes bemutatására.",
+            "name": "SzolgÃ¡ltatÃ¡s",
+            "description": "Egyedi oldal a kÃ­nÃ¡lt szolgÃ¡ltatÃ¡sok rÃ©szletes bemutatÃ¡sÃ¡ra.",
             "price": 25000
           }
         ],
         "szolgaltatas-aloldal": [
           {
             "id": "209ba6cc-2912-4e3a-85dc-abd48917fa9c",
-            "name": "Szolgáltatás aloldal (Sablon)",
-            "description": "Sablon oldal egy-egy specifikus szolgáltatás részletezéséhez, egységes megjelenéssel.",
+            "name": "SzolgÃ¡ltatÃ¡s aloldal (Sablon)",
+            "description": "Sablon oldal egy-egy specifikus szolgÃ¡ltatÃ¡s rÃ©szletezÃ©sÃ©hez, egysÃ©ges megjelenÃ©ssel.",
             "price": 35000
           }
         ],
@@ -31,31 +153,31 @@
           {
             "id": "77be9120-d6e5-48aa-924d-2de7b7c34464",
             "name": "Blog cikk oldal (Sablon)",
-            "description": "Egységes sablon az egyes blogcikkek megjelenítésére, olvasóbarát formátumban.",
+            "description": "EgysÃ©ges sablon az egyes blogcikkek megjelenÃ­tÃ©sÃ©re, olvasÃ³barÃ¡t formÃ¡tumban.",
             "price": 45000
           }
         ],
         "termek-oldal-sablon": [
           {
             "id": "8986ec6c-9470-4cd6-bfa9-a9dcddb0b7a1",
-            "name": "Egységes termék oldal",
-            "description": "Egységes sablon az egyes termékek megjelenítésére, ahol a struktúra változatlan, de a tartalom dinamikusan cserélődik.",
+            "name": "EgysÃ©ges termÃ©k oldal",
+            "description": "EgysÃ©ges sablon az egyes termÃ©kek megjelenÃ­tÃ©sÃ©re, ahol a struktÃºra vÃ¡ltozatlan, de a tartalom dinamikusan cserÃ©lÅdik.",
             "price": 45000
           }
         ],
         "kategoria-oldal": [
           {
             "id": "a492b5ac-ad03-428e-ba0e-be94652d09ab",
-            "name": "Kategória oldal",
-            "description": "Termékek listázása egy adott kategória alapján, szűrési és rendezési lehetőségekkel.",
+            "name": "KategÃ³ria oldal",
+            "description": "TermÃ©kek listÃ¡zÃ¡sa egy adott kategÃ³ria alapjÃ¡n, szÅ±rÃ©si Ã©s rendezÃ©si lehetÅsÃ©gekkel.",
             "price": 25000
           }
         ],
         "blog-archivum": [
           {
             "id": "08ec66b7-6bc4-44d1-8d84-86b54465c631",
-            "name": "Blog Archívum oldal",
-            "description": "Régebbi bejegyzések elérését biztosító oldal, időrendi vagy kategória alapú bontásban.",
+            "name": "Blog ArchÃ­vum oldal",
+            "description": "RÃ©gebbi bejegyzÃ©sek elÃ©rÃ©sÃ©t biztosÃ­tÃ³ oldal, idÅrendi vagy kategÃ³ria alapÃº bontÃ¡sban.",
             "price": 25000
           }
         ],
@@ -63,16 +185,16 @@
           {
             "id": "eda97601-b500-4fe9-9c10-097cf5790885",
             "name": "Csapatunk",
-            "description": "A cég munkatársainak bemutatása, fotóval és rövid leírással.",
+            "description": "A cÃ©g munkatÃ¡rsainak bemutatÃ¡sa, fotÃ³val Ã©s rÃ¶vid leÃ­rÃ¡ssal.",
             "price": 25000
           }
         ]
       },
       "quoteDetails": {
-        "clientName": "Hürkecz Imre",
+        "clientName": "HÃ¼rkecz Imre",
         "clientEmail": "asdad",
         "quoteId": "2026-DEV-215",
-        "subject": "Prémium ingatlanfejlesztő (HU/EN/DE)",
+        "subject": "PrÃ©mium ingatlanfejlesztÅ (HU/EN/DE)",
         "estimatedTime": "",
         "validityDays": 30,
         "priorityMultiplier": 1,
@@ -81,69 +203,69 @@
       "editablePackageContents": {
         "pages": [
           {
-            "text": "Főoldal",
+            "text": "FÅoldal",
             "isNew": false
           }
         ],
         "features": [
           {
-            "text": "Menü beállítás",
+            "text": "MenÃ¼ beÃ¡llÃ­tÃ¡s",
             "isNew": false
           },
           {
-            "text": "CMS rendszer konfigurálás",
+            "text": "CMS rendszer konfigurÃ¡lÃ¡s",
             "isNew": false
           },
           {
-            "text": "Cookie bar beállítása (GDPR)",
+            "text": "Cookie bar beÃ¡llÃ­tÃ¡sa (GDPR)",
             "isNew": false
           },
           {
-            "text": "Alap SEO beállítások",
+            "text": "Alap SEO beÃ¡llÃ­tÃ¡sok",
             "isNew": false
           },
           {
-            "text": "Prémium weboldal építő biztosítás (Lifetime license)",
+            "text": "PrÃ©mium weboldal Ã©pÃ­tÅ biztosÃ­tÃ¡s (Lifetime license)",
             "isNew": false
           },
           {
-            "text": "Webbiztonsági plugin beállítása",
+            "text": "WebbiztonsÃ¡gi plugin beÃ¡llÃ­tÃ¡sa",
             "isNew": false
           },
           {
-            "text": "Felhasználói tevékenységi log",
+            "text": "FelhasznÃ¡lÃ³i tevÃ©kenysÃ©gi log",
             "isNew": false
           },
           {
-            "text": "Lokális font hosztolás",
+            "text": "LokÃ¡lis font hosztolÃ¡s",
             "isNew": false
           },
           {
-            "text": "Képek optimalizálása",
+            "text": "KÃ©pek optimalizÃ¡lÃ¡sa",
             "isNew": false
           },
           {
-            "text": "Reszponzív megjelenés",
+            "text": "ReszponzÃ­v megjelenÃ©s",
             "isNew": false
           },
           {
-            "text": "SMTP beállítás",
+            "text": "SMTP beÃ¡llÃ­tÃ¡s",
             "isNew": false
           },
           {
-            "text": "Kapcsolati űrlap",
+            "text": "Kapcsolati Å±rlap",
             "isNew": false
           },
           {
-            "text": "Facebook pixel integrálása",
+            "text": "Facebook pixel integrÃ¡lÃ¡sa",
             "isNew": false
           },
           {
-            "text": "Google Analytics integrálása",
+            "text": "Google Analytics integrÃ¡lÃ¡sa",
             "isNew": false
           },
           {
-            "text": "Google Search - XML Sitemap beállítása",
+            "text": "Google Search - XML Sitemap beÃ¡llÃ­tÃ¡sa",
             "isNew": false
           }
         ]
@@ -154,6 +276,6 @@
       "status": "vazlat",
       "discountPercentage": 0
     },
-    "researchContent": "# Hürkecz Imre — Piacelemzés\n## Ingatlan adás-vétel & Teljeskörű felújítás/átalakítás\n\n> Az elemzés a 2026-06-04-én beérkezett igényfelmérő alapján készült. Fő cél: ügyfélszerzés és lead generálás ingatlan vásárlásban és/vagy felújításban gondolkozó emberek körében, háromnyelvű (HU/EN/DE) weboldalon.\n\n---\n\n## Összefoglaló\n\nHürkecz Imre kettős piacon versenyez egyszerre: ingatlanközvetítés és teljeskörű lakásfelújítás/átalakítás. Ez a kombináció ritka és erős versenyelőnyt jelent — a piacon szinte nincs olyan szereplő, aki ezt egységes szolgáltatásként nyújtja. A célközönség kulcsa a bizonytalanok megszólítása: akik ingatlan vásárlás után nem tudják hogyan kezdjenek hozzá a felújításhoz, vagy akik felújításban gondolkoznak de nem tudják hol kezdjék.\n\n---\n\n## Piaci kontextus (2026)\n\n- A magyar ingatlanpiac újra élénkül 2026-ban az Otthon Start program hatására — az első negyedévben erős számokat hozott\n- A kereslet 67%-a családi házakra irányul, 24% téglaépítésű lakás, 10% panel\n- A vevők egyre inkább felújított vagy újszerű ingatlanokat keresnek — a felújítandó ingatlanok iránti érdeklődés mérséklődött, de ez épp a felújítási tanácsadás iránti igényt erősíti\n- Energiahatékonyság kiemelt szempont: a vevők tudatosan keresik a jó energetikai besorolású ingatlanokat\n- Az Otthonfelújítási Támogatás 2026 áprilisától felfüggesztve — ez rövid távon csökkenti az állami hátszelet, de a piaci keresletet nem szünteti meg\n- Komplett lakásfelújítás ára: 45.000–78.000 Ft/m2, teljes felújítás: 1–6,5M Ft\n\n---\n\n## Versenytárs elemzés\n\n| Versenytárs | Weboldal | Erősség | Gyengeség |\n|---|---|---|---|\n| Kállai Vállalkozás | kallaivallalkozas.hu | 1995 óta aktív, generálkivitelezés, referenciák | Csak felújítás, nincs ingatlan kombináció, egynyelvű |\n| Barabás Albert és Tsa. Kft. | barabaskft.hu | 26 év tapasztalat, sokrétű szolgáltatás | Elavult design, nincs lead generálás, egynyelvű |\n| Lakásfelújítások.biz | lakasfelujitasok.biz | Fix egységárak, 3D lézerszkenner, modern | Csak felújítás, nincs ingatlan oldal, drága pozicionálás |\n| Lakásfelújítás gyorsan | lakasfelujitasgyorsan.hu | Komplex szolgáltatás, gyorsaság hangsúly | Nincs többnyelvűség, nincs ingatlan kombináció |\n| Duna House | dh.hu | Óriási ingatlan adatbázis, márkaerő | Nincs felújítási szolgáltatás, személytelen, franchise |\n\nKulcsmegfigyelés: Egyik versenytárs sem ötvözi az ingatlanközvetítést a teljeskörű felújítással egyetlen, személyes márkában. Ez szabad pályát jelent.\n\n---\n\n## SEO kulcsszavak\n\n| Kulcsszó | Becsült havi keresés | Megjegyzés |\n|---|---|---|\n| ingatlan felújítás Budapest | ~1 200 | Erős lokális vásárlói szándék, top prioritás |\n| lakásfelújítás teljeskörű | ~800 | Konverzióra kész keresés |\n| ház felújítás átalakítás árak | ~900 | Kombinált célcsoport, árérzékeny |\n| ingatlan adásvétel tanácsadás | ~500 | Bizonytalanokat céloz, alacsony verseny |\n| lakásfelújítás előtte utána | ~600 | Vizuális döntéshozókat vonz, galéria oldalhoz |\n| felújítás tervezés segítség | ~450 | Bizonytalanok — az ügyfél USP-je |\n| ingatlan vásárlás segítség | ~700 | Első vásárlók, tanácsadói igény |\n| property renovation Hungary | ~350 | Angol nyelvű expat/befektető szegmens |\n| Immobilien Ungarn Renovierung | ~250 | Német anyanyelvű befektetők, aktív piac |\n| lakásfelújítás árak 2026 | ~1 100 | Magas volumen, árbecslési oldalhoz |\n| ingatlan felújítva eladó | ~400 | Vevőoldali keresés, listing oldalakhoz |\n\n---\n\n## Célcsoport\n\nAz ideális ügyfél három főtípusba sorolható:\n\n1. Az ingatlanvásárló, aki felújítani is akar — 30–55 éves, tudatos vásárló. Megvesz egy felújítandó lakást/házat, de nem tudja hogyan kezdjen hozzá. Fájdalompontja: nem bízik random vállalkozókban, féli a csúszást, a rejtett költségeket. Motiváció: egy kézben tartott ügyintézés (vétel + felújítás), szakmai biztonság.\n\n2. A felújításban bizonytalan — 40–65 éves, meglévő ingatlanban él. Szeretne felújítani de nem tudja hol kezdje, mennyi kerüljön. Fájdalompontja: megbízhatatlan kivitelezők, átláthatatlan árazás, kommunikációs káosz. Motiváció: valaki, aki végigvezeti a folyamaton és szakmai tanácsot ad.\n\n3. Külföldi befektető (HU/EN/DE miatt) — Német vagy angol anyanyelvű, magyar ingatlanba fektet. Keresi a megbízható, anyanyelvén kommunikáló helyi partnert. Motiváció: egyablakos megoldás — vétel, felújítás, bérbeadás előkészítés.\n\n---\n\n## Weboldal javaslatok\n\n- Háromnyelvű struktúra (HU/EN/DE) már az indulástól — az ügyfél maga is kérte a nyelvváltást; a külföldi befektetői szegmens éppen aktív a magyar piacon\n- Előtte-utána galéria főoldalon — ez az iparág legerősebb konverziós eleme; az ügyfélnek már vannak fotói, ez azonnali tartalmi tőke\n- GYIK szekció a bizonytalanoknak — az ügyfél maga fogalmazta meg az USP-t: szakmai segítséget nyújtanak azoknak is, akik nem tudják hol kezdjék\n- Lead-gyűjtő form szegmentálva — Ingatlant keresek / Felújítást tervezek / Mindkettőre kíváncsi vagyok — az érdeklődők önmagukat minősítik\n- Belső látványterv szekció — az ügyfél maga is jelezte igényét; 3D látványtervek prémium megkülönböztető tényezők\n- Idővonalon / Aktuális projektek szekció — az ügyfél kérte; státuszjelzőkkel erősítik a transzparenciát és bizalmat\n- Videós galéria — az ügyfél kérte; egy rövid videó a munkáról drámaian növeli az eltöltött időt az oldalon\n- Letölthető árbecslési útmutató — ingyenes PDF a felújítás tipikus költségeiről; egyszerre lead mágnes és bizalomépítő\n- Hírlevél feliratkozás — ingatlanpiaci hírekkel és felújítási tippekkel, HU/EN/DE verziókban\n- Kívánságlista funkció — az ügyfél kérte; mentett ingatlanok listája visszalátogatást ösztönöz"
+    "researchContent": "# HÃ¼rkecz Imre â PiacelemzÃ©s\n## Ingatlan adÃ¡s-vÃ©tel & TeljeskÃ¶rÅ± felÃºjÃ­tÃ¡s/Ã¡talakÃ­tÃ¡s\n\n> Az elemzÃ©s a 2026-06-04-Ã©n beÃ©rkezett igÃ©nyfelmÃ©rÅ alapjÃ¡n kÃ©szÃ¼lt. FÅ cÃ©l: Ã¼gyfÃ©lszerzÃ©s Ã©s lead generÃ¡lÃ¡s ingatlan vÃ¡sÃ¡rlÃ¡sban Ã©s/vagy felÃºjÃ­tÃ¡sban gondolkozÃ³ emberek kÃ¶rÃ©ben, hÃ¡romnyelvÅ± (HU/EN/DE) weboldalon.\n\n---\n\n## ÃsszefoglalÃ³\n\nHÃ¼rkecz Imre kettÅs piacon versenyez egyszerre: ingatlankÃ¶zvetÃ­tÃ©s Ã©s teljeskÃ¶rÅ± lakÃ¡sfelÃºjÃ­tÃ¡s/Ã¡talakÃ­tÃ¡s. Ez a kombinÃ¡ciÃ³ ritka Ã©s erÅs versenyelÅnyt jelent â a piacon szinte nincs olyan szereplÅ, aki ezt egysÃ©ges szolgÃ¡ltatÃ¡skÃ©nt nyÃºjtja. A cÃ©lkÃ¶zÃ¶nsÃ©g kulcsa a bizonytalanok megszÃ³lÃ­tÃ¡sa: akik ingatlan vÃ¡sÃ¡rlÃ¡s utÃ¡n nem tudjÃ¡k hogyan kezdjenek hozzÃ¡ a felÃºjÃ­tÃ¡shoz, vagy akik felÃºjÃ­tÃ¡sban gondolkoznak de nem tudjÃ¡k hol kezdjÃ©k.\n\n---\n\n## Piaci kontextus (2026)\n\n- A magyar ingatlanpiac Ãºjra Ã©lÃ©nkÃ¼l 2026-ban az Otthon Start program hatÃ¡sÃ¡ra â az elsÅ negyedÃ©vben erÅs szÃ¡mokat hozott\n- A kereslet 67%-a csalÃ¡di hÃ¡zakra irÃ¡nyul, 24% tÃ©glaÃ©pÃ­tÃ©sÅ± lakÃ¡s, 10% panel\n- A vevÅk egyre inkÃ¡bb felÃºjÃ­tott vagy ÃºjszerÅ± ingatlanokat keresnek â a felÃºjÃ­tandÃ³ ingatlanok irÃ¡nti Ã©rdeklÅdÃ©s mÃ©rsÃ©klÅdÃ¶tt, de ez Ã©pp a felÃºjÃ­tÃ¡si tanÃ¡csadÃ¡s irÃ¡nti igÃ©nyt erÅsÃ­ti\n- EnergiahatÃ©konysÃ¡g kiemelt szempont: a vevÅk tudatosan keresik a jÃ³ energetikai besorolÃ¡sÃº ingatlanokat\n- Az OtthonfelÃºjÃ­tÃ¡si TÃ¡mogatÃ¡s 2026 Ã¡prilisÃ¡tÃ³l felfÃ¼ggesztve â ez rÃ¶vid tÃ¡von csÃ¶kkenti az Ã¡llami hÃ¡tszelet, de a piaci keresletet nem szÃ¼nteti meg\n- Komplett lakÃ¡sfelÃºjÃ­tÃ¡s Ã¡ra: 45.000â78.000 Ft/m2, teljes felÃºjÃ­tÃ¡s: 1â6,5M Ft\n\n---\n\n## VersenytÃ¡rs elemzÃ©s\n\n| VersenytÃ¡rs | Weboldal | ErÅssÃ©g | GyengesÃ©g |\n|---|---|---|---|\n| KÃ¡llai VÃ¡llalkozÃ¡s | kallaivallalkozas.hu | 1995 Ã³ta aktÃ­v, generÃ¡lkivitelezÃ©s, referenciÃ¡k | Csak felÃºjÃ­tÃ¡s, nincs ingatlan kombinÃ¡ciÃ³, egynyelvÅ± |\n| BarabÃ¡s Albert Ã©s Tsa. Kft. | barabaskft.hu | 26 Ã©v tapasztalat, sokrÃ©tÅ± szolgÃ¡ltatÃ¡s | Elavult design, nincs lead generÃ¡lÃ¡s, egynyelvÅ± |\n| LakÃ¡sfelÃºjÃ­tÃ¡sok.biz | lakasfelujitasok.biz | Fix egysÃ©gÃ¡rak, 3D lÃ©zerszkenner, modern | Csak felÃºjÃ­tÃ¡s, nincs ingatlan oldal, drÃ¡ga pozicionÃ¡lÃ¡s |\n| LakÃ¡sfelÃºjÃ­tÃ¡s gyorsan | lakasfelujitasgyorsan.hu | Komplex szolgÃ¡ltatÃ¡s, gyorsasÃ¡g hangsÃºly | Nincs tÃ¶bbnyelvÅ±sÃ©g, nincs ingatlan kombinÃ¡ciÃ³ |\n| Duna House | dh.hu | ÃriÃ¡si ingatlan adatbÃ¡zis, mÃ¡rkaerÅ | Nincs felÃºjÃ­tÃ¡si szolgÃ¡ltatÃ¡s, szemÃ©lytelen, franchise |\n\nKulcsmegfigyelÃ©s: Egyik versenytÃ¡rs sem Ã¶tvÃ¶zi az ingatlankÃ¶zvetÃ­tÃ©st a teljeskÃ¶rÅ± felÃºjÃ­tÃ¡ssal egyetlen, szemÃ©lyes mÃ¡rkÃ¡ban. Ez szabad pÃ¡lyÃ¡t jelent.\n\n---\n\n## SEO kulcsszavak\n\n| KulcsszÃ³ | BecsÃ¼lt havi keresÃ©s | MegjegyzÃ©s |\n|---|---|---|\n| ingatlan felÃºjÃ­tÃ¡s Budapest | ~1 200 | ErÅs lokÃ¡lis vÃ¡sÃ¡rlÃ³i szÃ¡ndÃ©k, top prioritÃ¡s |\n| lakÃ¡sfelÃºjÃ­tÃ¡s teljeskÃ¶rÅ± | ~800 | KonverziÃ³ra kÃ©sz keresÃ©s |\n| hÃ¡z felÃºjÃ­tÃ¡s Ã¡talakÃ­tÃ¡s Ã¡rak | ~900 | KombinÃ¡lt cÃ©lcsoport, Ã¡rÃ©rzÃ©keny |\n| ingatlan adÃ¡svÃ©tel tanÃ¡csadÃ¡s | ~500 | Bizonytalanokat cÃ©loz, alacsony verseny |\n| lakÃ¡sfelÃºjÃ­tÃ¡s elÅtte utÃ¡na | ~600 | VizuÃ¡lis dÃ¶ntÃ©shozÃ³kat vonz, galÃ©ria oldalhoz |\n| felÃºjÃ­tÃ¡s tervezÃ©s segÃ­tsÃ©g | ~450 | Bizonytalanok â az Ã¼gyfÃ©l USP-je |\n| ingatlan vÃ¡sÃ¡rlÃ¡s segÃ­tsÃ©g | ~700 | ElsÅ vÃ¡sÃ¡rlÃ³k, tanÃ¡csadÃ³i igÃ©ny |\n| property renovation Hungary | ~350 | Angol nyelvÅ± expat/befektetÅ szegmens |\n| Immobilien Ungarn Renovierung | ~250 | NÃ©met anyanyelvÅ± befektetÅk, aktÃ­v piac |\n| lakÃ¡sfelÃºjÃ­tÃ¡s Ã¡rak 2026 | ~1 100 | Magas volumen, Ã¡rbecslÃ©si oldalhoz |\n| ingatlan felÃºjÃ­tva eladÃ³ | ~400 | VevÅoldali keresÃ©s, listing oldalakhoz |\n\n---\n\n## CÃ©lcsoport\n\nAz ideÃ¡lis Ã¼gyfÃ©l hÃ¡rom fÅtÃ­pusba sorolhatÃ³:\n\n1. Az ingatlanvÃ¡sÃ¡rlÃ³, aki felÃºjÃ­tani is akar â 30â55 Ã©ves, tudatos vÃ¡sÃ¡rlÃ³. Megvesz egy felÃºjÃ­tandÃ³ lakÃ¡st/hÃ¡zat, de nem tudja hogyan kezdjen hozzÃ¡. FÃ¡jdalompontja: nem bÃ­zik random vÃ¡llalkozÃ³kban, fÃ©li a csÃºszÃ¡st, a rejtett kÃ¶ltsÃ©geket. MotivÃ¡ciÃ³: egy kÃ©zben tartott Ã¼gyintÃ©zÃ©s (vÃ©tel + felÃºjÃ­tÃ¡s), szakmai biztonsÃ¡g.\n\n2. A felÃºjÃ­tÃ¡sban bizonytalan â 40â65 Ã©ves, meglÃ©vÅ ingatlanban Ã©l. Szeretne felÃºjÃ­tani de nem tudja hol kezdje, mennyi kerÃ¼ljÃ¶n. FÃ¡jdalompontja: megbÃ­zhatatlan kivitelezÅk, Ã¡tlÃ¡thatatlan Ã¡razÃ¡s, kommunikÃ¡ciÃ³s kÃ¡osz. MotivÃ¡ciÃ³: valaki, aki vÃ©gigvezeti a folyamaton Ã©s szakmai tanÃ¡csot ad.\n\n3. KÃ¼lfÃ¶ldi befektetÅ (HU/EN/DE miatt) â NÃ©met vagy angol anyanyelvÅ±, magyar ingatlanba fektet. Keresi a megbÃ­zhatÃ³, anyanyelvÃ©n kommunikÃ¡lÃ³ helyi partnert. MotivÃ¡ciÃ³: egyablakos megoldÃ¡s â vÃ©tel, felÃºjÃ­tÃ¡s, bÃ©rbeadÃ¡s elÅkÃ©szÃ­tÃ©s.\n\n---\n\n## Weboldal javaslatok\n\n- HÃ¡romnyelvÅ± struktÃºra (HU/EN/DE) mÃ¡r az indulÃ¡stÃ³l â az Ã¼gyfÃ©l maga is kÃ©rte a nyelvvÃ¡ltÃ¡st; a kÃ¼lfÃ¶ldi befektetÅi szegmens Ã©ppen aktÃ­v a magyar piacon\n- ElÅtte-utÃ¡na galÃ©ria fÅoldalon â ez az iparÃ¡g legerÅsebb konverziÃ³s eleme; az Ã¼gyfÃ©lnek mÃ¡r vannak fotÃ³i, ez azonnali tartalmi tÅke\n- GYIK szekciÃ³ a bizonytalanoknak â az Ã¼gyfÃ©l maga fogalmazta meg az USP-t: szakmai segÃ­tsÃ©get nyÃºjtanak azoknak is, akik nem tudjÃ¡k hol kezdjÃ©k\n- Lead-gyÅ±jtÅ form szegmentÃ¡lva â Ingatlant keresek / FelÃºjÃ­tÃ¡st tervezek / MindkettÅre kÃ­vÃ¡ncsi vagyok â az Ã©rdeklÅdÅk Ã¶nmagukat minÅsÃ­tik\n- BelsÅ lÃ¡tvÃ¡nyterv szekciÃ³ â az Ã¼gyfÃ©l maga is jelezte igÃ©nyÃ©t; 3D lÃ¡tvÃ¡nytervek prÃ©mium megkÃ¼lÃ¶nbÃ¶ztetÅ tÃ©nyezÅk\n- IdÅvonalon / AktuÃ¡lis projektek szekciÃ³ â az Ã¼gyfÃ©l kÃ©rte; stÃ¡tuszjelzÅkkel erÅsÃ­tik a transzparenciÃ¡t Ã©s bizalmat\n- VideÃ³s galÃ©ria â az Ã¼gyfÃ©l kÃ©rte; egy rÃ¶vid videÃ³ a munkÃ¡rÃ³l drÃ¡maian nÃ¶veli az eltÃ¶ltÃ¶tt idÅt az oldalon\n- LetÃ¶lthetÅ Ã¡rbecslÃ©si ÃºtmutatÃ³ â ingyenes PDF a felÃºjÃ­tÃ¡s tipikus kÃ¶ltsÃ©geirÅl; egyszerre lead mÃ¡gnes Ã©s bizalomÃ©pÃ­tÅ\n- HÃ­rlevÃ©l feliratkozÃ¡s â ingatlanpiaci hÃ­rekkel Ã©s felÃºjÃ­tÃ¡si tippekkel, HU/EN/DE verziÃ³kban\n- KÃ­vÃ¡nsÃ¡glista funkciÃ³ â az Ã¼gyfÃ©l kÃ©rte; mentett ingatlanok listÃ¡ja visszalÃ¡togatÃ¡st Ã¶sztÃ¶nÃ¶z"
   }
 ]
