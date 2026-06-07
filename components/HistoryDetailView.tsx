@@ -185,12 +185,12 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-slate-700 flex-shrink-0 px-4">
+      <div className="flex border-b border-slate-700 flex-shrink-0 px-4 overflow-x-auto">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex items-center gap-2 px-4 py-3 text-sm font-medium border-b-2 transition-colors ${
+            className={`flex items-center gap-2 px-3 sm:px-4 py-3 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
               activeTab === tab.id
                 ? 'border-indigo-500 text-indigo-400'
                 : 'border-transparent text-slate-400 hover:text-slate-200'
@@ -206,9 +206,9 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
       <div className="flex-1 overflow-y-auto">
         {/* ── ÁRAJÁNLAT TAB ── */}
         {activeTab === 'quote' && (
-          <div className="p-6 space-y-6">
+          <div className="p-4 sm:p-6 space-y-6">
             {/* Client info */}
-            <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5 grid grid-cols-2 gap-4 text-sm">
+            <div className="bg-slate-900/60 border border-slate-700 rounded-xl p-5 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div>
                 <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">Ügyfél</p>
                 <p className="text-slate-100 font-semibold">{state.quoteDetails.clientName || '—'}</p>
@@ -324,7 +324,7 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
 
         {/* ── SITE MAP TAB ── */}
         {activeTab === 'sitemap' && (
-          <div className="p-6 space-y-4">
+          <div className="p-4 sm:p-6 space-y-4">
             <div className="bg-white rounded-xl p-5 shadow-sm">
               <SitemapView
                 selectedPackageId={state.selectedPackageId}
@@ -346,7 +346,7 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
 
         {/* ── RESEARCH TAB ── */}
         {activeTab === 'research' && (
-          <div className="p-6 space-y-4">
+          <div className="p-4 sm:p-6 space-y-4">
             {hasResearch ? (
               <>
                 <ResearchView content={item.researchContent!} />
@@ -405,7 +405,7 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
 
         {/* ── FIGMA TAB ── */}
         {activeTab === 'figma' && (
-          <div className="p-6 space-y-5">
+          <div className="p-4 sm:p-6 space-y-5">
             {/* Phase status */}
             {(() => {
               const phase = item.figmaPhase ?? 'not_started';
@@ -468,7 +468,7 @@ const HistoryDetailView: React.FC<HistoryDetailViewProps> = ({
                 <p className="text-slate-400 text-xs uppercase tracking-wide font-semibold mb-3">
                   📷 Stock fotók — Pexels ({item.figmaPhotos.length} db)
                 </p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {item.figmaPhotos.map((photo: PexelsPhoto, i: number) => (
                     <a
                       key={i}

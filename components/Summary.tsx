@@ -219,7 +219,7 @@ const Summary: React.FC<SummaryProps> = (props) => {
 
     if (!selectedPackage) {
         return (
-            <div className="sticky top-8 bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-lg text-center">
+            <div className="lg:sticky lg:top-8 bg-slate-800 border border-slate-700 p-5 sm:p-6 rounded-xl shadow-lg text-center">
                 <h3 className="text-xl font-bold text-slate-100 mb-2">Összesítő</h3>
                 <p className="text-slate-400">Kérjük, válasszon egy alapcsomagot a kezdéshez.</p>
             </div>
@@ -234,7 +234,7 @@ const Summary: React.FC<SummaryProps> = (props) => {
 
     return (
         <>
-            <div className="sticky top-8 bg-slate-800 border border-slate-700 p-6 rounded-xl shadow-lg">
+            <div className="lg:sticky lg:top-8 bg-slate-800 border border-slate-700 p-5 sm:p-6 rounded-xl shadow-lg">
                 <h3 className="text-2xl font-bold text-slate-100 border-b border-slate-700 pb-4 mb-4">Összesítő</h3>
                 
                 <div className="space-y-1 divide-y divide-slate-700">

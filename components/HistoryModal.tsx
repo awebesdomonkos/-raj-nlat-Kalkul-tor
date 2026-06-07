@@ -67,7 +67,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
             aria-labelledby="history-modal-title"
         >
             <div
-                className="bg-slate-800 rounded-xl shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col border border-slate-700"
+                className="bg-slate-800 rounded-xl shadow-2xl w-full max-w-4xl h-[95vh] sm:h-[90vh] flex flex-col border border-slate-700"
                 onClick={e => e.stopPropagation()}
             >
                 {detailItem ? (
@@ -85,7 +85,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                     /* ── List view ── */
                     <>
                         {/* Header */}
-                        <div className="p-6 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
+                        <div className="p-4 sm:p-6 border-b border-slate-700 flex justify-between items-center flex-shrink-0">
                             <h2 id="history-modal-title" className="text-xl font-bold text-slate-100 flex items-center gap-3">
                                 <HistoryIcon />
                                 Mentett Ajánlatok
@@ -96,7 +96,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                         </div>
 
                         {/* Search */}
-                        <div className="p-6 flex-shrink-0">
+                        <div className="p-4 sm:p-6 flex-shrink-0">
                             <div className="relative">
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <SearchIcon />
@@ -112,7 +112,7 @@ const HistoryModal: React.FC<HistoryModalProps> = ({
                         </div>
 
                         {/* List */}
-                        <div className="flex-grow overflow-y-auto px-6 pb-6">
+                        <div className="flex-grow overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6">
                             {filteredHistory.length > 0 ? (
                                 <ul className="space-y-3">
                                     {filteredHistory.map(item => {
