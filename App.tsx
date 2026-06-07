@@ -151,14 +151,8 @@ const App: React.FC = () => {
     // On mount: fetch JARVIS-generated quotes from the server-side JSON
     // and merge them into history (JARVIS pushes new quotes here via git).
     // Respects 'deletedJarvisIds' in localStorage so user-deleted entries stay deleted.
+    // Server is the single source of truth — replaces localStorage entirely on load.
     useEffect(() => {
-        // Read localStorage cache synchronously so we know which quotes are local-only
-        let cachedHistory: QuoteHistoryItem[] = [];
-        try {
-            const raw = localStorage.getItem('quoteHistory');
-            if (raw) cachedHistory = migrateQuoteHistory(JSON.parse(raw));
-        } catch {}
-
         fetch(`/jarvis-quotes.json?v=${Date.now()}`)
             .then(r => r.ok ? r.json() : null)
             .then((serverQuotes: any[] | null) => {
@@ -171,23 +165,9 @@ const App: React.FC = () => {
                         return [];
                     }
                 });
-                const serverIds = new Set(migrated.map(q => q.id));
-                // Quotes that exist locally but not on server — auto-push them so all devices see them
-                const localOnly = cachedHistory.filter(q => !serverIds.has(q.id));
-                for (const quote of localOnly) {
-                    console.log('[JARVIS] auto-syncing local-only quote to server:', quote.id);
-                    fetch('/api/save-quote', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ action: 'upsert', quote }),
-                    }).catch(err => console.error('[JARVIS] auto-sync failed:', quote.id, err));
-                }
-                setQuoteHistory(prev => {
-                    // Include local-only items already in state (loaded from localStorage useEffect)
-                    const localOnlyFromState = prev.filter(q => !serverIds.has(q.id));
-                    const merged = [...migrated, ...localOnlyFromState];
-                    try { localStorage.setItem('quoteHistory', JSON.stringify(merged)); } catch {}
-                    return merged;
+                setQuoteHistory(() => {
+                    try { localStorage.setItem('quoteHistory', JSON.stringify(migrated)); } catch {}
+                    return migrated;
                 });
             })
             .catch(err => console.error('[JARVIS] failed to load jarvis-quotes.json:', err));
