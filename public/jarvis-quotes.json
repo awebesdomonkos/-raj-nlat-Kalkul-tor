@@ -1,7 +1,7 @@
 [
   {
     "id": "2026-DEV-919",
-    "savedAt": 1793180862663,
+    "savedAt": 1793183172591,
     "clientName": "Zandi Kft. – Banai Andrea",
     "subject": "Weboldal fejlesztés – Zandi Kft.",
     "status": "vazlat",
@@ -145,8 +145,8 @@
   {
     "id": "2026-DEV-215",
     "savedAt": 1780838236247,
-    "clientName": "HÃÂ¼rkecz Imre",
-    "subject": "PrÃÂ©mium ingatlanfejlesztÃÂ (HU/EN/DE)",
+    "clientName": "HÃÂÃÂ¼rkecz Imre",
+    "subject": "PrÃÂÃÂ©mium ingatlanfejlesztÃÂÃÂ (HU/EN/DE)",
     "status": "vazlat",
     "state": {
       "selectedPackageId": "intro",
@@ -157,16 +157,16 @@
         "szolgaltatas": [
           {
             "id": "a7a6cea4-37c3-4191-a1de-f46deeb78dc3",
-            "name": "SzolgÃÂ¡ltatÃÂ¡s",
-            "description": "Egyedi oldal a kÃÂ­nÃÂ¡lt szolgÃÂ¡ltatÃÂ¡sok rÃÂ©szletes bemutatÃÂ¡sÃÂ¡ra.",
+            "name": "SzolgÃÂÃÂ¡ltatÃÂÃÂ¡s",
+            "description": "Egyedi oldal a kÃÂÃÂ­nÃÂÃÂ¡lt szolgÃÂÃÂ¡ltatÃÂÃÂ¡sok rÃÂÃÂ©szletes bemutatÃÂÃÂ¡sÃÂÃÂ¡ra.",
             "price": 25000
           }
         ],
         "szolgaltatas-aloldal": [
           {
             "id": "209ba6cc-2912-4e3a-85dc-abd48917fa9c",
-            "name": "SzolgÃÂ¡ltatÃÂ¡s aloldal (Sablon)",
-            "description": "Sablon oldal egy-egy specifikus szolgÃÂ¡ltatÃÂ¡s rÃÂ©szletezÃÂ©sÃÂ©hez, egysÃÂ©ges megjelenÃÂ©ssel.",
+            "name": "SzolgÃÂÃÂ¡ltatÃÂÃÂ¡s aloldal (Sablon)",
+            "description": "Sablon oldal egy-egy specifikus szolgÃÂÃÂ¡ltatÃÂÃÂ¡s rÃÂÃÂ©szletezÃÂÃÂ©sÃÂÃÂ©hez, egysÃÂÃÂ©ges megjelenÃÂÃÂ©ssel.",
             "price": 35000
           }
         ],
@@ -174,31 +174,31 @@
           {
             "id": "77be9120-d6e5-48aa-924d-2de7b7c34464",
             "name": "Blog cikk oldal (Sablon)",
-            "description": "EgysÃÂ©ges sablon az egyes blogcikkek megjelenÃÂ­tÃÂ©sÃÂ©re, olvasÃÂ³barÃÂ¡t formÃÂ¡tumban.",
+            "description": "EgysÃÂÃÂ©ges sablon az egyes blogcikkek megjelenÃÂÃÂ­tÃÂÃÂ©sÃÂÃÂ©re, olvasÃÂÃÂ³barÃÂÃÂ¡t formÃÂÃÂ¡tumban.",
             "price": 45000
           }
         ],
         "termek-oldal-sablon": [
           {
             "id": "8986ec6c-9470-4cd6-bfa9-a9dcddb0b7a1",
-            "name": "EgysÃÂ©ges termÃÂ©k oldal",
-            "description": "EgysÃÂ©ges sablon az egyes termÃÂ©kek megjelenÃÂ­tÃÂ©sÃÂ©re, ahol a struktÃÂºra vÃÂ¡ltozatlan, de a tartalom dinamikusan cserÃÂ©lÃÂdik.",
+            "name": "EgysÃÂÃÂ©ges termÃÂÃÂ©k oldal",
+            "description": "EgysÃÂÃÂ©ges sablon az egyes termÃÂÃÂ©kek megjelenÃÂÃÂ­tÃÂÃÂ©sÃÂÃÂ©re, ahol a struktÃÂÃÂºra vÃÂÃÂ¡ltozatlan, de a tartalom dinamikusan cserÃÂÃÂ©lÃÂÃÂdik.",
             "price": 45000
           }
         ],
         "kategoria-oldal": [
           {
             "id": "a492b5ac-ad03-428e-ba0e-be94652d09ab",
-            "name": "KategÃÂ³ria oldal",
-            "description": "TermÃÂ©kek listÃÂ¡zÃÂ¡sa egy adott kategÃÂ³ria alapjÃÂ¡n, szÃÂ±rÃÂ©si ÃÂ©s rendezÃÂ©si lehetÃÂsÃÂ©gekkel.",
+            "name": "KategÃÂÃÂ³ria oldal",
+            "description": "TermÃÂÃÂ©kek listÃÂÃÂ¡zÃÂÃÂ¡sa egy adott kategÃÂÃÂ³ria alapjÃÂÃÂ¡n, szÃÂÃÂ±rÃÂÃÂ©si ÃÂÃÂ©s rendezÃÂÃÂ©si lehetÃÂÃÂsÃÂÃÂ©gekkel.",
             "price": 25000
           }
         ],
         "blog-archivum": [
           {
             "id": "08ec66b7-6bc4-44d1-8d84-86b54465c631",
-            "name": "Blog ArchÃÂ­vum oldal",
-            "description": "RÃÂ©gebbi bejegyzÃÂ©sek elÃÂ©rÃÂ©sÃÂ©t biztosÃÂ­tÃÂ³ oldal, idÃÂrendi vagy kategÃÂ³ria alapÃÂº bontÃÂ¡sban.",
+            "name": "Blog ArchÃÂÃÂ­vum oldal",
+            "description": "RÃÂÃÂ©gebbi bejegyzÃÂÃÂ©sek elÃÂÃÂ©rÃÂÃÂ©sÃÂÃÂ©t biztosÃÂÃÂ­tÃÂÃÂ³ oldal, idÃÂÃÂrendi vagy kategÃÂÃÂ³ria alapÃÂÃÂº bontÃÂÃÂ¡sban.",
             "price": 25000
           }
         ],
@@ -206,16 +206,16 @@
           {
             "id": "eda97601-b500-4fe9-9c10-097cf5790885",
             "name": "Csapatunk",
-            "description": "A cÃÂ©g munkatÃÂ¡rsainak bemutatÃÂ¡sa, fotÃÂ³val ÃÂ©s rÃÂ¶vid leÃÂ­rÃÂ¡ssal.",
+            "description": "A cÃÂÃÂ©g munkatÃÂÃÂ¡rsainak bemutatÃÂÃÂ¡sa, fotÃÂÃÂ³val ÃÂÃÂ©s rÃÂÃÂ¶vid leÃÂÃÂ­rÃÂÃÂ¡ssal.",
             "price": 25000
           }
         ]
       },
       "quoteDetails": {
-        "clientName": "HÃÂ¼rkecz Imre",
+        "clientName": "HÃÂÃÂ¼rkecz Imre",
         "clientEmail": "asdad",
         "quoteId": "2026-DEV-215",
-        "subject": "PrÃÂ©mium ingatlanfejlesztÃÂ (HU/EN/DE)",
+        "subject": "PrÃÂÃÂ©mium ingatlanfejlesztÃÂÃÂ (HU/EN/DE)",
         "estimatedTime": "",
         "validityDays": 30,
         "priorityMultiplier": 1,
@@ -224,69 +224,69 @@
       "editablePackageContents": {
         "pages": [
           {
-            "text": "FÃÂoldal",
+            "text": "FÃÂÃÂoldal",
             "isNew": false
           }
         ],
         "features": [
           {
-            "text": "MenÃÂ¼ beÃÂ¡llÃÂ­tÃÂ¡s",
+            "text": "MenÃÂÃÂ¼ beÃÂÃÂ¡llÃÂÃÂ­tÃÂÃÂ¡s",
             "isNew": false
           },
           {
-            "text": "CMS rendszer konfigurÃÂ¡lÃÂ¡s",
+            "text": "CMS rendszer konfigurÃÂÃÂ¡lÃÂÃÂ¡s",
             "isNew": false
           },
           {
-            "text": "Cookie bar beÃÂ¡llÃÂ­tÃÂ¡sa (GDPR)",
+            "text": "Cookie bar beÃÂÃÂ¡llÃÂÃÂ­tÃÂÃÂ¡sa (GDPR)",
             "isNew": false
           },
           {
-            "text": "Alap SEO beÃÂ¡llÃÂ­tÃÂ¡sok",
+            "text": "Alap SEO beÃÂÃÂ¡llÃÂÃÂ­tÃÂÃÂ¡sok",
             "isNew": false
           },
           {
-            "text": "PrÃÂ©mium weboldal ÃÂ©pÃÂ­tÃÂ biztosÃÂ­tÃÂ¡s (Lifetime license)",
+            "text": "PrÃÂÃÂ©mium weboldal ÃÂÃÂ©pÃÂÃÂ­tÃÂÃÂ biztosÃÂÃÂ­tÃÂÃÂ¡s (Lifetime license)",
             "isNew": false
           },
           {
-            "text": "WebbiztonsÃÂ¡gi plugin beÃÂ¡llÃÂ­tÃÂ¡sa",
+            "text": "WebbiztonsÃÂÃÂ¡gi plugin beÃÂÃÂ¡llÃÂÃÂ­tÃÂÃÂ¡sa",
             "isNew": false
           },
           {
-            "text": "FelhasznÃÂ¡lÃÂ³i tevÃÂ©kenysÃÂ©gi log",
+            "text": "FelhasznÃÂÃÂ¡lÃÂÃÂ³i tevÃÂÃÂ©kenysÃÂÃÂ©gi log",
             "isNew": false
           },
           {
-            "text": "LokÃÂ¡lis font hosztolÃÂ¡s",
+            "text": "LokÃÂÃÂ¡lis font hosztolÃÂÃÂ¡s",
             "isNew": false
           },
           {
-            "text": "KÃÂ©pek optimalizÃÂ¡lÃÂ¡sa",
+            "text": "KÃÂÃÂ©pek optimalizÃÂÃÂ¡lÃÂÃÂ¡sa",
             "isNew": false
           },
           {
-            "text": "ReszponzÃÂ­v megjelenÃÂ©s",
+            "text": "ReszponzÃÂÃÂ­v megjelenÃÂÃÂ©s",
             "isNew": false
           },
           {
-            "text": "SMTP beÃÂ¡llÃÂ­tÃÂ¡s",
+            "text": "SMTP beÃÂÃÂ¡llÃÂÃÂ­tÃÂÃÂ¡s",
             "isNew": false
           },
           {
-            "text": "Kapcsolati ÃÂ±rlap",
+            "text": "Kapcsolati ÃÂÃÂ±rlap",
             "isNew": false
           },
           {
-            "text": "Facebook pixel integrÃÂ¡lÃÂ¡sa",
+            "text": "Facebook pixel integrÃÂÃÂ¡lÃÂÃÂ¡sa",
             "isNew": false
           },
           {
-            "text": "Google Analytics integrÃÂ¡lÃÂ¡sa",
+            "text": "Google Analytics integrÃÂÃÂ¡lÃÂÃÂ¡sa",
             "isNew": false
           },
           {
-            "text": "Google Search - XML Sitemap beÃÂ¡llÃÂ­tÃÂ¡sa",
+            "text": "Google Search - XML Sitemap beÃÂÃÂ¡llÃÂÃÂ­tÃÂÃÂ¡sa",
             "isNew": false
           }
         ]
@@ -297,6 +297,6 @@
       "status": "vazlat",
       "discountPercentage": 0
     },
-    "researchContent": "# HÃÂ¼rkecz Imre Ã¢ÂÂ PiacelemzÃÂ©s\n## Ingatlan adÃÂ¡s-vÃÂ©tel & TeljeskÃÂ¶rÃÂ± felÃÂºjÃÂ­tÃÂ¡s/ÃÂ¡talakÃÂ­tÃÂ¡s\n\n> Az elemzÃÂ©s a 2026-06-04-ÃÂ©n beÃÂ©rkezett igÃÂ©nyfelmÃÂ©rÃÂ alapjÃÂ¡n kÃÂ©szÃÂ¼lt. FÃÂ cÃÂ©l: ÃÂ¼gyfÃÂ©lszerzÃÂ©s ÃÂ©s lead generÃÂ¡lÃÂ¡s ingatlan vÃÂ¡sÃÂ¡rlÃÂ¡sban ÃÂ©s/vagy felÃÂºjÃÂ­tÃÂ¡sban gondolkozÃÂ³ emberek kÃÂ¶rÃÂ©ben, hÃÂ¡romnyelvÃÂ± (HU/EN/DE) weboldalon.\n\n---\n\n## ÃÂsszefoglalÃÂ³\n\nHÃÂ¼rkecz Imre kettÃÂs piacon versenyez egyszerre: ingatlankÃÂ¶zvetÃÂ­tÃÂ©s ÃÂ©s teljeskÃÂ¶rÃÂ± lakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡s/ÃÂ¡talakÃÂ­tÃÂ¡s. Ez a kombinÃÂ¡ciÃÂ³ ritka ÃÂ©s erÃÂs versenyelÃÂnyt jelent Ã¢ÂÂ a piacon szinte nincs olyan szereplÃÂ, aki ezt egysÃÂ©ges szolgÃÂ¡ltatÃÂ¡skÃÂ©nt nyÃÂºjtja. A cÃÂ©lkÃÂ¶zÃÂ¶nsÃÂ©g kulcsa a bizonytalanok megszÃÂ³lÃÂ­tÃÂ¡sa: akik ingatlan vÃÂ¡sÃÂ¡rlÃÂ¡s utÃÂ¡n nem tudjÃÂ¡k hogyan kezdjenek hozzÃÂ¡ a felÃÂºjÃÂ­tÃÂ¡shoz, vagy akik felÃÂºjÃÂ­tÃÂ¡sban gondolkoznak de nem tudjÃÂ¡k hol kezdjÃÂ©k.\n\n---\n\n## Piaci kontextus (2026)\n\n- A magyar ingatlanpiac ÃÂºjra ÃÂ©lÃÂ©nkÃÂ¼l 2026-ban az Otthon Start program hatÃÂ¡sÃÂ¡ra Ã¢ÂÂ az elsÃÂ negyedÃÂ©vben erÃÂs szÃÂ¡mokat hozott\n- A kereslet 67%-a csalÃÂ¡di hÃÂ¡zakra irÃÂ¡nyul, 24% tÃÂ©glaÃÂ©pÃÂ­tÃÂ©sÃÂ± lakÃÂ¡s, 10% panel\n- A vevÃÂk egyre inkÃÂ¡bb felÃÂºjÃÂ­tott vagy ÃÂºjszerÃÂ± ingatlanokat keresnek Ã¢ÂÂ a felÃÂºjÃÂ­tandÃÂ³ ingatlanok irÃÂ¡nti ÃÂ©rdeklÃÂdÃÂ©s mÃÂ©rsÃÂ©klÃÂdÃÂ¶tt, de ez ÃÂ©pp a felÃÂºjÃÂ­tÃÂ¡si tanÃÂ¡csadÃÂ¡s irÃÂ¡nti igÃÂ©nyt erÃÂsÃÂ­ti\n- EnergiahatÃÂ©konysÃÂ¡g kiemelt szempont: a vevÃÂk tudatosan keresik a jÃÂ³ energetikai besorolÃÂ¡sÃÂº ingatlanokat\n- Az OtthonfelÃÂºjÃÂ­tÃÂ¡si TÃÂ¡mogatÃÂ¡s 2026 ÃÂ¡prilisÃÂ¡tÃÂ³l felfÃÂ¼ggesztve Ã¢ÂÂ ez rÃÂ¶vid tÃÂ¡von csÃÂ¶kkenti az ÃÂ¡llami hÃÂ¡tszelet, de a piaci keresletet nem szÃÂ¼nteti meg\n- Komplett lakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡s ÃÂ¡ra: 45.000Ã¢ÂÂ78.000 Ft/m2, teljes felÃÂºjÃÂ­tÃÂ¡s: 1Ã¢ÂÂ6,5M Ft\n\n---\n\n## VersenytÃÂ¡rs elemzÃÂ©s\n\n| VersenytÃÂ¡rs | Weboldal | ErÃÂssÃÂ©g | GyengesÃÂ©g |\n|---|---|---|---|\n| KÃÂ¡llai VÃÂ¡llalkozÃÂ¡s | kallaivallalkozas.hu | 1995 ÃÂ³ta aktÃÂ­v, generÃÂ¡lkivitelezÃÂ©s, referenciÃÂ¡k | Csak felÃÂºjÃÂ­tÃÂ¡s, nincs ingatlan kombinÃÂ¡ciÃÂ³, egynyelvÃÂ± |\n| BarabÃÂ¡s Albert ÃÂ©s Tsa. Kft. | barabaskft.hu | 26 ÃÂ©v tapasztalat, sokrÃÂ©tÃÂ± szolgÃÂ¡ltatÃÂ¡s | Elavult design, nincs lead generÃÂ¡lÃÂ¡s, egynyelvÃÂ± |\n| LakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡sok.biz | lakasfelujitasok.biz | Fix egysÃÂ©gÃÂ¡rak, 3D lÃÂ©zerszkenner, modern | Csak felÃÂºjÃÂ­tÃÂ¡s, nincs ingatlan oldal, drÃÂ¡ga pozicionÃÂ¡lÃÂ¡s |\n| LakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡s gyorsan | lakasfelujitasgyorsan.hu | Komplex szolgÃÂ¡ltatÃÂ¡s, gyorsasÃÂ¡g hangsÃÂºly | Nincs tÃÂ¶bbnyelvÃÂ±sÃÂ©g, nincs ingatlan kombinÃÂ¡ciÃÂ³ |\n| Duna House | dh.hu | ÃÂriÃÂ¡si ingatlan adatbÃÂ¡zis, mÃÂ¡rkaerÃÂ | Nincs felÃÂºjÃÂ­tÃÂ¡si szolgÃÂ¡ltatÃÂ¡s, szemÃÂ©lytelen, franchise |\n\nKulcsmegfigyelÃÂ©s: Egyik versenytÃÂ¡rs sem ÃÂ¶tvÃÂ¶zi az ingatlankÃÂ¶zvetÃÂ­tÃÂ©st a teljeskÃÂ¶rÃÂ± felÃÂºjÃÂ­tÃÂ¡ssal egyetlen, szemÃÂ©lyes mÃÂ¡rkÃÂ¡ban. Ez szabad pÃÂ¡lyÃÂ¡t jelent.\n\n---\n\n## SEO kulcsszavak\n\n| KulcsszÃÂ³ | BecsÃÂ¼lt havi keresÃÂ©s | MegjegyzÃÂ©s |\n|---|---|---|\n| ingatlan felÃÂºjÃÂ­tÃÂ¡s Budapest | ~1 200 | ErÃÂs lokÃÂ¡lis vÃÂ¡sÃÂ¡rlÃÂ³i szÃÂ¡ndÃÂ©k, top prioritÃÂ¡s |\n| lakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡s teljeskÃÂ¶rÃÂ± | ~800 | KonverziÃÂ³ra kÃÂ©sz keresÃÂ©s |\n| hÃÂ¡z felÃÂºjÃÂ­tÃÂ¡s ÃÂ¡talakÃÂ­tÃÂ¡s ÃÂ¡rak | ~900 | KombinÃÂ¡lt cÃÂ©lcsoport, ÃÂ¡rÃÂ©rzÃÂ©keny |\n| ingatlan adÃÂ¡svÃÂ©tel tanÃÂ¡csadÃÂ¡s | ~500 | Bizonytalanokat cÃÂ©loz, alacsony verseny |\n| lakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡s elÃÂtte utÃÂ¡na | ~600 | VizuÃÂ¡lis dÃÂ¶ntÃÂ©shozÃÂ³kat vonz, galÃÂ©ria oldalhoz |\n| felÃÂºjÃÂ­tÃÂ¡s tervezÃÂ©s segÃÂ­tsÃÂ©g | ~450 | Bizonytalanok Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l USP-je |\n| ingatlan vÃÂ¡sÃÂ¡rlÃÂ¡s segÃÂ­tsÃÂ©g | ~700 | ElsÃÂ vÃÂ¡sÃÂ¡rlÃÂ³k, tanÃÂ¡csadÃÂ³i igÃÂ©ny |\n| property renovation Hungary | ~350 | Angol nyelvÃÂ± expat/befektetÃÂ szegmens |\n| Immobilien Ungarn Renovierung | ~250 | NÃÂ©met anyanyelvÃÂ± befektetÃÂk, aktÃÂ­v piac |\n| lakÃÂ¡sfelÃÂºjÃÂ­tÃÂ¡s ÃÂ¡rak 2026 | ~1 100 | Magas volumen, ÃÂ¡rbecslÃÂ©si oldalhoz |\n| ingatlan felÃÂºjÃÂ­tva eladÃÂ³ | ~400 | VevÃÂoldali keresÃÂ©s, listing oldalakhoz |\n\n---\n\n## CÃÂ©lcsoport\n\nAz ideÃÂ¡lis ÃÂ¼gyfÃÂ©l hÃÂ¡rom fÃÂtÃÂ­pusba sorolhatÃÂ³:\n\n1. Az ingatlanvÃÂ¡sÃÂ¡rlÃÂ³, aki felÃÂºjÃÂ­tani is akar Ã¢ÂÂ 30Ã¢ÂÂ55 ÃÂ©ves, tudatos vÃÂ¡sÃÂ¡rlÃÂ³. Megvesz egy felÃÂºjÃÂ­tandÃÂ³ lakÃÂ¡st/hÃÂ¡zat, de nem tudja hogyan kezdjen hozzÃÂ¡. FÃÂ¡jdalompontja: nem bÃÂ­zik random vÃÂ¡llalkozÃÂ³kban, fÃÂ©li a csÃÂºszÃÂ¡st, a rejtett kÃÂ¶ltsÃÂ©geket. MotivÃÂ¡ciÃÂ³: egy kÃÂ©zben tartott ÃÂ¼gyintÃÂ©zÃÂ©s (vÃÂ©tel + felÃÂºjÃÂ­tÃÂ¡s), szakmai biztonsÃÂ¡g.\n\n2. A felÃÂºjÃÂ­tÃÂ¡sban bizonytalan Ã¢ÂÂ 40Ã¢ÂÂ65 ÃÂ©ves, meglÃÂ©vÃÂ ingatlanban ÃÂ©l. Szeretne felÃÂºjÃÂ­tani de nem tudja hol kezdje, mennyi kerÃÂ¼ljÃÂ¶n. FÃÂ¡jdalompontja: megbÃÂ­zhatatlan kivitelezÃÂk, ÃÂ¡tlÃÂ¡thatatlan ÃÂ¡razÃÂ¡s, kommunikÃÂ¡ciÃÂ³s kÃÂ¡osz. MotivÃÂ¡ciÃÂ³: valaki, aki vÃÂ©gigvezeti a folyamaton ÃÂ©s szakmai tanÃÂ¡csot ad.\n\n3. KÃÂ¼lfÃÂ¶ldi befektetÃÂ (HU/EN/DE miatt) Ã¢ÂÂ NÃÂ©met vagy angol anyanyelvÃÂ±, magyar ingatlanba fektet. Keresi a megbÃÂ­zhatÃÂ³, anyanyelvÃÂ©n kommunikÃÂ¡lÃÂ³ helyi partnert. MotivÃÂ¡ciÃÂ³: egyablakos megoldÃÂ¡s Ã¢ÂÂ vÃÂ©tel, felÃÂºjÃÂ­tÃÂ¡s, bÃÂ©rbeadÃÂ¡s elÃÂkÃÂ©szÃÂ­tÃÂ©s.\n\n---\n\n## Weboldal javaslatok\n\n- HÃÂ¡romnyelvÃÂ± struktÃÂºra (HU/EN/DE) mÃÂ¡r az indulÃÂ¡stÃÂ³l Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l maga is kÃÂ©rte a nyelvvÃÂ¡ltÃÂ¡st; a kÃÂ¼lfÃÂ¶ldi befektetÃÂi szegmens ÃÂ©ppen aktÃÂ­v a magyar piacon\n- ElÃÂtte-utÃÂ¡na galÃÂ©ria fÃÂoldalon Ã¢ÂÂ ez az iparÃÂ¡g legerÃÂsebb konverziÃÂ³s eleme; az ÃÂ¼gyfÃÂ©lnek mÃÂ¡r vannak fotÃÂ³i, ez azonnali tartalmi tÃÂke\n- GYIK szekciÃÂ³ a bizonytalanoknak Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l maga fogalmazta meg az USP-t: szakmai segÃÂ­tsÃÂ©get nyÃÂºjtanak azoknak is, akik nem tudjÃÂ¡k hol kezdjÃÂ©k\n- Lead-gyÃÂ±jtÃÂ form szegmentÃÂ¡lva Ã¢ÂÂ Ingatlant keresek / FelÃÂºjÃÂ­tÃÂ¡st tervezek / MindkettÃÂre kÃÂ­vÃÂ¡ncsi vagyok Ã¢ÂÂ az ÃÂ©rdeklÃÂdÃÂk ÃÂ¶nmagukat minÃÂsÃÂ­tik\n- BelsÃÂ lÃÂ¡tvÃÂ¡nyterv szekciÃÂ³ Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l maga is jelezte igÃÂ©nyÃÂ©t; 3D lÃÂ¡tvÃÂ¡nytervek prÃÂ©mium megkÃÂ¼lÃÂ¶nbÃÂ¶ztetÃÂ tÃÂ©nyezÃÂk\n- IdÃÂvonalon / AktuÃÂ¡lis projektek szekciÃÂ³ Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l kÃÂ©rte; stÃÂ¡tuszjelzÃÂkkel erÃÂsÃÂ­tik a transzparenciÃÂ¡t ÃÂ©s bizalmat\n- VideÃÂ³s galÃÂ©ria Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l kÃÂ©rte; egy rÃÂ¶vid videÃÂ³ a munkÃÂ¡rÃÂ³l drÃÂ¡maian nÃÂ¶veli az eltÃÂ¶ltÃÂ¶tt idÃÂt az oldalon\n- LetÃÂ¶lthetÃÂ ÃÂ¡rbecslÃÂ©si ÃÂºtmutatÃÂ³ Ã¢ÂÂ ingyenes PDF a felÃÂºjÃÂ­tÃÂ¡s tipikus kÃÂ¶ltsÃÂ©geirÃÂl; egyszerre lead mÃÂ¡gnes ÃÂ©s bizalomÃÂ©pÃÂ­tÃÂ\n- HÃÂ­rlevÃÂ©l feliratkozÃÂ¡s Ã¢ÂÂ ingatlanpiaci hÃÂ­rekkel ÃÂ©s felÃÂºjÃÂ­tÃÂ¡si tippekkel, HU/EN/DE verziÃÂ³kban\n- KÃÂ­vÃÂ¡nsÃÂ¡glista funkciÃÂ³ Ã¢ÂÂ az ÃÂ¼gyfÃÂ©l kÃÂ©rte; mentett ingatlanok listÃÂ¡ja visszalÃÂ¡togatÃÂ¡st ÃÂ¶sztÃÂ¶nÃÂ¶z"
+    "researchContent": "# HÃÂÃÂ¼rkecz Imre ÃÂ¢ÃÂÃÂ PiacelemzÃÂÃÂ©s\n## Ingatlan adÃÂÃÂ¡s-vÃÂÃÂ©tel & TeljeskÃÂÃÂ¶rÃÂÃÂ± felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s/ÃÂÃÂ¡talakÃÂÃÂ­tÃÂÃÂ¡s\n\n> Az elemzÃÂÃÂ©s a 2026-06-04-ÃÂÃÂ©n beÃÂÃÂ©rkezett igÃÂÃÂ©nyfelmÃÂÃÂ©rÃÂÃÂ alapjÃÂÃÂ¡n kÃÂÃÂ©szÃÂÃÂ¼lt. FÃÂÃÂ cÃÂÃÂ©l: ÃÂÃÂ¼gyfÃÂÃÂ©lszerzÃÂÃÂ©s ÃÂÃÂ©s lead generÃÂÃÂ¡lÃÂÃÂ¡s ingatlan vÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ¡sban ÃÂÃÂ©s/vagy felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡sban gondolkozÃÂÃÂ³ emberek kÃÂÃÂ¶rÃÂÃÂ©ben, hÃÂÃÂ¡romnyelvÃÂÃÂ± (HU/EN/DE) weboldalon.\n\n---\n\n## ÃÂÃÂsszefoglalÃÂÃÂ³\n\nHÃÂÃÂ¼rkecz Imre kettÃÂÃÂs piacon versenyez egyszerre: ingatlankÃÂÃÂ¶zvetÃÂÃÂ­tÃÂÃÂ©s ÃÂÃÂ©s teljeskÃÂÃÂ¶rÃÂÃÂ± lakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s/ÃÂÃÂ¡talakÃÂÃÂ­tÃÂÃÂ¡s. Ez a kombinÃÂÃÂ¡ciÃÂÃÂ³ ritka ÃÂÃÂ©s erÃÂÃÂs versenyelÃÂÃÂnyt jelent ÃÂ¢ÃÂÃÂ a piacon szinte nincs olyan szereplÃÂÃÂ, aki ezt egysÃÂÃÂ©ges szolgÃÂÃÂ¡ltatÃÂÃÂ¡skÃÂÃÂ©nt nyÃÂÃÂºjtja. A cÃÂÃÂ©lkÃÂÃÂ¶zÃÂÃÂ¶nsÃÂÃÂ©g kulcsa a bizonytalanok megszÃÂÃÂ³lÃÂÃÂ­tÃÂÃÂ¡sa: akik ingatlan vÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ¡s utÃÂÃÂ¡n nem tudjÃÂÃÂ¡k hogyan kezdjenek hozzÃÂÃÂ¡ a felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡shoz, vagy akik felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡sban gondolkoznak de nem tudjÃÂÃÂ¡k hol kezdjÃÂÃÂ©k.\n\n---\n\n## Piaci kontextus (2026)\n\n- A magyar ingatlanpiac ÃÂÃÂºjra ÃÂÃÂ©lÃÂÃÂ©nkÃÂÃÂ¼l 2026-ban az Otthon Start program hatÃÂÃÂ¡sÃÂÃÂ¡ra ÃÂ¢ÃÂÃÂ az elsÃÂÃÂ negyedÃÂÃÂ©vben erÃÂÃÂs szÃÂÃÂ¡mokat hozott\n- A kereslet 67%-a csalÃÂÃÂ¡di hÃÂÃÂ¡zakra irÃÂÃÂ¡nyul, 24% tÃÂÃÂ©glaÃÂÃÂ©pÃÂÃÂ­tÃÂÃÂ©sÃÂÃÂ± lakÃÂÃÂ¡s, 10% panel\n- A vevÃÂÃÂk egyre inkÃÂÃÂ¡bb felÃÂÃÂºjÃÂÃÂ­tott vagy ÃÂÃÂºjszerÃÂÃÂ± ingatlanokat keresnek ÃÂ¢ÃÂÃÂ a felÃÂÃÂºjÃÂÃÂ­tandÃÂÃÂ³ ingatlanok irÃÂÃÂ¡nti ÃÂÃÂ©rdeklÃÂÃÂdÃÂÃÂ©s mÃÂÃÂ©rsÃÂÃÂ©klÃÂÃÂdÃÂÃÂ¶tt, de ez ÃÂÃÂ©pp a felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡si tanÃÂÃÂ¡csadÃÂÃÂ¡s irÃÂÃÂ¡nti igÃÂÃÂ©nyt erÃÂÃÂsÃÂÃÂ­ti\n- EnergiahatÃÂÃÂ©konysÃÂÃÂ¡g kiemelt szempont: a vevÃÂÃÂk tudatosan keresik a jÃÂÃÂ³ energetikai besorolÃÂÃÂ¡sÃÂÃÂº ingatlanokat\n- Az OtthonfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡si TÃÂÃÂ¡mogatÃÂÃÂ¡s 2026 ÃÂÃÂ¡prilisÃÂÃÂ¡tÃÂÃÂ³l felfÃÂÃÂ¼ggesztve ÃÂ¢ÃÂÃÂ ez rÃÂÃÂ¶vid tÃÂÃÂ¡von csÃÂÃÂ¶kkenti az ÃÂÃÂ¡llami hÃÂÃÂ¡tszelet, de a piaci keresletet nem szÃÂÃÂ¼nteti meg\n- Komplett lakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s ÃÂÃÂ¡ra: 45.000ÃÂ¢ÃÂÃÂ78.000 Ft/m2, teljes felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s: 1ÃÂ¢ÃÂÃÂ6,5M Ft\n\n---\n\n## VersenytÃÂÃÂ¡rs elemzÃÂÃÂ©s\n\n| VersenytÃÂÃÂ¡rs | Weboldal | ErÃÂÃÂssÃÂÃÂ©g | GyengesÃÂÃÂ©g |\n|---|---|---|---|\n| KÃÂÃÂ¡llai VÃÂÃÂ¡llalkozÃÂÃÂ¡s | kallaivallalkozas.hu | 1995 ÃÂÃÂ³ta aktÃÂÃÂ­v, generÃÂÃÂ¡lkivitelezÃÂÃÂ©s, referenciÃÂÃÂ¡k | Csak felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s, nincs ingatlan kombinÃÂÃÂ¡ciÃÂÃÂ³, egynyelvÃÂÃÂ± |\n| BarabÃÂÃÂ¡s Albert ÃÂÃÂ©s Tsa. Kft. | barabaskft.hu | 26 ÃÂÃÂ©v tapasztalat, sokrÃÂÃÂ©tÃÂÃÂ± szolgÃÂÃÂ¡ltatÃÂÃÂ¡s | Elavult design, nincs lead generÃÂÃÂ¡lÃÂÃÂ¡s, egynyelvÃÂÃÂ± |\n| LakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡sok.biz | lakasfelujitasok.biz | Fix egysÃÂÃÂ©gÃÂÃÂ¡rak, 3D lÃÂÃÂ©zerszkenner, modern | Csak felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s, nincs ingatlan oldal, drÃÂÃÂ¡ga pozicionÃÂÃÂ¡lÃÂÃÂ¡s |\n| LakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s gyorsan | lakasfelujitasgyorsan.hu | Komplex szolgÃÂÃÂ¡ltatÃÂÃÂ¡s, gyorsasÃÂÃÂ¡g hangsÃÂÃÂºly | Nincs tÃÂÃÂ¶bbnyelvÃÂÃÂ±sÃÂÃÂ©g, nincs ingatlan kombinÃÂÃÂ¡ciÃÂÃÂ³ |\n| Duna House | dh.hu | ÃÂÃÂriÃÂÃÂ¡si ingatlan adatbÃÂÃÂ¡zis, mÃÂÃÂ¡rkaerÃÂÃÂ | Nincs felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡si szolgÃÂÃÂ¡ltatÃÂÃÂ¡s, szemÃÂÃÂ©lytelen, franchise |\n\nKulcsmegfigyelÃÂÃÂ©s: Egyik versenytÃÂÃÂ¡rs sem ÃÂÃÂ¶tvÃÂÃÂ¶zi az ingatlankÃÂÃÂ¶zvetÃÂÃÂ­tÃÂÃÂ©st a teljeskÃÂÃÂ¶rÃÂÃÂ± felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡ssal egyetlen, szemÃÂÃÂ©lyes mÃÂÃÂ¡rkÃÂÃÂ¡ban. Ez szabad pÃÂÃÂ¡lyÃÂÃÂ¡t jelent.\n\n---\n\n## SEO kulcsszavak\n\n| KulcsszÃÂÃÂ³ | BecsÃÂÃÂ¼lt havi keresÃÂÃÂ©s | MegjegyzÃÂÃÂ©s |\n|---|---|---|\n| ingatlan felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s Budapest | ~1 200 | ErÃÂÃÂs lokÃÂÃÂ¡lis vÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ³i szÃÂÃÂ¡ndÃÂÃÂ©k, top prioritÃÂÃÂ¡s |\n| lakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s teljeskÃÂÃÂ¶rÃÂÃÂ± | ~800 | KonverziÃÂÃÂ³ra kÃÂÃÂ©sz keresÃÂÃÂ©s |\n| hÃÂÃÂ¡z felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s ÃÂÃÂ¡talakÃÂÃÂ­tÃÂÃÂ¡s ÃÂÃÂ¡rak | ~900 | KombinÃÂÃÂ¡lt cÃÂÃÂ©lcsoport, ÃÂÃÂ¡rÃÂÃÂ©rzÃÂÃÂ©keny |\n| ingatlan adÃÂÃÂ¡svÃÂÃÂ©tel tanÃÂÃÂ¡csadÃÂÃÂ¡s | ~500 | Bizonytalanokat cÃÂÃÂ©loz, alacsony verseny |\n| lakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s elÃÂÃÂtte utÃÂÃÂ¡na | ~600 | VizuÃÂÃÂ¡lis dÃÂÃÂ¶ntÃÂÃÂ©shozÃÂÃÂ³kat vonz, galÃÂÃÂ©ria oldalhoz |\n| felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s tervezÃÂÃÂ©s segÃÂÃÂ­tsÃÂÃÂ©g | ~450 | Bizonytalanok ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l USP-je |\n| ingatlan vÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ¡s segÃÂÃÂ­tsÃÂÃÂ©g | ~700 | ElsÃÂÃÂ vÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ³k, tanÃÂÃÂ¡csadÃÂÃÂ³i igÃÂÃÂ©ny |\n| property renovation Hungary | ~350 | Angol nyelvÃÂÃÂ± expat/befektetÃÂÃÂ szegmens |\n| Immobilien Ungarn Renovierung | ~250 | NÃÂÃÂ©met anyanyelvÃÂÃÂ± befektetÃÂÃÂk, aktÃÂÃÂ­v piac |\n| lakÃÂÃÂ¡sfelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s ÃÂÃÂ¡rak 2026 | ~1 100 | Magas volumen, ÃÂÃÂ¡rbecslÃÂÃÂ©si oldalhoz |\n| ingatlan felÃÂÃÂºjÃÂÃÂ­tva eladÃÂÃÂ³ | ~400 | VevÃÂÃÂoldali keresÃÂÃÂ©s, listing oldalakhoz |\n\n---\n\n## CÃÂÃÂ©lcsoport\n\nAz ideÃÂÃÂ¡lis ÃÂÃÂ¼gyfÃÂÃÂ©l hÃÂÃÂ¡rom fÃÂÃÂtÃÂÃÂ­pusba sorolhatÃÂÃÂ³:\n\n1. Az ingatlanvÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ³, aki felÃÂÃÂºjÃÂÃÂ­tani is akar ÃÂ¢ÃÂÃÂ 30ÃÂ¢ÃÂÃÂ55 ÃÂÃÂ©ves, tudatos vÃÂÃÂ¡sÃÂÃÂ¡rlÃÂÃÂ³. Megvesz egy felÃÂÃÂºjÃÂÃÂ­tandÃÂÃÂ³ lakÃÂÃÂ¡st/hÃÂÃÂ¡zat, de nem tudja hogyan kezdjen hozzÃÂÃÂ¡. FÃÂÃÂ¡jdalompontja: nem bÃÂÃÂ­zik random vÃÂÃÂ¡llalkozÃÂÃÂ³kban, fÃÂÃÂ©li a csÃÂÃÂºszÃÂÃÂ¡st, a rejtett kÃÂÃÂ¶ltsÃÂÃÂ©geket. MotivÃÂÃÂ¡ciÃÂÃÂ³: egy kÃÂÃÂ©zben tartott ÃÂÃÂ¼gyintÃÂÃÂ©zÃÂÃÂ©s (vÃÂÃÂ©tel + felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s), szakmai biztonsÃÂÃÂ¡g.\n\n2. A felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡sban bizonytalan ÃÂ¢ÃÂÃÂ 40ÃÂ¢ÃÂÃÂ65 ÃÂÃÂ©ves, meglÃÂÃÂ©vÃÂÃÂ ingatlanban ÃÂÃÂ©l. Szeretne felÃÂÃÂºjÃÂÃÂ­tani de nem tudja hol kezdje, mennyi kerÃÂÃÂ¼ljÃÂÃÂ¶n. FÃÂÃÂ¡jdalompontja: megbÃÂÃÂ­zhatatlan kivitelezÃÂÃÂk, ÃÂÃÂ¡tlÃÂÃÂ¡thatatlan ÃÂÃÂ¡razÃÂÃÂ¡s, kommunikÃÂÃÂ¡ciÃÂÃÂ³s kÃÂÃÂ¡osz. MotivÃÂÃÂ¡ciÃÂÃÂ³: valaki, aki vÃÂÃÂ©gigvezeti a folyamaton ÃÂÃÂ©s szakmai tanÃÂÃÂ¡csot ad.\n\n3. KÃÂÃÂ¼lfÃÂÃÂ¶ldi befektetÃÂÃÂ (HU/EN/DE miatt) ÃÂ¢ÃÂÃÂ NÃÂÃÂ©met vagy angol anyanyelvÃÂÃÂ±, magyar ingatlanba fektet. Keresi a megbÃÂÃÂ­zhatÃÂÃÂ³, anyanyelvÃÂÃÂ©n kommunikÃÂÃÂ¡lÃÂÃÂ³ helyi partnert. MotivÃÂÃÂ¡ciÃÂÃÂ³: egyablakos megoldÃÂÃÂ¡s ÃÂ¢ÃÂÃÂ vÃÂÃÂ©tel, felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s, bÃÂÃÂ©rbeadÃÂÃÂ¡s elÃÂÃÂkÃÂÃÂ©szÃÂÃÂ­tÃÂÃÂ©s.\n\n---\n\n## Weboldal javaslatok\n\n- HÃÂÃÂ¡romnyelvÃÂÃÂ± struktÃÂÃÂºra (HU/EN/DE) mÃÂÃÂ¡r az indulÃÂÃÂ¡stÃÂÃÂ³l ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l maga is kÃÂÃÂ©rte a nyelvvÃÂÃÂ¡ltÃÂÃÂ¡st; a kÃÂÃÂ¼lfÃÂÃÂ¶ldi befektetÃÂÃÂi szegmens ÃÂÃÂ©ppen aktÃÂÃÂ­v a magyar piacon\n- ElÃÂÃÂtte-utÃÂÃÂ¡na galÃÂÃÂ©ria fÃÂÃÂoldalon ÃÂ¢ÃÂÃÂ ez az iparÃÂÃÂ¡g legerÃÂÃÂsebb konverziÃÂÃÂ³s eleme; az ÃÂÃÂ¼gyfÃÂÃÂ©lnek mÃÂÃÂ¡r vannak fotÃÂÃÂ³i, ez azonnali tartalmi tÃÂÃÂke\n- GYIK szekciÃÂÃÂ³ a bizonytalanoknak ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l maga fogalmazta meg az USP-t: szakmai segÃÂÃÂ­tsÃÂÃÂ©get nyÃÂÃÂºjtanak azoknak is, akik nem tudjÃÂÃÂ¡k hol kezdjÃÂÃÂ©k\n- Lead-gyÃÂÃÂ±jtÃÂÃÂ form szegmentÃÂÃÂ¡lva ÃÂ¢ÃÂÃÂ Ingatlant keresek / FelÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡st tervezek / MindkettÃÂÃÂre kÃÂÃÂ­vÃÂÃÂ¡ncsi vagyok ÃÂ¢ÃÂÃÂ az ÃÂÃÂ©rdeklÃÂÃÂdÃÂÃÂk ÃÂÃÂ¶nmagukat minÃÂÃÂsÃÂÃÂ­tik\n- BelsÃÂÃÂ lÃÂÃÂ¡tvÃÂÃÂ¡nyterv szekciÃÂÃÂ³ ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l maga is jelezte igÃÂÃÂ©nyÃÂÃÂ©t; 3D lÃÂÃÂ¡tvÃÂÃÂ¡nytervek prÃÂÃÂ©mium megkÃÂÃÂ¼lÃÂÃÂ¶nbÃÂÃÂ¶ztetÃÂÃÂ tÃÂÃÂ©nyezÃÂÃÂk\n- IdÃÂÃÂvonalon / AktuÃÂÃÂ¡lis projektek szekciÃÂÃÂ³ ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l kÃÂÃÂ©rte; stÃÂÃÂ¡tuszjelzÃÂÃÂkkel erÃÂÃÂsÃÂÃÂ­tik a transzparenciÃÂÃÂ¡t ÃÂÃÂ©s bizalmat\n- VideÃÂÃÂ³s galÃÂÃÂ©ria ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l kÃÂÃÂ©rte; egy rÃÂÃÂ¶vid videÃÂÃÂ³ a munkÃÂÃÂ¡rÃÂÃÂ³l drÃÂÃÂ¡maian nÃÂÃÂ¶veli az eltÃÂÃÂ¶ltÃÂÃÂ¶tt idÃÂÃÂt az oldalon\n- LetÃÂÃÂ¶lthetÃÂÃÂ ÃÂÃÂ¡rbecslÃÂÃÂ©si ÃÂÃÂºtmutatÃÂÃÂ³ ÃÂ¢ÃÂÃÂ ingyenes PDF a felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡s tipikus kÃÂÃÂ¶ltsÃÂÃÂ©geirÃÂÃÂl; egyszerre lead mÃÂÃÂ¡gnes ÃÂÃÂ©s bizalomÃÂÃÂ©pÃÂÃÂ­tÃÂÃÂ\n- HÃÂÃÂ­rlevÃÂÃÂ©l feliratkozÃÂÃÂ¡s ÃÂ¢ÃÂÃÂ ingatlanpiaci hÃÂÃÂ­rekkel ÃÂÃÂ©s felÃÂÃÂºjÃÂÃÂ­tÃÂÃÂ¡si tippekkel, HU/EN/DE verziÃÂÃÂ³kban\n- KÃÂÃÂ­vÃÂÃÂ¡nsÃÂÃÂ¡glista funkciÃÂÃÂ³ ÃÂ¢ÃÂÃÂ az ÃÂÃÂ¼gyfÃÂÃÂ©l kÃÂÃÂ©rte; mentett ingatlanok listÃÂÃÂ¡ja visszalÃÂÃÂ¡togatÃÂÃÂ¡st ÃÂÃÂ¶sztÃÂÃÂ¶nÃÂÃÂ¶z"
   }
 ]
